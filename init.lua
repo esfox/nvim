@@ -69,7 +69,7 @@ vim.keymap.set({ 'n', 'v' }, 'J', '10j')
 vim.keymap.set({ 'n', 'v' }, 'K', '10k')
 vim.keymap.set({ '', 'v' }, 'H', '^')
 vim.keymap.set({ '', 'v' }, 'L', '$')
--- vim.keymap.set({ 'n', 'v' }, 'p', 'pgvy')
+vim.keymap.set({ 'n', 'v' }, 'p', '"_dP')
 vim.keymap.set('n', 'U', '<c-r>')
 vim.keymap.set('n', '<c-enter>', '<Enter>:cclose<CR>')
 vim.keymap.set('n', '<Enter>', 'o<Esc>')
@@ -167,7 +167,7 @@ require('lazy').setup({
     'nvim-tree/nvim-tree.lua',
     opts = {
       view = {
-        width = 50,
+        width = 40,
         side = 'right'
       },
       git = {
@@ -233,17 +233,6 @@ require('lazy').setup({
   -- { 'folke/which-key.nvim', opts = {} },
   { 'lewis6991/gitsigns.nvim',  opts = {} },
 
-  -- {
-  --   'sainnhe/everforest',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.g.everforest_background = 'hard'
-  --     vim.g.everforest_better_performance = 1
-  --     vim.cmd.colorscheme 'everforest'
-  --   end,
-  -- },
-
   {
     'sainnhe/sonokai',
     lazy = false,
@@ -287,10 +276,6 @@ require('lazy').setup({
 
   {
     'lukas-reineke/indent-blankline.nvim',
-    opts = {
-      show_current_context = true,
-      show_current_context_start = true,
-    },
     config = function()
       vim.cmd [[highlight IndentBlanklineIndent1 guifg=#384651 gui=nocombine]]
       vim.cmd [[highlight IndentBlanklineIndent2 guifg=#404e41 gui=nocombine]]
@@ -299,6 +284,8 @@ require('lazy').setup({
       vim.cmd [[highlight IndentBlanklineIndent5 guifg=#594b36 gui=nocombine]]
 
       require("indent_blankline").setup {
+        show_current_context = true,
+        show_current_context_start = true,
         space_char_blankline = " ",
         char_highlight_list = {
           "IndentBlanklineIndent1",
@@ -314,12 +301,12 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   {
     'numtostr/comment.nvim',
-    opts = {
-      toggler = {
-        line = '<c-/>',
-        block = '<c-?>',
-      },
-    },
+    opts = {},
+    config = function()
+      local comment = require('Comment.api');
+      vim.keymap.set({ 'n', 'i' }, '<c-/>', comment.toggle.linewise.current)
+      vim.keymap.set({ 'n', 'i' }, '<c-?>', comment.toggle.blockwise.current)
+    end
   },
 
   { 'marcuscaisey/olddirs.nvim' },
@@ -391,7 +378,7 @@ vim.keymap.set({ 'n', 'i' }, '<a-right>', '<Cmd>BufferLineCycleNext<CR>', { sile
 vim.keymap.set({ 'n', 'i' }, '<a-left>', '<Cmd>BufferLineCyclePrev<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<a-s-left>', '<Cmd>BufferLineMovePrev<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<a-s-right>', '<Cmd>BufferLineMoveNext<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>')
 
 -- vim.keymap.set({ 'n', 'i' }, '<c-s-t>', '<c-^>')
 
