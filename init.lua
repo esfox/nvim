@@ -1,5 +1,6 @@
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -147,10 +148,19 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'github/copilot.vim',
+  'marcuscaisey/olddirs.nvim',
 
   -- detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   'molecule-man/telescope-menufacture',
+  {
+    'RRethy/vim-illuminate',
+    config = function()
+      require('illuminate').configure({
+        delay = 300,
+      })
+    end
+  },
 
   { 'akinsho/git-conflict.nvim', opts = {} },
 
@@ -247,7 +257,7 @@ require('lazy').setup({
 
   -- useful plugin to show you pending keybinds.
   -- { 'folke/which-key.nvim', opts = {} },
-  { 'lewis6991/gitsigns.nvim',  opts = {} },
+  { 'lewis6991/gitsigns.nvim', opts = {} },
   {
     'folke/trouble.nvim',
     opts = {},
@@ -332,8 +342,6 @@ require('lazy').setup({
       vim.keymap.set({ 'n', 'i' }, '<c-?>', comment.toggle.blockwise.current)
     end
   },
-
-  { 'marcuscaisey/olddirs.nvim' },
 
   -- fuzzy finder (files, lsp, etc)
   {
@@ -428,7 +436,7 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 vim.keymap.set(
-  'n',
+  { 'n', 'i', 'v' },
   '<c-p>',
   function()
     require('telescope.builtin').oldfiles({ cwd_only = true })
