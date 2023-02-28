@@ -62,18 +62,21 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.background = 'dark'
 
+vim.opt.scrolloff = 10
+
 -- Key mappings
-vim.keymap.set({ 'i', 'v', 'c' }, 'jk', '<Esc>')
-vim.keymap.set({ 'i', 'v', 'c' }, 'JK', '<Esc>')
+vim.keymap.set({ 'i', 'c' }, 'jk', '<Esc>')
+vim.keymap.set({ 'i', 'c' }, 'JK', '<Esc>')
 vim.keymap.set({ 'n', 'v' }, 'J', '10j')
 vim.keymap.set({ 'n', 'v' }, 'K', '10k')
 vim.keymap.set({ '', 'v' }, 'H', '^')
 vim.keymap.set({ '', 'v' }, 'L', '$')
-vim.keymap.set({ 'n', 'v' }, 'p', '"_dP')
 vim.keymap.set('n', 'U', '<c-r>')
 vim.keymap.set('n', '<c-enter>', '<Enter>:cclose<CR>')
 vim.keymap.set('n', '<Enter>', 'o<Esc>')
 vim.keymap.set('i', '<c-bs>', '<c-w>')
+vim.keymap.set('n', 'p', 'pgvy')
+vim.keymap.set('v', 'p', '"_dP')
 
 vim.keymap.set('v', 'ii', '<Esc>i')
 vim.keymap.set('i', 'vv', '<Esc>lv')
@@ -85,7 +88,6 @@ vim.keymap.set('', '<c-s>', ':update<CR>')
 vim.keymap.set('i', '<c-s>', '<Esc>:update<CR>i')
 vim.keymap.set({ 'n', 'i' }, '<c-j>', '<tab>')
 vim.keymap.set({ 'n', 'i' }, '<c-k>', '<c-o>')
-vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeToggle<CR>')
 
 -- [[ Basic Keymaps ]]
 
@@ -144,6 +146,7 @@ require('lazy').setup({
   -- git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  'github/copilot.vim',
 
   -- detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -166,13 +169,26 @@ require('lazy').setup({
   {
     'nvim-tree/nvim-tree.lua',
     opts = {
+      sync_root_with_cwd = true,
       view = {
         width = 40,
-        side = 'right'
+        side = 'right',
+        number = true,
+        relativenumber = true,
       },
       git = {
         ignore = false
-      }
+      },
+      actions = {
+        open_file = {
+          quit_on_open = true
+        }
+      },
+      renderer = {
+        root_folder_label = function(path)
+          return vim.fn.fnamemodify(path, ':t:r')
+        end
+      },
     }
   },
   { 'kylechui/nvim-surround',    opts = {} },
@@ -232,6 +248,13 @@ require('lazy').setup({
   -- useful plugin to show you pending keybinds.
   -- { 'folke/which-key.nvim', opts = {} },
   { 'lewis6991/gitsigns.nvim',  opts = {} },
+  {
+    'folke/trouble.nvim',
+    opts = {},
+    config = function()
+      vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
+    end,
+  },
 
   {
     'sainnhe/sonokai',
@@ -304,6 +327,7 @@ require('lazy').setup({
     opts = {},
     config = function()
       local comment = require('Comment.api');
+      vim.keymap.set('n', 'gc', comment.call('toggle.linewise', 'g@'), { expr = true })
       vim.keymap.set({ 'n', 'i' }, '<c-/>', comment.toggle.linewise.current)
       vim.keymap.set({ 'n', 'i' }, '<c-?>', comment.toggle.blockwise.current)
     end
@@ -365,6 +389,7 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 })
 
+vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeToggle<CR>')
 vim.keymap.set({ 'n', 'i' }, '<c-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { silent = true })
@@ -378,9 +403,12 @@ vim.keymap.set({ 'n', 'i' }, '<a-right>', '<Cmd>BufferLineCycleNext<CR>', { sile
 vim.keymap.set({ 'n', 'i' }, '<a-left>', '<Cmd>BufferLineCyclePrev<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<a-s-left>', '<Cmd>BufferLineMovePrev<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<a-s-right>', '<Cmd>BufferLineMoveNext<CR>', { silent = true })
+vim.keymap.set('n', '<leader>wh', '<c-w>h')
+vim.keymap.set('n', '<leader>wj', '<c-w>j')
+vim.keymap.set('n', '<leader>wk', '<c-w>k')
+vim.keymap.set('n', '<leader>wl', '<c-w>l')
+vim.keymap.set('n', '<leader>wm', '<c-w>_')
 vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>')
-
--- vim.keymap.set({ 'n', 'i' }, '<c-s-t>', '<c-^>')
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -414,7 +442,7 @@ vim.keymap.set({ '', 'i', 'v' }, '<c-r>', function()
     previewer = false,
     selected_dir_callback = function(dir)
       vim.cmd('bufdo bd');
-      vim.cmd.lcd(dir);
+      vim.cmd.cd(dir);
     end,
     layout_config = {
       width = 0.4,
@@ -427,9 +455,9 @@ vim.keymap.set({ '', 'i', 'v' }, '<c-r>', function()
   })
 end)
 
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set({ 'n', 'i' }, '<c-;>', require('telescope.builtin').commands, { desc = 'Search Commands' })
+vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
@@ -529,10 +557,10 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gR', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('gr', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('gh', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+  nmap('gR', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gD', vim.lsp.buf.type_definition, 'Type [D]efinition')
 
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
@@ -637,15 +665,15 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
+    -- ['<Tab>'] = cmp.mapping(function(fallback)
+    --   if cmp.visible() then
+    --     cmp.select_next_item()
+    --   elseif luasnip.expand_or_jumpable() then
+    --     luasnip.expand_or_jump()
+    --   else
+    --     fallback()
+    --   end
+    -- end, { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
