@@ -1,6 +1,5 @@
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -143,12 +142,16 @@ if vim.g.vscode then
   return
 end
 
+-- this blamer.nvim setting need to be setup before loading the plugin
+vim.g.blamer_date_format = '%b %e (%a)'
+
 require('lazy').setup({
   -- git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'github/copilot.vim',
   'marcuscaisey/olddirs.nvim',
+  'JoosepAlviste/nvim-ts-context-commentstring',
 
   -- detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -162,7 +165,16 @@ require('lazy').setup({
     end
   },
 
-  { 'akinsho/git-conflict.nvim', opts = {} },
+  { 'akinsho/git-conflict.nvim',          opts = {} },
+  {
+    'APZelos/blamer.nvim',
+    config = function()
+      vim.cmd [[ highlight Blamer guifg=#505050 gui=bold ]]
+      vim.g.blamer_enabled = 1
+    end
+  },
+  { 'AmeerTaweel/todo.nvim',              opts = {} },
+  { 'brenoprata10/nvim-highlight-colors', opts = {} },
 
   {
     'akinsho/bufferline.nvim',
@@ -172,6 +184,9 @@ require('lazy').setup({
       options = {
         show_close_icon = false,
         diagnostics = 'nvim_lsp',
+        update_focused_file = {
+          enable = true,
+        },
       },
     },
   },
@@ -201,8 +216,8 @@ require('lazy').setup({
       },
     }
   },
-  { 'kylechui/nvim-surround',    opts = {} },
-  { 'windwp/nvim-autopairs',     opts = {} },
+  { 'kylechui/nvim-surround', opts = {} },
+  { 'windwp/nvim-autopairs',  opts = {} },
 
   {
     'mg979/vim-visual-multi',
@@ -290,6 +305,16 @@ require('lazy').setup({
       local custom_sonokai = require('lualine.themes.sonokai');
       custom_sonokai.normal.a.bg = palette.bg_green[1]
       custom_sonokai.insert.a.bg = palette.bg_blue[1]
+
+      local function show_macro_recording()
+        local recording_register = vim.fn.reg_recording()
+        if recording_register == '' then
+          return ''
+        else
+          return 'recording @' .. recording_register
+        end
+      end
+
       require('lualine').setup({
         options = {
           theme = custom_sonokai,
@@ -298,6 +323,12 @@ require('lazy').setup({
           section_separators = { left = '', right = '|', },
         },
         sections = {
+          lualine_b = {
+            {
+              'macro-recording',
+              fmt = show_macro_recording,
+            }
+          },
           lualine_c = {},
           lualine_x = { 'filetype' },
           lualine_y = {},
@@ -477,7 +508,7 @@ end, { desc = '[F]ormat [B]uffer' })
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'tsx', 'typescript', 'javascript', 'help', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'c_sharp', 'lua', 'python', 'tsx', 'typescript', 'javascript', 'markdown', 'help', 'vim' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -536,6 +567,10 @@ require('nvim-treesitter.configs').setup {
         ['<leader>A'] = '@parameter.inner',
       },
     },
+  },
+
+  context_commentstring = {
+    enable = true,
   },
 }
 
