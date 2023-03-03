@@ -6,7 +6,7 @@ vim.g.maplocalleader = ' '
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
     'git',
@@ -23,7 +23,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.guifont = { "JetBrains Mono Light", "h14" }
+vim.opt.guifont = { 'JetBrains Mono Light', 'h14' }
 vim.opt.cmdheight = 0
 vim.opt.colorcolumn = '100'
 vim.opt.list = true
@@ -112,7 +112,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 if vim.g.neovide then
   vim.g.neovide_scale_factor = 0.7
-  vim.g.neovide_cursor_vfx_mode = "ripple"
+  vim.g.neovide_cursor_vfx_mode = 'ripple'
 
   vim.keymap.set({ '', 'i' }, '<c-w>', ':bd<CR>')
 end
@@ -124,28 +124,28 @@ if vim.g.vscode then
     nnoremap gD <Cmd>call VSCodeCall('editor.action.goToTypeDefinition')<CR>
   ]]
 
-  require('lazy').setup({
+  require('lazy').setup {
     { 'kylechui/nvim-surround', opts = {} },
     { 'windwp/nvim-autopairs',  opts = {} },
     'nvim-lua/plenary.nvim',
     {
       'phaazon/hop.nvim',
       config = function()
-        local hop = require('hop')
+        local hop = require 'hop'
         hop.setup()
         vim.keymap.set('', 'm', function()
           hop.hint_words()
         end, { remap = true })
-      end
+      end,
     },
-  })
+  }
   return
 end
 
 -- this blamer.nvim setting need to be setup before loading the plugin
 vim.g.blamer_date_format = '%b %e (%a)'
 
-require('lazy').setup({
+require('lazy').setup {
   -- git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -159,10 +159,10 @@ require('lazy').setup({
   {
     'RRethy/vim-illuminate',
     config = function()
-      require('illuminate').configure({
+      require('illuminate').configure {
         delay = 300,
-      })
-    end
+      }
+    end,
   },
 
   { 'akinsho/git-conflict.nvim',          opts = {} },
@@ -171,7 +171,7 @@ require('lazy').setup({
     config = function()
       vim.cmd [[ highlight Blamer guifg=#505050 gui=bold ]]
       vim.g.blamer_enabled = 1
-    end
+    end,
   },
   { 'AmeerTaweel/todo.nvim',              opts = {} },
   { 'brenoprata10/nvim-highlight-colors', opts = {} },
@@ -194,6 +194,12 @@ require('lazy').setup({
   {
     'nvim-tree/nvim-tree.lua',
     opts = {
+      -- on_attach = function(bufnr)
+      --   local hop = require 'hop'
+      --   vim.keymap.set('n', 'm', function()
+      --     hop.hint_lines()
+      --   end, { buffer = bufnr, noremap = true, silent = true, nowait = true })
+      -- end,
       sync_root_with_cwd = true,
       view = {
         width = 40,
@@ -202,19 +208,19 @@ require('lazy').setup({
         relativenumber = true,
       },
       git = {
-        ignore = false
+        ignore = false,
       },
       actions = {
         open_file = {
-          quit_on_open = true
-        }
+          quit_on_open = true,
+        },
       },
       renderer = {
         root_folder_label = function(path)
           return vim.fn.fnamemodify(path, ':t:r')
-        end
+        end,
       },
-    }
+    },
   },
   { 'kylechui/nvim-surround', opts = {} },
   { 'windwp/nvim-autopairs',  opts = {} },
@@ -238,18 +244,20 @@ require('lazy').setup({
 
   {
     'phaazon/hop.nvim',
+    priority = 1,
     config = function()
-      local hop = require('hop')
+      local hop = require 'hop'
       hop.setup()
       vim.keymap.set('', 'm', function()
         hop.hint_words()
       end, { remap = true })
-    end
+    end,
   },
 
   -- note: this is where your plugins related to lsp can be installed.
   --  the configuration is done below. search for lspconfig to find it below.
-  { -- lsp configuration & plugins
+  {
+    -- lsp configuration & plugins
     'neovim/nvim-lspconfig',
     dependencies = {
       -- automatically install lsps to stdpath for neovim
@@ -265,7 +273,8 @@ require('lazy').setup({
     },
   },
 
-  { -- autocompletion
+  {
+    -- autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'l3mon4d3/luasnip', 'saadparwaiz1/cmp_luasnip' },
   },
@@ -278,6 +287,28 @@ require('lazy').setup({
     opts = {},
     config = function()
       vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
+    end,
+  },
+
+  {
+    'mhartington/formatter.nvim',
+    config = function()
+      require('formatter').setup({
+        filetype = {
+          javascript = { require('formatter.filetypes.javascript').prettierd },
+          typescript = { require('formatter.filetypes.javascript').prettierd },
+          typescriptreact = { require('formatter.filetypes.typescriptreact').prettierd },
+          javascriptreact = { require('formatter.filetypes.javascriptreact').prettierd },
+          json = { require('formatter.filetypes.json').prettierd },
+          css = { require('formatter.filetypes.css').prettierd },
+          html = { require('formatter.filetypes.html').prettierd },
+          markdown = { require('formatter.filetypes.markdown').prettierd },
+          yaml = { require('formatter.filetypes.yaml').prettierd },
+          graphql = { require('formatter.filetypes.graphql').prettierd },
+          vue = { require('formatter.filetypes.vue').prettierd },
+          lua = { require('formatter.filetypes.lua').stylua },
+        },
+      })
     end,
   },
 
@@ -296,13 +327,14 @@ require('lazy').setup({
     end,
   },
 
-  { -- set lualine as statusline
+  {
+    -- set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- see `:help lualine.txt`
     config = function()
       local configuration = vim.fn['sonokai#get_configuration']()
       local palette = vim.fn['sonokai#get_palette'](configuration.style, configuration.colors_override)
-      local custom_sonokai = require('lualine.themes.sonokai');
+      local custom_sonokai = require 'lualine.themes.sonokai'
       custom_sonokai.normal.a.bg = palette.bg_green[1]
       custom_sonokai.insert.a.bg = palette.bg_blue[1]
 
@@ -315,27 +347,31 @@ require('lazy').setup({
         end
       end
 
-      require('lualine').setup({
+      require('lualine').setup {
         options = {
           theme = custom_sonokai,
           icons_enabled = true,
           component_separators = '|',
-          section_separators = { left = '', right = '|', },
+          section_separators = { left = '', right = '|' },
         },
         sections = {
           lualine_b = {
             {
+              'filename',
+              path = 1,
+            },
+            {
               'macro-recording',
               fmt = show_macro_recording,
-            }
+            },
           },
           lualine_c = {},
           lualine_x = { 'filetype' },
           lualine_y = {},
           lualine_z = {},
-        }
-      })
-    end
+        },
+      }
+    end,
   },
 
   {
@@ -347,19 +383,19 @@ require('lazy').setup({
       vim.cmd [[highlight IndentBlanklineIndent4 guifg=#535031 gui=nocombine]]
       vim.cmd [[highlight IndentBlanklineIndent5 guifg=#594b36 gui=nocombine]]
 
-      require("indent_blankline").setup {
+      require('indent_blankline').setup {
         show_current_context = true,
         show_current_context_start = true,
-        space_char_blankline = " ",
+        space_char_blankline = ' ',
         char_highlight_list = {
-          "IndentBlanklineIndent1",
-          "IndentBlanklineIndent2",
-          "IndentBlanklineIndent3",
-          "IndentBlanklineIndent4",
-          "IndentBlanklineIndent5",
+          'IndentBlanklineIndent1',
+          'IndentBlanklineIndent2',
+          'IndentBlanklineIndent3',
+          'IndentBlanklineIndent4',
+          'IndentBlanklineIndent5',
         },
       }
-    end
+    end,
   },
 
   -- "gc" to comment visual regions/lines
@@ -367,11 +403,11 @@ require('lazy').setup({
     'numtostr/comment.nvim',
     opts = {},
     config = function()
-      local comment = require('Comment.api');
+      local comment = require 'Comment.api'
       vim.keymap.set('n', 'gc', comment.call('toggle.linewise', 'g@'), { expr = true })
       vim.keymap.set({ 'n', 'i' }, '<c-/>', comment.toggle.linewise.current)
       vim.keymap.set({ 'n', 'i' }, '<c-?>', comment.toggle.blockwise.current)
-    end
+    end,
   },
 
   -- fuzzy finder (files, lsp, etc)
@@ -379,6 +415,18 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim',
     version = '*',
     dependencies = { 'nvim-lua/plenary.nvim' },
+    -- config = function()
+    --   require('telescope').setup {
+    --     defaults = {
+    --       mappings = {
+    --         i = {
+    --           ['<c-v>'] = require('telescope.actions').paste_register,
+    --         },
+    --       },
+    --     },
+    --   }
+    -- end,
+
     -- opts = {
     --   defaults = {
     --     borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
@@ -399,7 +447,8 @@ require('lazy').setup({
     end,
   },
 
-  { -- highlight, edit, and navigate code
+  {
+    -- highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
@@ -426,10 +475,19 @@ require('lazy').setup({
   --    an additional note is that if you only copied in the `init.lua`, you can just comment this line
   --    to get rid of the warning telling you that there are not plugins in `lua/custom/plugins/`.
   { import = 'custom.plugins' },
-})
+}
 
 vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeToggle<CR>')
-vim.keymap.set({ 'n', 'i' }, '<c-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-5>', '<Cmd>BufferLineGoToBuffer 5<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-6>', '<Cmd>BufferLineGoToBuffer 6<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-7>', '<Cmd>BufferLineGoToBuffer 7<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-8>', '<Cmd>BufferLineGoToBuffer 8<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<a-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', { silent = true })
@@ -466,32 +524,27 @@ vim.keymap.set('n', '<leader>/', function()
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
-vim.keymap.set(
-  { 'n', 'i', 'v' },
-  '<c-p>',
-  function()
-    require('telescope.builtin').oldfiles({ cwd_only = true })
-  end,
-  { desc = 'Find [p]reviously opened files' }
-)
+vim.keymap.set({ 'n', 'i', 'v' }, '<c-p>', function()
+  require('telescope.builtin').oldfiles { cwd_only = true }
+end, { desc = 'Find [p]reviously opened files' })
 vim.keymap.set({ '', 'i', 'v' }, '<c-o>', require('telescope').extensions.menufacture.find_files,
   { desc = 'Search Files' })
 vim.keymap.set({ '', 'i', 'v' }, '<c-r>', function()
-  require('telescope').extensions.olddirs.picker({
+  require('telescope').extensions.olddirs.picker {
     previewer = false,
     selected_dir_callback = function(dir)
-      vim.cmd('bufdo bd');
-      vim.cmd.cd(dir);
+      vim.cmd 'bufdo bd'
+      vim.cmd.cd(dir)
     end,
     layout_config = {
       width = 0.4,
       height = 0.3,
     },
     path_display = function(_, path)
-      local last_directory_pos = (path:reverse()):find('%/')
+      local last_directory_pos = (path:reverse()):find '%/'
       return (path:sub(1 - last_directory_pos))
-    end
-  })
+    end,
+  }
 end)
 
 vim.keymap.set({ 'n', 'i' }, '<c-;>', require('telescope.builtin').commands, { desc = 'Search Commands' })
@@ -501,14 +554,15 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 vim.keymap.set('n', '<leader>fb', function()
-  vim.cmd('Format')
+  vim.cmd 'Format'
 end, { desc = '[F]ormat [B]uffer' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'c_sharp', 'lua', 'python', 'tsx', 'typescript', 'javascript', 'markdown', 'help', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'c_sharp', 'lua', 'python', 'tsx', 'typescript', 'javascript', 'markdown', 'help',
+    'vim' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -628,12 +682,13 @@ local on_attach = function(_, bufnr)
 
   vim.api.nvim_create_autocmd('BufWritePre', {
     buffer = bufnr,
-    group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false }),
+    group = vim.api.nvim_create_augroup('lsp_format_on_save', { clear = false }),
     callback = function()
-      vim.lsp.buf.format({ bufnr = bufnr, async = async })
-      vim.cmd('silent! EslintFixAll')
+      vim.lsp.buf.format { bufnr = bufnr, async = async }
+      vim.cmd 'silent! FormatWrite'
+      vim.cmd 'silent! EslintFixAll'
     end,
-    desc = "[lsp] format on save",
+    desc = '[lsp] format on save',
   })
 end
 
@@ -734,6 +789,16 @@ cmp.setup {
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+
+-- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
