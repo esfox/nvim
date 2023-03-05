@@ -6,7 +6,7 @@ vim.g.maplocalleader = ' '
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
     'git',
@@ -23,7 +23,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.guifont = { 'JetBrains Mono Light', 'h14' }
+vim.opt.guifont = { "JetBrains Mono Light", "h14" }
 vim.opt.cmdheight = 0
 vim.opt.colorcolumn = '100'
 vim.opt.list = true
@@ -112,7 +112,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 if vim.g.neovide then
   vim.g.neovide_scale_factor = 0.7
-  vim.g.neovide_cursor_vfx_mode = 'ripple'
+  vim.g.neovide_cursor_vfx_mode = "ripple"
 
   vim.keymap.set({ '', 'i' }, '<c-w>', ':bd<CR>')
 end
@@ -124,21 +124,21 @@ if vim.g.vscode then
     nnoremap gD <Cmd>call VSCodeCall('editor.action.goToTypeDefinition')<CR>
   ]]
 
-  require('lazy').setup {
+  require('lazy').setup({
     { 'kylechui/nvim-surround', opts = {} },
     { 'windwp/nvim-autopairs',  opts = {} },
     'nvim-lua/plenary.nvim',
     {
       'phaazon/hop.nvim',
       config = function()
-        local hop = require 'hop'
+        local hop = require('hop')
         hop.setup()
         vim.keymap.set('', 'm', function()
           hop.hint_words()
         end, { remap = true })
-      end,
+      end
     },
-  }
+  })
   return
 end
 
@@ -148,16 +148,7 @@ vim.g.blamer_date_format = '%b %e (%a)'
 require('lazy').setup('plugins')
 
 vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeToggle<CR>')
-vim.keymap.set({ 'n', 'i' }, '<a-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-5>', '<Cmd>BufferLineGoToBuffer 5<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-6>', '<Cmd>BufferLineGoToBuffer 6<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-7>', '<Cmd>BufferLineGoToBuffer 7<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-8>', '<Cmd>BufferLineGoToBuffer 8<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<a-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', { silent = true })
+vim.keymap.set({ 'n', 'i' }, '<c-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<c-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', { silent = true })
@@ -170,12 +161,12 @@ vim.keymap.set({ 'n', 'i' }, '<a-right>', '<Cmd>BufferLineCycleNext<CR>', { sile
 vim.keymap.set({ 'n', 'i' }, '<a-left>', '<Cmd>BufferLineCyclePrev<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<a-s-left>', '<Cmd>BufferLineMovePrev<CR>', { silent = true })
 vim.keymap.set({ 'n', 'i' }, '<a-s-right>', '<Cmd>BufferLineMoveNext<CR>', { silent = true })
-vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>')
 vim.keymap.set('n', '<leader>wh', '<c-w>h')
 vim.keymap.set('n', '<leader>wj', '<c-w>j')
 vim.keymap.set('n', '<leader>wk', '<c-w>k')
 vim.keymap.set('n', '<leader>wl', '<c-w>l')
 vim.keymap.set('n', '<leader>wm', '<c-w>_')
+vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>')
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -194,27 +185,32 @@ vim.keymap.set('n', '<leader>/', function()
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
-vim.keymap.set({ 'n', 'i', 'v' }, '<c-p>', function()
-  require('telescope.builtin').oldfiles { cwd_only = true }
-end, { desc = 'Find [p]reviously opened files' })
+vim.keymap.set(
+  { 'n', 'i', 'v' },
+  '<c-p>',
+  function()
+    require('telescope.builtin').oldfiles({ cwd_only = true })
+  end,
+  { desc = 'Find [p]reviously opened files' }
+)
 vim.keymap.set({ '', 'i', 'v' }, '<c-o>', require('telescope').extensions.menufacture.find_files,
   { desc = 'Search Files' })
 vim.keymap.set({ '', 'i', 'v' }, '<c-r>', function()
-  require('telescope').extensions.olddirs.picker {
+  require('telescope').extensions.olddirs.picker({
     previewer = false,
     selected_dir_callback = function(dir)
-      vim.cmd 'bufdo bd'
-      vim.cmd.cd(dir)
+      vim.cmd('bufdo bd');
+      vim.cmd.cd(dir);
     end,
     layout_config = {
       width = 0.4,
       height = 0.3,
     },
     path_display = function(_, path)
-      local last_directory_pos = (path:reverse()):find '%/'
+      local last_directory_pos = (path:reverse()):find('%/')
       return (path:sub(1 - last_directory_pos))
-    end,
-  }
+    end
+  })
 end)
 
 vim.keymap.set({ 'n', 'i' }, '<c-;>', require('telescope.builtin').commands, { desc = 'Search Commands' })
@@ -222,6 +218,10 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+
+vim.keymap.set('n', '<leader>fb', function()
+  vim.cmd('Format')
+end, { desc = '[F]ormat [B]uffer' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -253,8 +253,8 @@ require('nvim-treesitter.configs').setup {
         ['ia'] = '@parameter.inner',
         ['af'] = '@function.outer',
         ['if'] = '@function.inner',
-        ['ac'] = '@call.outer',
-        ['ic'] = '@call.inner',
+        ['ac'] = '@class.outer',
+        ['ic'] = '@class.inner',
       },
     },
     move = {
@@ -319,6 +319,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('gr', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('gh', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('gR', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -346,19 +347,14 @@ local on_attach = function(_, bufnr)
 
   vim.api.nvim_create_autocmd('BufWritePre', {
     buffer = bufnr,
-    group = vim.api.nvim_create_augroup('lsp_format_on_save', { clear = false }),
+    group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false }),
     callback = function()
-      vim.lsp.buf.format { bufnr = bufnr, async = async }
-      vim.cmd 'silent! FormatWrite'
-      vim.cmd 'silent! EslintFixAll'
+      vim.lsp.buf.format({ bufnr = bufnr, async = async })
+      vim.cmd('silent! EslintFixAll')
     end,
-    desc = '[lsp] format on save',
+    desc = "[lsp] format on save",
   })
 end
-
-vim.keymap.set('n', '<leader>fb', function()
-  vim.cmd 'Format'
-end, { desc = '[F]ormat [B]uffer' })
 
 -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
 --   vim.lsp.handlers.hover, { focusable = false }
@@ -457,16 +453,6 @@ cmp.setup {
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
