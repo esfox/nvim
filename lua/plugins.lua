@@ -1,31 +1,37 @@
 return {
-  -- git related plugins
   'tpope/vim-fugitive',
-  'tpope/vim-rhubarb',
+
+  -- 'tpope/vim-rhubarb',
+
   'github/copilot.vim',
+
   'marcuscaisey/olddirs.nvim',
+
   'JoosepAlviste/nvim-ts-context-commentstring',
 
   -- detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+
   'molecule-man/telescope-menufacture',
 
   {
     'filipdutescu/renamer.nvim',
     branch = 'master',
     requires = 'nvim-lua/plenary.nvim',
-    config = function()
-      local renamer = require('renamer')
-      renamer.setup({});
-
-      vim.keymap.set('n', 'gr', function()
-        renamer.rename({})
-      end,
-        {
-          noremap = true,
-          silent = true,
-        })
-    end
+    opts = {},
+    -- config = function()
+    --   local renamer = require('renamer')
+    --   renamer.setup({});
+    --
+    --   -- vim.keymap.set('n', 'gr', function()
+    --   --     renamer.rename({})
+    --   --     vim.api.nvim_input('<esc>')
+    --   --   end,
+    --   --   {
+    --   --     noremap = true,
+    --   --     silent = true,
+    --   --   })
+    -- end
   },
 
   {
@@ -38,6 +44,7 @@ return {
   },
 
   { 'akinsho/git-conflict.nvim',          opts = {} },
+
   {
     'APZelos/blamer.nvim',
     config = function()
@@ -45,13 +52,13 @@ return {
       vim.g.blamer_enabled = 1
     end,
   },
+
   {
     'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
-    config = function()
-      require('todo-comments').setup()
-    end,
+    opts = {},
   },
+
   { 'brenoprata10/nvim-highlight-colors', opts = {} },
 
   {
@@ -100,7 +107,9 @@ return {
       },
     },
   },
+
   { 'kylechui/nvim-surround', opts = {} },
+
   { 'windwp/nvim-autopairs',  opts = {} },
 
   {
@@ -126,9 +135,9 @@ return {
     config = function()
       local hop = require 'hop'
       hop.setup()
-      vim.keymap.set('', 'm', function()
-        hop.hint_words()
-      end, { remap = true })
+      -- vim.keymap.set('', 'm', function()
+      --   hop.hint_words()
+      -- end, { remap = true })
     end,
   },
 
@@ -157,15 +166,17 @@ return {
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'l3mon4d3/luasnip', 'saadparwaiz1/cmp_luasnip' },
   },
 
+  { 'lewis6991/gitsigns.nvim', opts = {} },
+
   -- useful plugin to show you pending keybinds.
   -- { 'folke/which-key.nvim', opts = {} },
-  { 'lewis6991/gitsigns.nvim', opts = {} },
+
   {
     'folke/trouble.nvim',
     opts = {},
-    config = function()
-      vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
-    end,
+    -- config = function()
+    --   vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
+    -- end,
   },
 
   {
@@ -284,10 +295,10 @@ return {
         sticky = true,
       }
 
-      local comment = require 'Comment.api'
-      vim.keymap.set('n', 'gc', comment.call('toggle.linewise', 'g@'), { expr = true })
-      vim.keymap.set({ 'n', 'i' }, '<c-/>', comment.toggle.linewise.current)
-      vim.keymap.set({ 'n', 'i' }, '<c-?>', comment.toggle.blockwise.current)
+      -- local comment = require 'Comment.api'
+      -- vim.keymap.set('n', 'gc', comment.call('toggle.linewise', 'g@'), { expr = true })
+      -- vim.keymap.set({ 'n', 'i' }, '<c-/>', comment.toggle.linewise.current)
+      -- vim.keymap.set({ 'n', 'i' }, '<c-?>', comment.toggle.blockwise.current)
     end,
   },
 
