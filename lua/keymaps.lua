@@ -188,10 +188,10 @@ end
 
 function keymaps.for_cmp(cmp)
   return cmp.mapping.preset.insert {
-        ['<C-f>'] = cmp.mapping.scroll_docs(-5),
-        ['<C-d>'] = cmp.mapping.scroll_docs(5),
-        ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = cmp.mapping.confirm {
+    ['<C-f>'] = cmp.mapping.scroll_docs( -5),
+    ['<C-d>'] = cmp.mapping.scroll_docs(5),
+    ['<C-Space>'] = cmp.mapping.complete {},
+    ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
