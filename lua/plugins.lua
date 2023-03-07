@@ -307,17 +307,20 @@ return {
     'nvim-telescope/telescope.nvim',
     version = '*',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    -- config = function()
-    --   require('telescope').setup {
-    --     defaults = {
-    --       mappings = {
-    --         i = {
-    --           ['<c-v>'] = require('telescope.actions').paste_register,
-    --         },
-    --       },
-    --     },
-    --   }
-    -- end,
+    config = function()
+      -- Enable telescope fzf native, if installed
+      pcall(require('telescope').load_extension, 'fzf')
+      pcall(require('telescope').load_extension, 'olddirs')
+
+      -- require('telescope').setup {
+      --   defaults = {
+      --     mappings = {
+      --       i = {
+      --       },
+      --     },
+      --   },
+      -- }
+    end,
 
     -- opts = {
     --   defaults = {
@@ -347,7 +350,6 @@ return {
     },
     -- config = function()
     --   pcall(require('nvim-treesitter.install').update { with_sync = true })
-    -- end,
   },
 
   'nvim-treesitter/nvim-treesitter-context',

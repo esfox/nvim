@@ -1,7 +1,7 @@
 local keymaps = require('keymaps')
+local options = require('options');
 
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -21,51 +21,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Vim options
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.clipboard = 'unnamedplus'
-vim.opt.guifont = { 'JetBrains Mono Light', 'h14' }
-vim.opt.cmdheight = 0
-vim.opt.colorcolumn = '100'
-vim.opt.list = true
-
--- [[ Setting options ]]
--- See `:help vim.o`
-
--- Set highlight on search
-vim.o.hlsearch = false
-
--- Enable mouse mode
-vim.o.mouse = 'a'
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case insensitive searching UNLESS /C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
-
--- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
-vim.o.background = 'dark'
-
-vim.opt.scrolloff = 10
-
+options.general();
 keymaps.general()
 
 -- [[ Highlight on yank ]]
@@ -79,26 +35,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-if vim.g.neovide then
-  vim.g.neovide_scale_factor = 0.7
-  vim.g.neovide_cursor_vfx_mode = 'ripple'
-end
-
 require('vscode')
-
--- this blamer.nvim setting need to be setup before loading the plugin
-vim.g.blamer_date_format = '%b %e (%a)'
 
 require('lazy').setup('plugins')
 keymaps.for_plugins();
-
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
-
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
-pcall(require('telescope').load_extension, 'opener')
-pcall(require('telescope').load_extension, 'olddirs')
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -127,8 +67,10 @@ require('nvim-treesitter.configs').setup {
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
-        ['aa'] = '@parameter.outer',
-        ['ia'] = '@parameter.inner',
+        ['ab'] = '@block.outer',
+        ['ib'] = '@block.inner',
+        ['ap'] = '@parameter.outer',
+        ['ip'] = '@parameter.inner',
         ['af'] = '@function.outer',
         ['if'] = '@function.inner',
         ['ar'] = '@assignment.rhs',
@@ -197,6 +139,8 @@ local on_attach = function(_, bufnr)
     end,
     desc = '[lsp] format on save',
   })
+
+  options.on_lsp_attach();
 end
 
 -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
