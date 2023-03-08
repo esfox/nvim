@@ -1,3 +1,5 @@
+local helpers = require('helpers')
+
 local keymaps = {}
 
 function keymaps.general()
@@ -47,39 +49,42 @@ function keymaps.general()
     vim.cmd('Format')
     vim.cmd('FormatWrite')
   end, { desc = '[F]ormat [B]uffer' })
-
-  if vim.g.neovide then
-    vim.keymap.set({ '', 'i' }, '<c-w>', ':bd<CR>')
-  end
 end
 
 function keymaps.for_plugins()
   -- Nvim Tree
-  vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeToggle<CR>')
+  if helpers.is_pc() then
+    vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeToggle<CR>')
+  else
+    vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeFocus<CR>')
+  end
 
-  -- Bufferline
-  vim.keymap.set({ 'n', 'i' }, '<a-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-5>', '<Cmd>BufferLineGoToBuffer 5<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-6>', '<Cmd>BufferLineGoToBuffer 6<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-7>', '<Cmd>BufferLineGoToBuffer 7<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-8>', '<Cmd>BufferLineGoToBuffer 8<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-5>', '<Cmd>BufferLineGoToBuffer 5<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-6>', '<Cmd>BufferLineGoToBuffer 6<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-7>', '<Cmd>BufferLineGoToBuffer 7<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-8>', '<Cmd>BufferLineGoToBuffer 8<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<c-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-right>', '<Cmd>BufferLineCycleNext<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-left>', '<Cmd>BufferLineCyclePrev<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-s-left>', '<Cmd>BufferLineMovePrev<CR>', { silent = true })
-  vim.keymap.set({ 'n', 'i' }, '<a-s-right>', '<Cmd>BufferLineMoveNext<CR>', { silent = true })
+  -- Barbar
+  local barbar_keymap_options = { silent = true, noremap = true }
+  vim.keymap.set({ '', 'i' }, '<c-w>', '<Cmd>BufferClose<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-left>', '<Cmd>BufferPrevious<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-right>', '<Cmd>BufferNext<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-s-left>', '<Cmd>BufferMovePrevious<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-s-right>', '<Cmd>BufferMoveNext<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-1>', '<Cmd>BufferGoto 1<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-2>', '<Cmd>BufferGoto 2<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-3>', '<Cmd>BufferGoto 3<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-4>', '<Cmd>BufferGoto 4<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-5>', '<Cmd>BufferGoto 5<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-6>', '<Cmd>BufferGoto 6<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-7>', '<Cmd>BufferGoto 7<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-8>', '<Cmd>BufferGoto 8<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-9>', '<Cmd>BufferGoto 9<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-1>', '<Cmd>BufferGoto 1<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-2>', '<Cmd>BufferGoto 2<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-3>', '<Cmd>BufferGoto 3<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-4>', '<Cmd>BufferGoto 4<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-5>', '<Cmd>BufferGoto 5<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-6>', '<Cmd>BufferGoto 6<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-7>', '<Cmd>BufferGoto 7<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-8>', '<Cmd>BufferGoto 8<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-9>', '<Cmd>BufferGoto 9<CR>', barbar_keymap_options)
+  vim.keymap.set('n', '<leader>b', '<Cmd>BufferPick<CR>', barbar_keymap_options)
 
   -- Hop
   local hop = require 'hop'
@@ -190,10 +195,10 @@ end
 
 function keymaps.for_cmp(cmp)
   return cmp.mapping.preset.insert {
-    ['<C-f>'] = cmp.mapping.scroll_docs( -5),
-    ['<C-d>'] = cmp.mapping.scroll_docs(5),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
+        ['<C-f>'] = cmp.mapping.scroll_docs(-5),
+        ['<C-d>'] = cmp.mapping.scroll_docs(5),
+        ['<C-Space>'] = cmp.mapping.complete {},
+        ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },

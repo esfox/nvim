@@ -1,3 +1,5 @@
+local helpers = require('helpers')
+
 return {
   'tpope/vim-fugitive',
 
@@ -60,52 +62,39 @@ return {
   },
 
   { 'brenoprata10/nvim-highlight-colors', opts = {} },
-
-  {
-    'akinsho/bufferline.nvim',
-    tag = 'v3.0.0',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {
-      options = {
-        show_close_icon = false,
-        diagnostics = 'nvim_lsp',
-        update_focused_file = {
-          enable = true,
-        },
-      },
-    },
-  },
+  { 'romgrk/barbar.nvim',                 dependencies = 'nvim-tree/nvim-web-devicons' },
 
   {
     'nvim-tree/nvim-tree.lua',
-    opts = {
-      -- on_attach = function(bufnr)
-      --   local hop = require 'hop'
-      --   vim.keymap.set('n', 'm', function()
-      --     hop.hint_lines()
-      --   end, { buffer = bufnr, noremap = true, silent = true, nowait = true })
-      -- end,
-      sync_root_with_cwd = true,
-      view = {
-        width = 40,
-        side = 'right',
-        number = true,
-        relativenumber = true,
-      },
-      git = {
-        ignore = false,
-      },
-      actions = {
-        open_file = {
-          quit_on_open = true,
+    config = function()
+      require('nvim-tree').setup({
+        sync_root_with_cwd = true,
+        hijack_unnamed_buffer_when_opening = true,
+        open_on_setup = not helpers.is_pc(),
+        update_focused_file = {
+          enable = true,
         },
-      },
-      renderer = {
-        root_folder_label = function(path)
-          return vim.fn.fnamemodify(path, ':t:r')
-        end,
-      },
-    },
+        view = {
+          width = 40,
+          side = helpers.is_pc() and 'right' or 'left',
+          number = true,
+          relativenumber = true,
+        },
+        git = {
+          ignore = false,
+        },
+        actions = {
+          open_file = {
+            quit_on_open = helpers.is_pc(),
+          },
+        },
+        renderer = {
+          root_folder_label = function(path)
+            return vim.fn.fnamemodify(path, ':t:r')
+          end,
+        },
+      })
+    end,
   },
 
   { 'kylechui/nvim-surround', opts = {} },
@@ -325,7 +314,6 @@ return {
       --   },
       -- }
     end,
-
     -- opts = {
     --   defaults = {
     --     borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
