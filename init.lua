@@ -35,7 +35,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-require('vscode')
+if vim.g.vscode then
+  require('vscode')
+  return
+end
 
 require('lazy').setup('plugins')
 keymaps.for_plugins();
