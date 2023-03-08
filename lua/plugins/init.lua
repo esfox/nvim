@@ -1,4 +1,4 @@
-local helpers = require('helpers')
+local keymaps = require('keymaps')
 
 return {
   'tpope/vim-fugitive',
@@ -47,43 +47,8 @@ return {
 
   { 'brenoprata10/nvim-highlight-colors', opts = {} },
   { 'romgrk/barbar.nvim',                 dependencies = 'nvim-tree/nvim-web-devicons' },
-
-  {
-    'nvim-tree/nvim-tree.lua',
-    config = function()
-      require('nvim-tree').setup({
-        sync_root_with_cwd = true,
-        hijack_unnamed_buffer_when_opening = true,
-        open_on_setup = not helpers.is_pc(),
-        update_focused_file = {
-          enable = true,
-        },
-        view = {
-          width = 40,
-          side = helpers.is_pc() and 'right' or 'left',
-          number = true,
-          relativenumber = true,
-        },
-        git = {
-          ignore = false,
-        },
-        actions = {
-          open_file = {
-            quit_on_open = helpers.is_pc(),
-          },
-        },
-        renderer = {
-          root_folder_label = function(path)
-            return vim.fn.fnamemodify(path, ':t:r')
-          end,
-        },
-      })
-    end,
-  },
-
-  { 'kylechui/nvim-surround', opts = {} },
-
-  { 'windwp/nvim-autopairs',  opts = {} },
+  { 'kylechui/nvim-surround',             opts = {} },
+  { 'windwp/nvim-autopairs',              opts = {} },
 
   {
     'mg979/vim-visual-multi',
@@ -127,13 +92,32 @@ return {
 
       -- additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
-    },
+    }
   },
 
   {
     -- autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'l3mon4d3/luasnip', 'saadparwaiz1/cmp_luasnip' },
+    config = function()
+      local cmp = require 'cmp'
+      local luasnip = require 'luasnip'
+
+      luasnip.config.setup {}
+
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = keymaps.for_cmp(cmp),
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+        },
+      }
+    end
   },
 
   { 'lewis6991/gitsigns.nvim', opts = {} },
@@ -180,51 +164,6 @@ return {
         bg4 = { '#545454', '237' },
       }
       vim.cmd.colorscheme 'sonokai'
-    end,
-  },
-
-  {
-    'nvim-lualine/lualine.nvim',
-    config = function()
-      local configuration = vim.fn['sonokai#get_configuration']()
-      local palette = vim.fn['sonokai#get_palette'](configuration.style, configuration.colors_override)
-      local custom_sonokai = require 'lualine.themes.sonokai'
-      custom_sonokai.normal.a.bg = palette.bg_green[1]
-      custom_sonokai.insert.a.bg = palette.bg_blue[1]
-
-      local function show_macro_recording()
-        local recording_register = vim.fn.reg_recording()
-        if recording_register == '' then
-          return ''
-        else
-          return 'recording @' .. recording_register
-        end
-      end
-
-      require('lualine').setup {
-        options = {
-          theme = custom_sonokai,
-          icons_enabled = true,
-          component_separators = '|',
-          section_separators = { left = '', right = '|' },
-        },
-        sections = {
-          lualine_b = {
-            {
-              'filename',
-              path = 1,
-            },
-            {
-              'macro-recording',
-              fmt = show_macro_recording,
-            },
-          },
-          lualine_c = {},
-          lualine_x = { 'filetype' },
-          lualine_y = {},
-          lualine_z = {},
-        },
-      }
     end,
   },
 
@@ -293,13 +232,6 @@ return {
     cond = function()
       return vim.fn.executable 'make' == 1
     end,
-  },
-
-  {
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
   },
 
   'nvim-treesitter/nvim-treesitter-context',
