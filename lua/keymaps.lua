@@ -54,9 +54,9 @@ end
 function keymaps.for_plugins()
   -- Nvim Tree
   if helpers.is_pc() then
-    vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeToggle<CR>')
+    vim.keymap.set({ '', 'i' }, '<c-b>', '<cmd>NvimTreeToggle<CR>')
   else
-    vim.keymap.set({ '', 'i' }, '<c-b>', ':NvimTreeFocus<CR>')
+    vim.keymap.set({ '', 'i' }, '<c-b>', '<cmd>NvimTreeFocus<CR>')
   end
 
   -- Barbar
@@ -108,6 +108,10 @@ function keymaps.for_plugins()
 
   -- Trouble
   vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
+
+  -- splitjoin
+  vim.keymap.set('n', '<leader>js', '<cmd>SplitjoinSplit<CR><CR>')
+  vim.keymap.set('n', '<leader>jj', '<cmd>SplitjoinJoin<CR><CR>')
 
   -- NoNeckPain
   vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>')
@@ -195,10 +199,10 @@ end
 
 function keymaps.for_cmp(cmp)
   return cmp.mapping.preset.insert {
-        ['<C-f>'] = cmp.mapping.scroll_docs(-5),
-        ['<C-d>'] = cmp.mapping.scroll_docs(5),
-        ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = cmp.mapping.confirm {
+    ['<C-f>'] = cmp.mapping.scroll_docs( -5),
+    ['<C-d>'] = cmp.mapping.scroll_docs(5),
+    ['<C-Space>'] = cmp.mapping.complete {},
+    ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
