@@ -45,13 +45,13 @@ return {
 
   { 'akinsho/git-conflict.nvim',          opts = {} },
 
-  {
-    'APZelos/blamer.nvim',
-    config = function()
-      vim.cmd [[ highlight Blamer guifg=#505050 gui=bold ]]
-      vim.g.blamer_enabled = 1
-    end,
-  },
+  -- {
+  --   'APZelos/blamer.nvim',
+  --   config = function()
+  --     vim.cmd [[ highlight Blamer guifg=#505050 gui=bold ]]
+  --     vim.g.blamer_enabled = 1
+  --   end,
+  -- },
 
   {
     'folke/todo-comments.nvim',
@@ -122,8 +122,10 @@ return {
     -- enabled = false,
     opts = {
       width = 120,
-      enableOnVimEnter = false,
-      buffers = {
+      autocmds = {
+        enableOnVimEnter = false,
+      },
+      colors = {
         blend = -0.1,
       },
     },
@@ -210,6 +212,7 @@ return {
         fg = { '#dedede', '250' },
         bg0 = { '#303030', '235' },
         bg1 = { '#404040', '236' },
+        bg3 = { '#505050', '237' },
         bg4 = { '#545454', '237' },
       }
       vim.cmd.colorscheme 'sonokai'
@@ -306,11 +309,12 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     version = '*',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim', "debugloop/telescope-undo.nvim" },
     config = function()
       -- Enable telescope fzf native, if installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'olddirs')
+      pcall(require('telescope').load_extension, 'undo')
 
       -- require('telescope').setup {
       --   defaults = {
@@ -353,4 +357,5 @@ return {
   },
 
   'nvim-treesitter/nvim-treesitter-context',
+  'nvim-treesitter/playground',
 }
