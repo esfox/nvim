@@ -3,15 +3,12 @@ local helpers = require('helpers')
 return {
   'tpope/vim-fugitive',
 
-  -- 'tpope/vim-rhubarb',
-
   'github/copilot.vim',
 
   'marcuscaisey/olddirs.nvim',
 
   'JoosepAlviste/nvim-ts-context-commentstring',
 
-  -- detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
   'molecule-man/telescope-menufacture',
@@ -21,19 +18,6 @@ return {
     branch = 'master',
     requires = 'nvim-lua/plenary.nvim',
     opts = {},
-    -- config = function()
-    --   local renamer = require('renamer')
-    --   renamer.setup({});
-    --
-    --   -- vim.keymap.set('n', 'gr', function()
-    --   --     renamer.rename({})
-    --   --     vim.api.nvim_input('<esc>')
-    --   --   end,
-    --   --   {
-    --   --     noremap = true,
-    --   --     silent = true,
-    --   --   })
-    -- end
   },
 
   {
@@ -126,14 +110,9 @@ return {
     config = function()
       local hop = require 'hop'
       hop.setup()
-      -- vim.keymap.set('', 'm', function()
-      --   hop.hint_words()
-      -- end, { remap = true })
     end,
   },
 
-  -- note: this is where your plugins related to lsp can be installed.
-  --  the configuration is done below. search for lspconfig to find it below.
   {
     -- lsp configuration & plugins
     'neovim/nvim-lspconfig',
@@ -159,15 +138,11 @@ return {
 
   { 'lewis6991/gitsigns.nvim', opts = {} },
 
-  -- useful plugin to show you pending keybinds.
   -- { 'folke/which-key.nvim', opts = {} },
 
   {
     'folke/trouble.nvim',
     opts = {},
-    -- config = function()
-    --   vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
-    -- end,
   },
 
   {
@@ -209,9 +184,7 @@ return {
   },
 
   {
-    -- set lualine as statusline
     'nvim-lualine/lualine.nvim',
-    -- see `:help lualine.txt`
     config = function()
       local configuration = vim.fn['sonokai#get_configuration']()
       local palette = vim.fn['sonokai#get_palette'](configuration.style, configuration.colors_override)
@@ -279,22 +252,15 @@ return {
     end,
   },
 
-  -- "gc" to comment visual regions/lines
   {
     'numtostr/comment.nvim',
     config = function()
       require('Comment').setup {
         sticky = true,
       }
-
-      -- local comment = require 'Comment.api'
-      -- vim.keymap.set('n', 'gc', comment.call('toggle.linewise', 'g@'), { expr = true })
-      -- vim.keymap.set({ 'n', 'i' }, '<c-/>', comment.toggle.linewise.current)
-      -- vim.keymap.set({ 'n', 'i' }, '<c-?>', comment.toggle.blockwise.current)
     end,
   },
 
-  -- fuzzy finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
     version = '*',
@@ -321,13 +287,8 @@ return {
     -- }
   },
 
-  -- fuzzy finder algorithm which requires local dependencies to be built.
-  -- only load if `make` is available. make sure you have the system
-  -- requirements installed.
   {
     'nvim-telescope/telescope-fzf-native.nvim',
-    -- note: if you are having trouble with this installation,
-    --       refer to the readme for telescope-fzf-native for more instructions.
     build = 'make',
     cond = function()
       return vim.fn.executable 'make' == 1
@@ -335,13 +296,10 @@ return {
   },
 
   {
-    -- highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
-    -- config = function()
-    --   pcall(require('nvim-treesitter.install').update { with_sync = true })
   },
 
   'nvim-treesitter/nvim-treesitter-context',
