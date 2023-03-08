@@ -3,32 +3,44 @@ local helpers = require('helpers')
 return {
   'nvim-tree/nvim-tree.lua',
   config = function()
-    require('nvim-tree').setup({
+    local options = {
       sync_root_with_cwd = true,
-      hijack_unnamed_buffer_when_opening = true,
-      open_on_setup = not helpers.is_pc(),
       update_focused_file = {
         enable = true,
       },
       view = {
         width = 40,
-        side = helpers.is_pc() and 'right' or 'left',
         number = true,
         relativenumber = true,
       },
       git = {
         ignore = false,
       },
-      actions = {
-        open_file = {
-          quit_on_open = helpers.is_pc(),
-        },
-      },
       renderer = {
         root_folder_label = function(path)
           return vim.fn.fnamemodify(path, ':t:r')
         end,
       },
-    })
+    }
+
+    if helpers.is_pc() then
+      options.view.side = 'right'
+      options.actions = {
+        open_file = {
+          quit_on_open = true
+        }
+      }
+    else
+      options.view.side = 'left'
+      options.hijack_unnamed_buffer_when_opening = true
+
+      vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+        callback = function()
+          require('nvim-tree.api').tree.open()
+        end,
+      })
+    end
+
+    require('nvim-tree').setup(options)
   end,
 }
