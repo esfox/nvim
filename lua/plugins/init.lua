@@ -46,9 +46,16 @@ return {
   },
 
   { 'brenoprata10/nvim-highlight-colors', opts = {} },
-  { 'romgrk/barbar.nvim',                 dependencies = 'nvim-tree/nvim-web-devicons' },
   { 'kylechui/nvim-surround',             opts = {} },
   { 'windwp/nvim-autopairs',              opts = {} },
+  {
+    'romgrk/barbar.nvim',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    opts = {
+      animation = false,
+      closable = false,
+    }
+  },
 
   {
     'Wansmer/treesj',
@@ -227,7 +234,7 @@ return {
           borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
           mappings = {
             i = {
-                  ['<c-v>'] = { '<c-r>+', type = 'command' },
+              ['<c-v>'] = { '<c-r>+', type = 'command' },
             },
           },
         },
