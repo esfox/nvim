@@ -109,9 +109,9 @@ function keymaps.for_plugins()
   -- Trouble
   vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
 
-  -- splitjoin
-  vim.keymap.set('n', '<leader>js', '<cmd>SplitjoinSplit<CR><CR>')
-  vim.keymap.set('n', '<leader>jj', '<cmd>SplitjoinJoin<CR><CR>')
+  -- TreeSJ
+  vim.keymap.set('n', '<leader>js', '<cmd>TSJSplit<CR>')
+  vim.keymap.set('n', '<leader>jj', '<cmd>TSJJoin<CR>')
 
   -- NoNeckPain
   vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>')
@@ -119,18 +119,23 @@ function keymaps.for_plugins()
   -- Telescope
   vim.keymap.set('n', '<leader>/', function()
     -- You can pass additional configuration to telescope to change theme, layout, etc.
-    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-      winblend = 10,
-      previewer = false,
-    })
+    require('telescope.builtin')
+        .current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+          winblend = 10,
+          previewer = false,
+        })
   end, { desc = '[/] Fuzzily search in current buffer' })
 
   vim.keymap.set({ 'n', 'i', 'v' }, '<c-p>', function()
     require('telescope.builtin').oldfiles { cwd_only = true }
   end, { desc = 'Find [p]reviously opened files' })
 
-  vim.keymap.set({ '', 'i', 'v' }, '<c-o>', require('telescope').extensions.menufacture.find_files,
-    { desc = 'Search Files' })
+  vim.keymap.set(
+    { '', 'i', 'v' },
+    '<c-o>',
+    require('telescope').extensions.menufacture.find_files,
+    { desc = 'Search Files' }
+  )
 
   vim.keymap.set({ '', 'i', 'v' }, '<c-r>', function()
     require('telescope').extensions.olddirs.picker {
@@ -150,17 +155,47 @@ function keymaps.for_plugins()
     }
   end)
 
-  vim.keymap.set({ 'n', 'i' }, '<c-;>', require('telescope.builtin').commands, { desc = 'Search Commands' })
+  vim.keymap.set(
+    { 'n', 'i' },
+    '<c-;>',
+    require('telescope.builtin').commands,
+    { desc = 'Search Commands' }
+  )
 
-  vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
+  vim.keymap.set(
+    'n',
+    '<leader>sw',
+    require('telescope.builtin').grep_string,
+    { desc = '[S]earch current [W]ord' }
+  )
 
-  vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+  vim.keymap.set(
+    'n',
+    '<leader>sh',
+    require('telescope.builtin').help_tags,
+    { desc = '[S]earch [H]elp' }
+  )
 
-  vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+  vim.keymap.set(
+    'n',
+    '<leader>sg',
+    require('telescope.builtin').live_grep,
+    { desc = '[S]earch by [G]rep' }
+  )
 
-  vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+  vim.keymap.set(
+    'n',
+    '<leader>sd',
+    require('telescope.builtin').diagnostics,
+    { desc = '[S]earch [D]iagnostics' }
+  )
 
-  vim.keymap.set('n', '<leader>su', '<cmd>Telescope undo<cr>', { desc = '[S]earch [U]ndo' })
+  vim.keymap.set(
+    'n',
+    '<leader>su',
+    '<cmd>Telescope undo<cr>',
+    { desc = '[S]earch [U]ndo' }
+  )
 end
 
 function keymaps.for_lsp(buffer_number)
@@ -193,16 +228,25 @@ function keymaps.for_lsp(buffer_number)
   -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   -- nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
 
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+  nmap(
+    '<leader>ds',
+    require('telescope.builtin').lsp_document_symbols,
+    '[D]ocument [S]ymbols'
+  )
+
+  nmap(
+    '<leader>ws',
+    require('telescope.builtin').lsp_dynamic_workspace_symbols,
+    '[W]orkspace [S]ymbols'
+  )
 end
 
 function keymaps.for_cmp(cmp)
   return cmp.mapping.preset.insert {
-    ['<C-f>'] = cmp.mapping.scroll_docs( -5),
-    ['<C-d>'] = cmp.mapping.scroll_docs(5),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
+        ['<C-f>'] = cmp.mapping.scroll_docs(-5),
+        ['<C-d>'] = cmp.mapping.scroll_docs(5),
+        ['<C-Space>'] = cmp.mapping.complete {},
+        ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },

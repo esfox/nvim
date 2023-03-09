@@ -51,11 +51,8 @@ return {
   { 'windwp/nvim-autopairs',              opts = {} },
 
   {
-    'AndrewRadev/splitjoin.vim',
-    config = function()
-      vim.g.splitjoin_split_mapping = ''
-      vim.g.splitjoin_join_mapping = ''
-    end,
+    'Wansmer/treesj',
+    opts = {},
   },
 
   {
