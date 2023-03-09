@@ -97,7 +97,7 @@ return {
 
       -- additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
-    }
+    },
   },
 
   {
@@ -122,7 +122,7 @@ return {
           { name = 'luasnip' },
         },
       }
-    end
+    end,
   },
 
   { 'lewis6991/gitsigns.nvim', opts = {} },
@@ -208,27 +208,24 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     version = '*',
-    dependencies = { 'nvim-lua/plenary.nvim', "debugloop/telescope-undo.nvim" },
+    dependencies = { 'nvim-lua/plenary.nvim', 'debugloop/telescope-undo.nvim' },
     config = function()
       -- Enable telescope fzf native, if installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'olddirs')
       pcall(require('telescope').load_extension, 'undo')
 
-      -- require('telescope').setup {
-      --   defaults = {
-      --     mappings = {
-      --       i = {
-      --       },
-      --     },
-      --   },
-      -- }
+      require('telescope').setup {
+        defaults = {
+          -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+          mappings = {
+            i = {
+                  ['<c-v>'] = { '<c-r>+', type = 'command' },
+            },
+          },
+        },
+      }
     end,
-    -- opts = {
-    --   defaults = {
-    --     borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-    --   }
-    -- }
   },
 
   {
