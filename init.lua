@@ -1,5 +1,6 @@
-local options = require('options');
+local options = require('options')
 local keymaps = require('keymaps')
+local commands = require('commands')
 
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -21,18 +22,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-options.general();
+options.general()
 keymaps.general()
-
--- [[ Highlight on yank ]]
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
+commands.load_auto_commands()
 
 if vim.g.vscode then
   require('vscode')
@@ -40,7 +32,7 @@ if vim.g.vscode then
 end
 
 require('lazy').setup('plugins')
-keymaps.for_plugins();
+keymaps.for_plugins()
 
 require('neodev').setup()
 require('lsp').setup()
