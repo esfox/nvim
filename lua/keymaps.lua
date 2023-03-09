@@ -1,4 +1,4 @@
-local helpers = require('helpers')
+local helpers = require 'helpers'
 
 local keymaps = {}
 
@@ -27,13 +27,21 @@ function keymaps.general()
   vim.keymap.set({ 'n', 'i' }, '<c-j>', '<tab>')
   vim.keymap.set({ 'n', 'i' }, '<c-k>', '<c-o>')
 
+  -- window management
   vim.keymap.set('n', '<leader>wh', '<c-w>h')
   vim.keymap.set('n', '<leader>wj', '<c-w>j')
   vim.keymap.set('n', '<leader>wk', '<c-w>k')
   vim.keymap.set('n', '<leader>wl', '<c-w>l')
   vim.keymap.set('n', '<leader>wm', '<c-w>_')
+  vim.keymap.set('n', '<leader>wH', '<c-w>H')
+  vim.keymap.set('n', '<leader>wJ', '<c-w>J')
+  vim.keymap.set('n', '<leader>wK', '<c-w>K')
+  vim.keymap.set('n', '<leader>wL', '<c-w>L')
+  vim.keymap.set('n', '<leader>ww', ':bd<cr>')
 
   vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+  vim.keymap.set('c', '<c-v>', '<c-r>+')
 
   -- Remap for dealing with word wrap
   vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -46,8 +54,8 @@ function keymaps.general()
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
   vim.keymap.set('n', '<leader>fb', function()
-    vim.cmd('Format')
-    vim.cmd('FormatWrite')
+    vim.cmd 'Format'
+    vim.cmd 'FormatWrite'
   end, { desc = '[F]ormat [B]uffer' })
 end
 
@@ -102,7 +110,6 @@ function keymaps.for_plugins()
   local renamer = require 'renamer'
   vim.keymap.set('n', 'gr', function()
     renamer.rename {}
-    -- vim.cmd('stopinsert')
     vim.api.nvim_input 'jkvaw'
   end, { noremap = true, silent = true })
 
@@ -119,23 +126,18 @@ function keymaps.for_plugins()
   -- Telescope
   vim.keymap.set('n', '<leader>/', function()
     -- You can pass additional configuration to telescope to change theme, layout, etc.
-    require('telescope.builtin')
-        .current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
+    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+      winblend = 10,
+      previewer = false,
+    })
   end, { desc = '[/] Fuzzily search in current buffer' })
 
   vim.keymap.set({ 'n', 'i', 'v' }, '<c-p>', function()
     require('telescope.builtin').oldfiles { cwd_only = true }
   end, { desc = 'Find [p]reviously opened files' })
 
-  vim.keymap.set(
-    { '', 'i', 'v' },
-    '<c-o>',
-    require('telescope').extensions.menufacture.find_files,
-    { desc = 'Search Files' }
-  )
+  vim.keymap.set({ '', 'i', 'v' }, '<c-o>', require('telescope').extensions.menufacture.find_files,
+    { desc = 'Search Files' })
 
   vim.keymap.set({ '', 'i', 'v' }, '<c-r>', function()
     require('telescope').extensions.olddirs.picker {
@@ -155,47 +157,17 @@ function keymaps.for_plugins()
     }
   end)
 
-  vim.keymap.set(
-    { 'n', 'i' },
-    '<c-;>',
-    require('telescope.builtin').commands,
-    { desc = 'Search Commands' }
-  )
+  vim.keymap.set({ 'n', 'i' }, '<c-;>', require('telescope.builtin').commands, { desc = 'Search Commands' })
 
-  vim.keymap.set(
-    'n',
-    '<leader>sw',
-    require('telescope.builtin').grep_string,
-    { desc = '[S]earch current [W]ord' }
-  )
+  vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 
-  vim.keymap.set(
-    'n',
-    '<leader>sh',
-    require('telescope.builtin').help_tags,
-    { desc = '[S]earch [H]elp' }
-  )
+  vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 
-  vim.keymap.set(
-    'n',
-    '<leader>sg',
-    require('telescope.builtin').live_grep,
-    { desc = '[S]earch by [G]rep' }
-  )
+  vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 
-  vim.keymap.set(
-    'n',
-    '<leader>sd',
-    require('telescope.builtin').diagnostics,
-    { desc = '[S]earch [D]iagnostics' }
-  )
+  vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
-  vim.keymap.set(
-    'n',
-    '<leader>su',
-    '<cmd>Telescope undo<cr>',
-    { desc = '[S]earch [U]ndo' }
-  )
+  vim.keymap.set('n', '<leader>su', '<cmd>Telescope undo<cr>', { desc = '[S]earch [U]ndo' })
 end
 
 function keymaps.for_lsp(buffer_number)
@@ -228,17 +200,9 @@ function keymaps.for_lsp(buffer_number)
   -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   -- nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
 
-  nmap(
-    '<leader>ds',
-    require('telescope.builtin').lsp_document_symbols,
-    '[D]ocument [S]ymbols'
-  )
+  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
 
-  nmap(
-    '<leader>ws',
-    require('telescope.builtin').lsp_dynamic_workspace_symbols,
-    '[W]orkspace [S]ymbols'
-  )
+  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 end
 
 function keymaps.for_cmp(cmp)
