@@ -27,7 +27,7 @@ keymaps.general()
 commands.load_auto_commands()
 
 if vim.g.vscode then
-  require('vscode')
+  require('vscode-settings')
   return
 end
 

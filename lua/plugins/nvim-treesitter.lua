@@ -15,6 +15,7 @@ return {
         'tsx',
         'typescript',
         'javascript',
+        'json',
         'markdown',
         'help',
         'vim',

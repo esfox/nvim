@@ -1,6 +1,51 @@
 local keymaps = require('keymaps')
 
 return {
+  -- {
+  --   'rafamadriz/neon',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'neon'
+  --   end
+  -- },
+
+  {
+    -- dir = vim.env.HOME .. '/.config/nvim/colorschemes/neon-modified',
+    dir = vim.env.HOME .. '/.config/nvim/colorschemes/vscode-modified',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('vscode').setup()
+      -- vim.cmd.colorscheme 'sozhemtor'
+    end
+  },
+
+  -- {
+  --   'Mofiqul/vscode.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require('vscode').setup({})
+  --   end
+  -- },
+
+  {
+    'sainnhe/sonokai',
+    lazy = false,
+    priority = 999,
+    config = function()
+      vim.g.sonokai_colors_override = {
+        fg = { '#dedede', '250' },
+        bg0 = { '#303030', '235' },
+        bg1 = { '#404040', '236' },
+        bg3 = { '#505050', '237' },
+        bg4 = { '#545454', '237' },
+      }
+      -- vim.cmd.colorscheme 'sonokai'
+    end,
+  },
+
   'tpope/vim-fugitive',
 
   'github/copilot.vim',
@@ -12,6 +57,11 @@ return {
   'tpope/vim-sleuth',
 
   'molecule-man/telescope-menufacture',
+
+  {
+    'roobert/search-replace.nvim',
+    opts = {},
+  },
 
   {
     'filipdutescu/renamer.nvim',
@@ -164,23 +214,9 @@ return {
   },
 
   {
-    'sainnhe/sonokai',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.g.sonokai_colors_override = {
-        fg = { '#dedede', '250' },
-        bg0 = { '#303030', '235' },
-        bg1 = { '#404040', '236' },
-        bg3 = { '#505050', '237' },
-        bg4 = { '#545454', '237' },
-      }
-      vim.cmd.colorscheme 'sonokai'
-    end,
-  },
-
-  {
     'lukas-reineke/indent-blankline.nvim',
+    lazy = false,
+    priority = 900,
     config = function()
       vim.cmd [[highlight IndentBlanklineIndent1 guifg=#384651 gui=nocombine]]
       vim.cmd [[highlight IndentBlanklineIndent2 guifg=#404e41 gui=nocombine]]
@@ -222,11 +258,11 @@ return {
       pcall(require('telescope').load_extension, 'olddirs')
       pcall(require('telescope').load_extension, 'undo')
 
-      vim.cmd [[highlight TelescopeNormal guibg=#2c2c2c]]
-      vim.cmd [[highlight TelescopePreviewNormal guibg=#363636]]
-      vim.cmd [[highlight TelescopeBorder guibg=#2c2c2c]]
-      vim.cmd [[highlight TelescopePreviewBorder guibg=#363636]]
-      vim.cmd [[highlight TelescopeTitle guibg=#a7df78 guifg=#202020]]
+      -- vim.cmd [[highlight TelescopeNormal guibg=#2c2c2c]]
+      -- vim.cmd [[highlight TelescopePreviewNormal guibg=#363636]]
+      -- vim.cmd [[highlight TelescopeBorder guibg=#2c2c2c]]
+      -- vim.cmd [[highlight TelescopePreviewBorder guibg=#363636]]
+      -- vim.cmd [[highlight TelescopeTitle guibg=#a7df78 guifg=#202020]]
 
       require('telescope').setup {
         defaults = {

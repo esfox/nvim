@@ -208,11 +208,13 @@ function keymaps.for_lsp(buffer_number)
 end
 
 function keymaps.for_cmp(cmp)
+  vim.keymap.set('n', '<c-space>', cmp.mapping.complete(), { silent = true })
+
   return cmp.mapping.preset.insert {
-        ['<C-f>'] = cmp.mapping.scroll_docs(-5),
-        ['<C-d>'] = cmp.mapping.scroll_docs(5),
-        ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = cmp.mapping.confirm {
+    ['<C-f>'] = cmp.mapping.scroll_docs( -5),
+    ['<C-d>'] = cmp.mapping.scroll_docs(5),
+    ['<C-Space>'] = cmp.mapping.complete {},
+    ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
