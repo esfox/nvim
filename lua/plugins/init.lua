@@ -21,15 +21,6 @@ return {
     end
   },
 
-  -- {
-  --   'Mofiqul/vscode.nvim',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     require('vscode').setup({})
-  --   end
-  -- },
-
   {
     'sainnhe/sonokai',
     lazy = false,

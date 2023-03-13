@@ -113,6 +113,9 @@ function keymaps.for_plugins()
     vim.api.nvim_input 'jkvaw'
   end, { noremap = true, silent = true })
 
+  -- Treesitter
+  vim.keymap.set({ '', 'i' }, '<leader>th', '<Cmd>TSHighlightCapturesUnderCursor<CR>')
+
   -- Trouble
   vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
 
