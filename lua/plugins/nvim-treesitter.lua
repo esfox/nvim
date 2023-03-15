@@ -50,6 +50,8 @@ return {
             ['al'] = '@assignment.lhs',
             ['ac'] = '@call.outer',
             ['ic'] = '@call.inner',
+            ['aC'] = '@class.outer',
+            ['iC'] = '@class.inner',
           },
         },
         move = {

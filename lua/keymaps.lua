@@ -23,7 +23,7 @@ function keymaps.general()
   vim.keymap.set('i', '<c-v>', '<Esc>pa')
   vim.keymap.set({ '', 'i' }, '<c-a>', '<Esc>ggVG')
   vim.keymap.set('', '<c-s>', ':update<CR>')
-  vim.keymap.set('i', '<c-s>', '<Esc>:update<CR>i')
+  vim.keymap.set('i', '<c-s>', '<Esc>:update<CR>a')
   vim.keymap.set({ 'n', 'i' }, '<c-j>', '<tab>')
   vim.keymap.set({ 'n', 'i' }, '<c-k>', '<c-o>')
 
@@ -110,11 +110,11 @@ function keymaps.for_plugins()
   local renamer = require 'renamer'
   vim.keymap.set('n', 'gr', function()
     renamer.rename {}
-    vim.api.nvim_input 'jkvaw'
+    vim.api.nvim_input 'jk'
   end, { noremap = true, silent = true })
 
   -- Treesitter
-  vim.keymap.set({ '', 'i' }, '<leader>th', '<Cmd>TSHighlightCapturesUnderCursor<CR>')
+  vim.keymap.set('n', '<leader>th', '<Cmd>TSHighlightCapturesUnderCursor<CR>')
 
   -- Trouble
   vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
@@ -124,7 +124,7 @@ function keymaps.for_plugins()
   vim.keymap.set('n', '<leader>jj', '<cmd>TSJJoin<CR>')
 
   -- NoNeckPain
-  vim.keymap.set({ 'n', 'i' }, '<leader>vc', ':NoNeckPain<CR>')
+  vim.keymap.set('n', '<leader>vc', ':NoNeckPain<CR>')
 
   -- Telescope
   vim.keymap.set('n', '<leader>/', function()
@@ -198,6 +198,7 @@ function keymaps.for_lsp(buffer_number)
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('gh', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('gH', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('ge', vim.diagnostic.open_float, '[G]oto [R]eferences')
   nmap('gR', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
   -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
