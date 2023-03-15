@@ -11,8 +11,8 @@ colors.get_colors = function()
         bg4 = '#393939',
         --
         vscTabCurrent = '#353535',
-        vscTabOther = '#404040',
-        vscTabOutside = '#303030',
+        vscTabOther = '#505050',
+        vscTabOutside = '#353535',
         --
         vscLeftDark = '#252526',
         vscLeftMid = '#373737',
