@@ -55,6 +55,14 @@ function lsp.setup()
       }
     end,
   }
+
+  -- Enable Tailwind color highlighting
+  local nvim_lsp = require('lspconfig');
+  nvim_lsp['tailwindcss'].setup({
+    on_attach = function(_, bufnr)
+      require('tailwindcss-colors').buf_attach(bufnr)
+    end,
+  })
 end
 
 return lsp

@@ -62,6 +62,13 @@ return {
   },
 
   {
+    'themaxmarchuk/tailwindcss-colors.nvim',
+    config = function()
+      require('tailwindcss-colors').setup()
+    end
+  },
+
+  {
     'RRethy/vim-illuminate',
     config = function()
       require('illuminate').configure {
