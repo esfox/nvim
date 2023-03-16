@@ -4,7 +4,7 @@ function options.general()
   vim.opt.number = true
   vim.opt.relativenumber = true
   vim.opt.clipboard = 'unnamedplus'
-  vim.opt.guifont = { 'JetBrains Mono Light', 'h14' }
+  vim.opt.guifont = { 'JetBrains Mono NL Light', 'h14' }
   vim.opt.cmdheight = 0
   vim.opt.colorcolumn = '100'
   vim.opt.list = true
