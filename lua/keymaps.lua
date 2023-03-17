@@ -21,9 +21,11 @@ function keymaps.general()
 
   vim.keymap.set('n', '<c-v>', 'p')
   vim.keymap.set('i', '<c-v>', '<Esc>pa')
+  vim.keymap.set('c', '<c-v>', '<c-r>+')
   vim.keymap.set({ '', 'i' }, '<c-a>', '<Esc>ggVG')
   vim.keymap.set('', '<c-s>', ':update<CR>')
   vim.keymap.set('i', '<c-s>', '<Esc>:update<CR>a')
+  vim.keymap.set('i', '<c-z>', '<Esc>ua')
   vim.keymap.set({ 'n', 'i' }, '<c-j>', '<tab>')
   vim.keymap.set({ 'n', 'i' }, '<c-k>', '<c-o>')
 
@@ -40,8 +42,6 @@ function keymaps.general()
   vim.keymap.set('n', '<leader>ww', ':bd<cr>')
 
   vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
-  vim.keymap.set('c', '<c-v>', '<c-r>+')
 
   -- Remap for dealing with word wrap
   vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -70,8 +70,11 @@ function keymaps.for_plugins()
   -- Barbar
   local barbar_keymap_options = { silent = true, noremap = true }
   vim.keymap.set({ '', 'i' }, '<c-w>', '<Cmd>BufferClose<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<a-w>', '<Cmd>BufferClose<CR>', barbar_keymap_options)
   vim.keymap.set({ '', 'i' }, '<a-left>', '<Cmd>BufferPrevious<CR>', barbar_keymap_options)
   vim.keymap.set({ '', 'i' }, '<a-right>', '<Cmd>BufferNext<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-h>', '<Cmd>BufferPrevious<CR>', barbar_keymap_options)
+  vim.keymap.set({ '', 'i' }, '<c-l>', '<Cmd>BufferNext<CR>', barbar_keymap_options)
   vim.keymap.set({ '', 'i' }, '<a-s-left>', '<Cmd>BufferMovePrevious<CR>', barbar_keymap_options)
   vim.keymap.set({ '', 'i' }, '<a-s-right>', '<Cmd>BufferMoveNext<CR>', barbar_keymap_options)
   vim.keymap.set({ '', 'i' }, '<a-1>', '<Cmd>BufferGoto 1<CR>', barbar_keymap_options)
@@ -160,7 +163,7 @@ function keymaps.for_plugins()
     }
   end)
 
-  vim.keymap.set({ 'n', 'i' }, '<c-;>', require('telescope.builtin').commands, { desc = 'Search Commands' })
+  vim.keymap.set({ 'n', 'i' }, '<leader>;', require('telescope.builtin').commands, { desc = 'Search Commands' })
 
   vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 
@@ -212,16 +215,36 @@ function keymaps.for_lsp(buffer_number)
 end
 
 function keymaps.for_cmp(cmp)
-  vim.keymap.set('n', '<c-space>', cmp.mapping.complete(), { silent = true })
+  local cmp_types = require('cmp.types');
 
-  return cmp.mapping.preset.insert {
-    ['<C-f>'] = cmp.mapping.scroll_docs( -5),
-    ['<C-d>'] = cmp.mapping.scroll_docs(5),
-    ['<C-Space>'] = cmp.mapping.complete {},
+  return {
+    ['<C-Space>'] = {
+      i = cmp.mapping.complete {},
+    },
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
+    ['<Up>'] = {
+      i = function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
+        else
+          fallback()
+        end
+      end,
+    },
+    ['<Down>'] = {
+      i = function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
+        else
+          fallback()
+        end
+      end,
+    },
+    ['<PageUp>'] = cmp.mapping.scroll_docs( -5),
+    ['<PageDown>'] = cmp.mapping.scroll_docs(5),
   }
 end
 
