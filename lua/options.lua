@@ -9,6 +9,10 @@ function options.general()
   vim.opt.colorcolumn = '100'
   vim.opt.list = true
 
+  vim.o.shiftwidth = 2
+  vim.o.tabstop = 2
+  vim.o.expandtab = true
+
   -- Set highlight on search
   vim.o.hlsearch = false
 
