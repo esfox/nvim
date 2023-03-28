@@ -1,1 +1,1 @@
-My personal (maybe) messy neovim config
+My personal neovim config based from https://github.com/nvim-lua/kickstart.nvim
