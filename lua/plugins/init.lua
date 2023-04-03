@@ -57,8 +57,12 @@ return {
   {
     'filipdutescu/renamer.nvim',
     branch = 'master',
-    requires = 'nvim-lua/plenary.nvim',
-    opts = {},
+    dependencies = 'nvim-lua/plenary.nvim',
+    config = function()
+      require('renamer').setup({
+        title = '',
+      })
+    end,
   },
 
   {
@@ -89,7 +93,7 @@ return {
 
   {
     'folke/todo-comments.nvim',
-    requires = 'nvim-lua/plenary.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
     opts = {},
   },
 
@@ -101,7 +105,9 @@ return {
     dependencies = 'nvim-tree/nvim-web-devicons',
     opts = {
       animation = false,
-      closable = false,
+      icons = {
+        button = '',
+      },
     }
   },
 
@@ -269,7 +275,7 @@ return {
           borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
           mappings = {
             i = {
-              ['<c-v>'] = { '<c-r>+', type = 'command' },
+                  ['<c-v>'] = { '<c-r>+', type = 'command' },
             },
           },
         },
