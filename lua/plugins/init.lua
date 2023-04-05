@@ -1,4 +1,4 @@
-local keymaps = require('keymaps')
+local keymaps = require 'keymaps'
 
 return {
   -- {
@@ -18,7 +18,7 @@ return {
     config = function()
       require('vscode').setup()
       -- vim.cmd.colorscheme 'sozhemtor'
-    end
+    end,
   },
 
   {
@@ -55,6 +55,20 @@ return {
   },
 
   {
+    'SmiteshP/nvim-navbuddy',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'SmiteshP/nvim-navic',
+      'MunifTanjim/nui.nvim',
+    },
+    opts = {
+      lsp = {
+        auto_attach = true,
+      },
+    },
+  },
+
+  {
     'filipdutescu/renamer.nvim',
     branch = 'master',
     dependencies = 'nvim-lua/plenary.nvim',
@@ -69,7 +83,7 @@ return {
     'themaxmarchuk/tailwindcss-colors.nvim',
     config = function()
       require('tailwindcss-colors').setup()
-    end
+    end,
   },
 
   {
@@ -121,19 +135,19 @@ return {
     branch = 'master',
   },
 
-  {
-    'shortcuts/no-neck-pain.nvim',
-    -- enabled = false,
-    opts = {
-      width = 120,
-      autocmds = {
-        enableOnVimEnter = false,
-      },
-      colors = {
-        blend = -0.1,
-      },
-    },
-  },
+  -- {
+  --   'shortcuts/no-neck-pain.nvim',
+  --   -- enabled = false,
+  --   opts = {
+  --     width = 120,
+  --     autocmds = {
+  --       enableOnVimEnter = false,
+  --     },
+  --     colors = {
+  --       blend = -0.1,
+  --     },
+  --   },
+  -- },
 
   {
     'phaazon/hop.nvim',
@@ -193,6 +207,51 @@ return {
   {
     'folke/trouble.nvim',
     opts = {},
+  },
+
+  {
+    'mfussenegger/nvim-dap',
+    config = function()
+      local dap = require 'dap'
+      dap.adapters.coreclr = {
+        type = 'executable',
+        command = '/home/ckftm/software/netcoredbg/netcoredbg',
+        args = { '--interpreter=vscode' },
+      }
+
+      dap.configurations.cs = {
+        {
+          type = 'coreclr',
+          name = 'launch - netcoredbg',
+          request = 'launch',
+          program = function()
+            -- return vim.fn.DOTNET_DEBUG_DLL_PATH;
+            return vim.fn.input({
+              prompt = 'Path to dll to debug: ',
+            })
+          end,
+        },
+      }
+    end,
+  },
+
+  {
+    'rcarriga/nvim-dap-ui',
+    dependencies = { 'mfussenegger/nvim-dap' },
+    config = function()
+      local dap = require 'dap'
+      local dapui = require 'dapui'
+      dapui.setup()
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+      end
+      dap.listeners.after.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.after.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
+    end,
   },
 
   {
@@ -270,7 +329,7 @@ return {
 
       require('telescope').setup {
         defaults = {
-          layout_strategy = 'vertical',
+          -- layout_strategy = 'vertical',
           -- sorting_strategy = 'ascending',
           borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
           mappings = {

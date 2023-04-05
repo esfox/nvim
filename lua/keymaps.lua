@@ -7,6 +7,8 @@ function keymaps.general()
   vim.keymap.set({ 'i', 'c' }, 'JK', '<Esc>')
   vim.keymap.set({ 'n', 'v' }, 'J', '10j')
   vim.keymap.set({ 'n', 'v' }, 'K', '10k')
+  vim.keymap.set({ '', 'i' }, '<PageDown>', '<c-d>')
+  vim.keymap.set({ '', 'i' }, '<PageUp>', '<c-u>')
   vim.keymap.set({ '', 'v' }, 'H', '^')
   vim.keymap.set({ '', 'v' }, 'L', '$')
   vim.keymap.set('n', 'U', '<c-r>')
@@ -61,10 +63,10 @@ end
 
 function keymaps.for_plugins()
   -- Nvim Tree
-  if helpers.is_pc() then
-    vim.keymap.set({ '', 'i' }, '<c-b>', '<cmd>NvimTreeToggle<CR>')
-  else
+  if helpers.is_laptop() then
     vim.keymap.set({ '', 'i' }, '<c-b>', '<cmd>NvimTreeFocus<CR>')
+  else
+    vim.keymap.set({ '', 'i' }, '<c-b>', '<cmd>NvimTreeToggle<CR>')
   end
 
   -- Barbar
@@ -103,6 +105,9 @@ function keymaps.for_plugins()
     hop.hint_words()
   end, { remap = true })
 
+  -- Navbuddy
+  vim.keymap.set('n', '<leader>ns', '<cmd>Navbuddy<CR>')
+
   -- Comment
   local comment = require 'Comment.api'
   vim.keymap.set('n', 'gc', comment.call('toggle.linewise', 'g@'), { expr = true })
@@ -115,6 +120,11 @@ function keymaps.for_plugins()
     renamer.rename {}
     vim.api.nvim_input 'jk'
   end, { noremap = true, silent = true })
+
+  -- Formatting
+  vim.keymap.set('n', '<leader>f', '<Cmd>Format<CR>')
+  vim.keymap.set('n', '<leader>fw', '<Cmd>FormatWrite<CR>')
+  vim.keymap.set('n', '<leader>fes', '<Cmd>EslintFixAll<CR>')
 
   -- Treesitter
   vim.keymap.set('n', '<leader>th', '<Cmd>TSHighlightCapturesUnderCursor<CR>')
@@ -215,7 +225,7 @@ function keymaps.for_lsp(buffer_number)
 end
 
 function keymaps.for_cmp(cmp)
-  local cmp_types = require('cmp.types');
+  local cmp_types = require 'cmp.types'
 
   return {
     ['<C-Space>'] = {
@@ -228,7 +238,7 @@ function keymaps.for_cmp(cmp)
     ['<Up>'] = {
       i = function(fallback)
         if cmp.visible() then
-          cmp.select_prev_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
+          cmp.select_prev_item { behavior = cmp_types.cmp.SelectBehavior.Select }
         else
           fallback()
         end
@@ -237,13 +247,13 @@ function keymaps.for_cmp(cmp)
     ['<Down>'] = {
       i = function(fallback)
         if cmp.visible() then
-          cmp.select_next_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
+          cmp.select_next_item { behavior = cmp_types.cmp.SelectBehavior.Select }
         else
           fallback()
         end
       end,
     },
-    ['<PageUp>'] = cmp.mapping.scroll_docs( -5),
+    ['<PageUp>'] = cmp.mapping.scroll_docs(-5),
     ['<PageDown>'] = cmp.mapping.scroll_docs(5),
   }
 end

@@ -9,7 +9,7 @@ return {
         enable = true,
       },
       view = {
-        width = 40,
+        width = 60,
         number = true,
         relativenumber = true,
       },
@@ -23,14 +23,7 @@ return {
       },
     }
 
-    if helpers.is_pc() then
-      options.view.side = 'right'
-      options.actions = {
-        open_file = {
-          quit_on_open = true
-        }
-      }
-    else
+    if helpers.is_laptop() then
       options.view.side = 'left'
       options.hijack_unnamed_buffer_when_opening = true
 
@@ -39,6 +32,13 @@ return {
           require('nvim-tree.api').tree.open()
         end,
       })
+    else
+      options.view.side = 'right'
+      options.actions = {
+        open_file = {
+          quit_on_open = true
+        }
+      }
     end
 
     require('nvim-tree').setup(options)
