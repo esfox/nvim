@@ -1,4 +1,4 @@
-local keymaps = require 'keymaps'
+local keymaps = require("keymaps")
 
 return {
   -- {
@@ -12,54 +12,54 @@ return {
 
   {
     -- dir = vim.env.HOME .. '/.config/nvim/colorschemes/neon-modified',
-    dir = vim.env.HOME .. '/.config/nvim/colorschemes/vscode-modified',
+    dir = vim.env.HOME .. "/.config/nvim/colorschemes/vscode-modified",
     lazy = false,
     priority = 1000,
     config = function()
-      require('vscode').setup()
+      require("vscode").setup()
       -- vim.cmd.colorscheme 'sozhemtor'
     end,
   },
 
   {
-    'sainnhe/sonokai',
+    "sainnhe/sonokai",
     lazy = false,
     priority = 999,
     config = function()
       vim.g.sonokai_colors_override = {
-        fg = { '#dedede', '250' },
-        bg0 = { '#303030', '235' },
-        bg1 = { '#404040', '236' },
-        bg3 = { '#505050', '237' },
-        bg4 = { '#545454', '237' },
+        fg = { "#dedede", "250" },
+        bg0 = { "#303030", "235" },
+        bg1 = { "#404040", "236" },
+        bg3 = { "#505050", "237" },
+        bg4 = { "#545454", "237" },
       }
       -- vim.cmd.colorscheme 'sonokai'
     end,
   },
 
-  'tpope/vim-fugitive',
+  "tpope/vim-fugitive",
 
-  'github/copilot.vim',
+  "github/copilot.vim",
 
-  'marcuscaisey/olddirs.nvim',
+  "marcuscaisey/olddirs.nvim",
 
-  'JoosepAlviste/nvim-ts-context-commentstring',
+  "JoosepAlviste/nvim-ts-context-commentstring",
 
-  'tpope/vim-sleuth',
+  "tpope/vim-sleuth",
 
-  'molecule-man/telescope-menufacture',
+  "molecule-man/telescope-menufacture",
 
   {
-    'roobert/search-replace.nvim',
+    "roobert/search-replace.nvim",
     opts = {},
   },
 
   {
-    'SmiteshP/nvim-navbuddy',
+    "SmiteshP/nvim-navbuddy",
     dependencies = {
-      'neovim/nvim-lspconfig',
-      'SmiteshP/nvim-navic',
-      'MunifTanjim/nui.nvim',
+      "neovim/nvim-lspconfig",
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim",
     },
     opts = {
       lsp = {
@@ -69,33 +69,33 @@ return {
   },
 
   {
-    'filipdutescu/renamer.nvim',
-    branch = 'master',
-    dependencies = 'nvim-lua/plenary.nvim',
+    "filipdutescu/renamer.nvim",
+    branch = "master",
+    dependencies = "nvim-lua/plenary.nvim",
     config = function()
-      require('renamer').setup({
-        title = '',
+      require("renamer").setup({
+        title = "",
       })
     end,
   },
 
   {
-    'themaxmarchuk/tailwindcss-colors.nvim',
+    "themaxmarchuk/tailwindcss-colors.nvim",
     config = function()
-      require('tailwindcss-colors').setup()
+      require("tailwindcss-colors").setup()
     end,
   },
 
   {
-    'RRethy/vim-illuminate',
+    "RRethy/vim-illuminate",
     config = function()
-      require('illuminate').configure {
+      require("illuminate").configure({
         delay = 300,
-      }
+      })
     end,
   },
 
-  { 'akinsho/git-conflict.nvim',          opts = {} },
+  { "akinsho/git-conflict.nvim",          opts = {} },
 
   -- {
   --   'APZelos/blamer.nvim',
@@ -106,33 +106,35 @@ return {
   -- },
 
   {
-    'folke/todo-comments.nvim',
-    dependencies = 'nvim-lua/plenary.nvim',
+    "folke/todo-comments.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
     opts = {},
   },
 
-  { 'brenoprata10/nvim-highlight-colors', opts = {} },
-  { 'kylechui/nvim-surround',             opts = {} },
-  { 'windwp/nvim-autopairs',              opts = {} },
+  { "brenoprata10/nvim-highlight-colors", opts = {} },
+  { "kylechui/nvim-surround",             opts = {} },
+  { "windwp/nvim-autopairs",              opts = {} },
   {
-    'romgrk/barbar.nvim',
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    "romgrk/barbar.nvim",
+    dependencies = "nvim-tree/nvim-web-devicons",
     opts = {
       animation = false,
       icons = {
-        button = '',
+        button = "",
       },
-    }
+    },
   },
 
   {
-    'Wansmer/treesj',
-    opts = {},
+    "Wansmer/treesj",
+    opts = {
+      max_join_length = 1000,
+    },
   },
 
   {
-    'mg979/vim-visual-multi',
-    branch = 'master',
+    "mg979/vim-visual-multi",
+    branch = "master",
   },
 
   -- {
@@ -150,42 +152,42 @@ return {
   -- },
 
   {
-    'phaazon/hop.nvim',
+    "phaazon/hop.nvim",
     priority = 1,
     config = function()
-      local hop = require 'hop'
+      local hop = require("hop")
       hop.setup()
     end,
   },
 
   {
     -- lsp configuration & plugins
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     dependencies = {
       -- automatically install lsps to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
 
       -- useful status updates for lsp
       -- note: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { "j-hui/fidget.nvim", opts = {} },
 
       -- additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+      "folke/neodev.nvim",
     },
   },
 
   {
     -- autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'l3mon4d3/luasnip', 'saadparwaiz1/cmp_luasnip' },
+    "hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-nvim-lsp", "l3mon4d3/luasnip", "saadparwaiz1/cmp_luasnip" },
     config = function()
-      local cmp = require 'cmp'
-      local luasnip = require 'luasnip'
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
 
-      luasnip.config.setup {}
+      luasnip.config.setup({})
 
-      cmp.setup {
+      cmp.setup({
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -193,41 +195,41 @@ return {
         },
         mapping = keymaps.for_cmp(cmp),
         sources = {
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
         },
-      }
+      })
     end,
   },
 
-  { 'lewis6991/gitsigns.nvim', opts = {} },
+  { "lewis6991/gitsigns.nvim", opts = {} },
 
   -- { 'folke/which-key.nvim', opts = {} },
 
   {
-    'folke/trouble.nvim',
+    "folke/trouble.nvim",
     opts = {},
   },
 
   {
-    'mfussenegger/nvim-dap',
+    "mfussenegger/nvim-dap",
     config = function()
-      local dap = require 'dap'
+      local dap = require("dap")
       dap.adapters.coreclr = {
-        type = 'executable',
-        command = '/home/ckftm/software/netcoredbg/netcoredbg',
-        args = { '--interpreter=vscode' },
+        type = "executable",
+        command = "/home/ckftm/software/netcoredbg/netcoredbg",
+        args = { "--interpreter=vscode" },
       }
 
       dap.configurations.cs = {
         {
-          type = 'coreclr',
-          name = 'launch - netcoredbg',
-          request = 'launch',
+          type = "coreclr",
+          name = "launch - netcoredbg",
+          request = "launch",
           program = function()
             -- return vim.fn.DOTNET_DEBUG_DLL_PATH;
             return vim.fn.input({
-              prompt = 'Path to dll to debug: ',
+              prompt = "Path to dll to debug: ",
             })
           end,
         },
@@ -236,90 +238,90 @@ return {
   },
 
   {
-    'rcarriga/nvim-dap-ui',
-    dependencies = { 'mfussenegger/nvim-dap' },
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "mfussenegger/nvim-dap" },
     config = function()
-      local dap = require 'dap'
-      local dapui = require 'dapui'
+      local dap = require("dap")
+      local dapui = require("dapui")
       dapui.setup()
-      dap.listeners.after.event_initialized['dapui_config'] = function()
+      dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
       end
-      dap.listeners.after.event_terminated['dapui_config'] = function()
+      dap.listeners.after.event_terminated["dapui_config"] = function()
         dapui.close()
       end
-      dap.listeners.after.event_exited['dapui_config'] = function()
+      dap.listeners.after.event_exited["dapui_config"] = function()
         dapui.close()
       end
     end,
   },
 
   {
-    'mhartington/formatter.nvim',
+    "mhartington/formatter.nvim",
     config = function()
-      require('formatter').setup {
+      require("formatter").setup({
         filetype = {
-          javascript = { require('formatter.filetypes.javascript').prettierd },
-          typescript = { require('formatter.filetypes.javascript').prettierd },
-          typescriptreact = { require('formatter.filetypes.typescriptreact').prettierd },
-          javascriptreact = { require('formatter.filetypes.javascriptreact').prettierd },
-          json = { require('formatter.filetypes.json').prettierd },
-          css = { require('formatter.filetypes.css').prettierd },
-          html = { require('formatter.filetypes.html').prettierd },
-          markdown = { require('formatter.filetypes.markdown').prettierd },
-          yaml = { require('formatter.filetypes.yaml').prettierd },
-          graphql = { require('formatter.filetypes.graphql').prettierd },
-          vue = { require('formatter.filetypes.vue').prettierd },
-          lua = { require('formatter.filetypes.lua').stylua },
+          javascript = { require("formatter.filetypes.javascript").prettierd },
+          typescript = { require("formatter.filetypes.javascript").prettierd },
+          typescriptreact = { require("formatter.filetypes.typescriptreact").prettierd },
+          javascriptreact = { require("formatter.filetypes.javascriptreact").prettierd },
+          json = { require("formatter.filetypes.json").prettierd },
+          css = { require("formatter.filetypes.css").prettierd },
+          html = { require("formatter.filetypes.html").prettierd },
+          markdown = { require("formatter.filetypes.markdown").prettierd },
+          yaml = { require("formatter.filetypes.yaml").prettierd },
+          graphql = { require("formatter.filetypes.graphql").prettierd },
+          vue = { require("formatter.filetypes.vue").prettierd },
+          lua = { require("formatter.filetypes.lua").stylua },
         },
-      }
+      })
     end,
   },
 
   {
-    'lukas-reineke/indent-blankline.nvim',
+    "lukas-reineke/indent-blankline.nvim",
     lazy = false,
     priority = 900,
     config = function()
-      vim.cmd [[highlight IndentBlanklineIndent1 guifg=#384651 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent2 guifg=#404e41 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent3 guifg=#4c413d gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent4 guifg=#535031 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent5 guifg=#594b36 gui=nocombine]]
+      vim.cmd([[highlight IndentBlanklineIndent1 guifg=#384651 gui=nocombine]])
+      vim.cmd([[highlight IndentBlanklineIndent2 guifg=#404e41 gui=nocombine]])
+      vim.cmd([[highlight IndentBlanklineIndent3 guifg=#4c413d gui=nocombine]])
+      vim.cmd([[highlight IndentBlanklineIndent4 guifg=#535031 gui=nocombine]])
+      vim.cmd([[highlight IndentBlanklineIndent5 guifg=#594b36 gui=nocombine]])
 
-      require('indent_blankline').setup {
+      require("indent_blankline").setup({
         show_current_context = true,
         show_current_context_start = true,
-        space_char_blankline = ' ',
+        space_char_blankline = " ",
         char_highlight_list = {
-          'IndentBlanklineIndent1',
-          'IndentBlanklineIndent2',
-          'IndentBlanklineIndent3',
-          'IndentBlanklineIndent4',
-          'IndentBlanklineIndent5',
+          "IndentBlanklineIndent1",
+          "IndentBlanklineIndent2",
+          "IndentBlanklineIndent3",
+          "IndentBlanklineIndent4",
+          "IndentBlanklineIndent5",
         },
-      }
+      })
     end,
   },
 
   {
-    'numtostr/comment.nvim',
+    "numtostr/comment.nvim",
     config = function()
-      require('Comment').setup {
+      require("Comment").setup({
         sticky = true,
-      }
+      })
     end,
   },
 
   {
-    'nvim-telescope/telescope.nvim',
-    version = '*',
-    dependencies = { 'nvim-lua/plenary.nvim', 'debugloop/telescope-undo.nvim' },
+    "nvim-telescope/telescope.nvim",
+    version = "*",
+    dependencies = { "nvim-lua/plenary.nvim", "debugloop/telescope-undo.nvim" },
     config = function()
       -- Enable telescope fzf native, if installed
-      pcall(require('telescope').load_extension, 'fzf')
-      pcall(require('telescope').load_extension, 'olddirs')
-      pcall(require('telescope').load_extension, 'undo')
+      pcall(require("telescope").load_extension, "fzf")
+      pcall(require("telescope").load_extension, "olddirs")
+      pcall(require("telescope").load_extension, "undo")
 
       -- vim.cmd [[highlight TelescopeNormal guibg=#2c2c2c]]
       -- vim.cmd [[highlight TelescopePreviewNormal guibg=#363636]]
@@ -327,29 +329,29 @@ return {
       -- vim.cmd [[highlight TelescopePreviewBorder guibg=#363636]]
       -- vim.cmd [[highlight TelescopeTitle guibg=#a7df78 guifg=#202020]]
 
-      require('telescope').setup {
+      require("telescope").setup({
         defaults = {
           -- layout_strategy = 'vertical',
           -- sorting_strategy = 'ascending',
-          borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+          borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
           mappings = {
             i = {
-                  ['<c-v>'] = { '<c-r>+', type = 'command' },
+              ["<c-v>"] = { "<c-r>+", type = "command" },
             },
           },
         },
-      }
+      })
     end,
   },
 
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    build = 'make',
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
     cond = function()
-      return vim.fn.executable 'make' == 1
+      return vim.fn.executable("make") == 1
     end,
   },
 
-  'nvim-treesitter/nvim-treesitter-context',
-  'nvim-treesitter/playground',
+  "nvim-treesitter/nvim-treesitter-context",
+  "nvim-treesitter/playground",
 }

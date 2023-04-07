@@ -2,43 +2,43 @@ if vim.g.vscode then
   -- Install package manager
   --    https://github.com/folke/lazy.nvim
   --    `:help lazy.nvim.txt` for more info
-  local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system {
-      'git',
-      'clone',
-      '--filter=blob:none',
-      'https://github.com/folke/lazy.nvim.git',
-      '--branch=stable', -- latest stable release
+    vim.fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "https://github.com/folke/lazy.nvim.git",
+      "--branch=stable", -- latest stable release
       lazypath,
-    }
+    })
   end
 
   vim.opt.rtp:prepend(lazypath)
-  vim.cmd [[
+  vim.cmd([[
     nnoremap gr <Cmd>call VSCodeCall('editor.action.rename')<CR>
     nnoremap gR <Cmd>call VSCodeCall('editor.action.goToReferences')<CR>
     nnoremap gD <Cmd>call VSCodeCall('editor.action.goToTypeDefinition')<CR>
-  ]]
+  ]])
 
-  require('lazy').setup {
-    { 'kylechui/nvim-surround', opts = {} },
-    { 'windwp/nvim-autopairs', opts = {} },
-    'nvim-lua/plenary.nvim',
+  require("lazy").setup({
+    { "kylechui/nvim-surround", opts = {} },
+    { "windwp/nvim-autopairs",  opts = {} },
+    "nvim-lua/plenary.nvim",
     {
-      'phaazon/hop.nvim',
+      "phaazon/hop.nvim",
       config = function()
-        local hop = require 'hop'
+        local hop = require("hop")
         hop.setup()
-        vim.keymap.set('', 'm', function()
+        vim.keymap.set("", "m", function()
           hop.hint_words()
         end, { remap = true })
       end,
     },
     {
-      'nvim-treesitter/nvim-treesitter',
+      "nvim-treesitter/nvim-treesitter",
       dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects',
+        "nvim-treesitter/nvim-treesitter-textobjects",
       },
       -- config = function()
       --   require('nvim-treesitter.configs').setup {
@@ -114,6 +114,6 @@ if vim.g.vscode then
       --   }
       -- end
     },
-  }
+  })
   return
 end

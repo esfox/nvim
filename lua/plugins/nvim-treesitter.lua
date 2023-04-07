@@ -1,30 +1,30 @@
 return {
-  'nvim-treesitter/nvim-treesitter',
+  "nvim-treesitter/nvim-treesitter",
   dependencies = {
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    "nvim-treesitter/nvim-treesitter-textobjects",
   },
   config = function()
-    require('nvim-treesitter.configs').setup({
+    require("nvim-treesitter.configs").setup({
       -- Add languages to be installed here that you want installed for treesitter
       ensure_installed = {
-        'c',
-        'cpp',
-        'c_sharp',
-        'lua',
-        'python',
-        'tsx',
-        'typescript',
-        'javascript',
-        'json',
-        'markdown',
-        'help',
-        'vim',
-        'comment'
+        "c",
+        "cpp",
+        "c_sharp",
+        "lua",
+        "python",
+        "tsx",
+        "typescript",
+        "javascript",
+        "json",
+        "markdown",
+        "help",
+        "vim",
+        "comment",
       },
       -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
       auto_install = false,
       highlight = { enable = true },
-      indent = { enable = true, disable = { 'python' } },
+      indent = { enable = true, disable = { "python" } },
       incremental_selection = {
         enable = true,
         -- keymaps = {
@@ -42,45 +42,45 @@ return {
             -- You can use the capture groups defined in textobjects.scm
             -- ['ab'] = '@block.outer',
             -- ['ib'] = '@block.inner',
-            ['ap'] = '@parameter.outer',
-            ['ip'] = '@parameter.inner',
-            ['af'] = '@function.outer',
-            ['if'] = '@function.inner',
-            ['ar'] = '@assignment.rhs',
-            ['al'] = '@assignment.lhs',
-            ['ac'] = '@call.outer',
-            ['ic'] = '@call.inner',
-            ['aC'] = '@class.outer',
-            ['iC'] = '@class.inner',
+            ["ap"] = "@parameter.outer",
+            ["ip"] = "@parameter.inner",
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ar"] = "@assignment.rhs",
+            ["al"] = "@assignment.lhs",
+            ["ac"] = "@call.outer",
+            ["ic"] = "@call.inner",
+            ["aC"] = "@class.outer",
+            ["iC"] = "@class.inner",
           },
         },
         move = {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
-            [']m'] = '@function.outer',
-            [']]'] = '@class.outer',
+            ["]m"] = "@function.outer",
+            ["]]"] = "@class.outer",
           },
           goto_next_end = {
-            [']M'] = '@function.outer',
-            [']['] = '@class.outer',
+            ["]M"] = "@function.outer",
+            ["]["] = "@class.outer",
           },
           goto_previous_start = {
-            ['[m'] = '@function.outer',
-            ['[['] = '@class.outer',
+            ["[m"] = "@function.outer",
+            ["[["] = "@class.outer",
           },
           goto_previous_end = {
-            ['[M'] = '@function.outer',
-            ['[]'] = '@class.outer',
+            ["[M"] = "@function.outer",
+            ["[]"] = "@class.outer",
           },
         },
         swap = {
           enable = true,
           swap_next = {
-            ['<leader>a'] = '@parameter.inner',
+            ["<leader>a"] = "@parameter.inner",
           },
           swap_previous = {
-            ['<leader>A'] = '@parameter.inner',
+            ["<leader>A"] = "@parameter.inner",
           },
         },
       },
@@ -88,5 +88,5 @@ return {
         enable = true,
       },
     })
-  end
+  end,
 }

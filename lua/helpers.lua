@@ -1,13 +1,13 @@
-local status, paths_specs_module = pcall(require, 'paths-specs')
+local status, paths_specs_module = pcall(require, "paths-specs")
 local paths_specs = {}
-if (status) then
+if status then
   paths_specs = paths_specs_module
 end
 
 local helpers = {}
 
 function helpers.is_laptop()
-  return vim.loop.os_gethostname() == 'ckftm-laptop'
+  return vim.loop.os_gethostname() == "ckftm-laptop"
 end
 
 function helpers.is_noautocmd_write_path()
