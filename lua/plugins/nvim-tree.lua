@@ -17,9 +17,24 @@ return {
         ignore = false,
       },
       renderer = {
+        icons = {
+          glyphs = {
+            git = {
+              unstaged = '',
+              staged = '',
+              unmerged = "",
+              renamed = "➜",
+              untracked = '',
+              deleted = "",
+              ignored = '',
+            },
+          },
+        },
         root_folder_label = function(path)
           return vim.fn.fnamemodify(path, ':t:r')
         end,
+        highlight_git = true,
+        highlight_modified = 'all',
       },
     }
 
