@@ -25,6 +25,7 @@ vim.opt.rtp:prepend(lazypath)
 options.general()
 keymaps.general()
 commands.load_auto_commands()
+commands.load_user_commands()
 
 if vim.g.vscode then
   require('vscode-settings')

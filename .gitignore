@@ -3,3 +3,6 @@ test.sh
 .luarc.json
 nvim
 lazy-lock.json
+
+# paths constants used for path-specific configs
+lua/paths-specs.lua
