@@ -9,7 +9,7 @@ return {
         enable = true,
       },
       view = {
-        width = 60,
+        width = helpers.is_laptop() and 45 or 60,
         number = true,
         relativenumber = true,
       },

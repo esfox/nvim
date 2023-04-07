@@ -1,7 +1,7 @@
 local helpers = {}
 
 function helpers.is_laptop()
-  return vim.env.HOSTNAME == 'ckftm-laptop'
+  return vim.loop.os_gethostname() == 'ckftm-laptop'
 end
 
 return helpers

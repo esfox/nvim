@@ -1,3 +1,5 @@
+local helpers = require('helpers');
+
 local options = {}
 
 function options.general()
@@ -47,7 +49,7 @@ function options.general()
   vim.o.scrolloff = 5
 
   if vim.g.neovide then
-    vim.g.neovide_scale_factor = 0.7
+    vim.g.neovide_scale_factor = helpers.is_laptop() and 0.75 or 0.7
     vim.g.neovide_cursor_vfx_mode = 'ripple'
   end
 end
