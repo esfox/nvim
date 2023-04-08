@@ -177,31 +177,6 @@ return {
     },
   },
 
-  {
-    -- autocompletion
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "l3mon4d3/luasnip", "saadparwaiz1/cmp_luasnip" },
-    config = function()
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
-
-      luasnip.config.setup({})
-
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        mapping = keymaps.for_cmp(cmp),
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-        },
-      })
-    end,
-  },
-
   { "lewis6991/gitsigns.nvim", opts = {} },
 
   -- { 'folke/which-key.nvim', opts = {} },
