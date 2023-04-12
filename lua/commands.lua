@@ -34,7 +34,6 @@ function commands.on_lsp_attach(buffer_number)
         return
       end
       vim.lsp.buf.format({ bufnr = buffer_number, async = async })
-      vim.cmd("silent! EslintFixAll")
     end,
     desc = "[lsp] format on save",
   })
@@ -46,6 +45,7 @@ function commands.on_lsp_attach(buffer_number)
       if helpers.is_noautocmd_write_path() then
         return
       end
+      vim.cmd("silent! EslintFixAll")
       vim.cmd("FormatWrite")
     end,
     desc = "Async format after write",
