@@ -1,66 +1,13 @@
 local helpers = require("helpers")
-local hop = require("hop")
+local keymaps = require("keymaps")
 
 return {
   "nvim-tree/nvim-tree.lua",
   config = function()
-    local nvim_tree_api = require("nvim-tree.api")
-
     local on_attach = function(buffer_number)
+      local nvim_tree_api = require("nvim-tree.api")
       nvim_tree_api.config.mappings.default_on_attach(buffer_number)
-
-      vim.keymap.set("n", "H", "0", { buffer = buffer_number, noremap = true })
-      vim.keymap.set(
-        "n",
-        "J",
-        "10j",
-        { desc = "Go down 10 lines", buffer = buffer_number, noremap = true }
-      )
-      vim.keymap.set(
-        "n",
-        "K",
-        "10k",
-        { desc = "Go up 10 lines", buffer = buffer_number, noremap = true }
-      )
-
-      vim.keymap.set(
-        "n",
-        "m",
-        hop.hint_lines,
-        { desc = "Hop", buffer = buffer_number, noremap = true, silent = true, nowait = true }
-      )
-
-      vim.keymap.set("n", "h", function()
-        local node = nvim_tree_api.tree.get_node_under_cursor()
-        if node == nil then
-          return
-        end
-
-        if node.type == "directory" and node.open then
-          nvim_tree_api.node.open.edit()
-        else
-          nvim_tree_api.node.navigate.parent()
-        end
-      end, {
-        desc = "Close if the selected node is an opened folder and go to parent if it is closed",
-        buffer = buffer_number,
-        noremap = true,
-        silent = true,
-      })
-
-      vim.keymap.set(
-        "n",
-        "l",
-        nvim_tree_api.node.open.edit,
-        { desc = "Open", buffer = buffer_number, noremap = true, silent = true }
-      )
-
-      vim.keymap.set(
-        "n",
-        "<space>",
-        nvim_tree_api.node.open.edit,
-        { desc = "Open", buffer = buffer_number, noremap = true, silent = true, nowait = true }
-      )
+      keymaps.for_nvim_tree(buffer_number)
     end
 
     local options = {
