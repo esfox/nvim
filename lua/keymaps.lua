@@ -119,12 +119,19 @@ function keymaps.for_plugins()
   vim.keymap.set("n", "gr", function()
     renamer.rename({})
     vim.api.nvim_input("jk")
+    -- vim.api.nvim_buf_set_keymap(
+    --   0,
+    --   "n",
+    --   "z",
+    --   "<cmd>lua vim.api.nvim_input('i<esc>')<CR>",
+    --   { noremap = true, silent = true }
+    -- )
   end, { noremap = true, silent = true })
 
   -- Formatting
   vim.keymap.set("n", "<leader>f", "<Cmd>Format<CR>")
   vim.keymap.set("n", "<leader>fw", "<Cmd>FormatWrite<CR>")
-  vim.keymap.set("n", "<leader>fes", "<Cmd>EslintFixAll<CR>")
+  vim.keymap.set("n", "<leader>fe", "<Cmd>EslintFixAll<CR>")
 
   -- Treesitter
   vim.keymap.set("n", "<leader>th", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
@@ -263,14 +270,14 @@ function keymaps.for_cmp(cmp)
   local cmp_types = require("cmp.types")
 
   return {
-        ["<C-Space>"] = {
+    ["<C-Space>"] = {
       i = cmp.mapping.complete({}),
     },
-        ["<CR>"] = cmp.mapping.confirm({
+    ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }),
-        ["<Up>"] = {
+    ["<Up>"] = {
       i = function(fallback)
         if cmp.visible() then
           cmp.select_prev_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
@@ -279,7 +286,7 @@ function keymaps.for_cmp(cmp)
         end
       end,
     },
-        ["<Down>"] = {
+    ["<Down>"] = {
       i = function(fallback)
         if cmp.visible() then
           cmp.select_next_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
@@ -288,8 +295,8 @@ function keymaps.for_cmp(cmp)
         end
       end,
     },
-        ["<PageUp>"] = cmp.mapping.scroll_docs(-5),
-        ["<PageDown>"] = cmp.mapping.scroll_docs(5),
+    ["<PageUp>"] = cmp.mapping.scroll_docs(-5),
+    ["<PageDown>"] = cmp.mapping.scroll_docs(5),
   }
 end
 
@@ -330,6 +337,13 @@ function keymaps.for_nvim_tree(buffer_number)
     end
   end, {
     desc = "Close if the selected node is an opened folder and go to parent if it is closed",
+    buffer = buffer_number,
+    noremap = true,
+    silent = true,
+  })
+
+  vim.keymap.set("n", "<c-enter>", nvim_tree_api.tree.change_root_to_node, {
+    desc = "cd into directory",
     buffer = buffer_number,
     noremap = true,
     silent = true,
