@@ -13,9 +13,6 @@ return {
     local options = {
       on_attach = on_attach,
       sync_root_with_cwd = true,
-      update_focused_file = {
-        enable = true,
-      },
       view = {
         width = helpers.is_laptop() and 45 or 60,
         number = true,
@@ -39,7 +36,7 @@ return {
           },
         },
         root_folder_label = function(path)
-          return vim.fn.fnamemodify(path, ":t:r")
+          return vim.fn.fnamemodify(path, ":t")
         end,
         highlight_git = true,
         highlight_modified = "all",
