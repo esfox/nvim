@@ -6,6 +6,10 @@ function commands.load_user_commands()
   vim.api.nvim_create_user_command("NoAutocmdSave", function(_)
     vim.cmd("silent! noautocmd w")
   end, { desc = "Save without running auto commands" })
+
+  vim.api.nvim_create_user_command("GitBlameView", function(_)
+    vim.cmd("silent! Git blame")
+  end, { desc = "View Git blame for current file" })
 end
 
 function commands.load_auto_commands()
