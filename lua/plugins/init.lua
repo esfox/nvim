@@ -45,6 +45,8 @@ return {
 
   "JoosepAlviste/nvim-ts-context-commentstring",
 
+  "davidosomething/format-ts-errors.nvim",
+
   "tpope/vim-sleuth",
 
   "molecule-man/telescope-menufacture",
@@ -76,6 +78,14 @@ return {
       require("renamer").setup({
         title = "",
       })
+    end,
+  },
+
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+      vim.diagnostic.config({ virtual_text = false })
     end,
   },
 
@@ -309,7 +319,7 @@ return {
 
       require("telescope").setup({
         defaults = {
-          -- layout_strategy = 'vertical',
+          layout_strategy = "vertical",
           -- sorting_strategy = 'ascending',
           borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
           mappings = {

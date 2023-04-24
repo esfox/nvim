@@ -128,6 +128,13 @@ function keymaps.for_plugins()
     -- )
   end, { noremap = true, silent = true })
 
+  -- lsp_lines
+  vim.keymap.set("", "gE", function()
+    require("lsp_lines").toggle()
+    local to_enable_virtual_text = not vim.diagnostic.config().virtual_text
+    vim.diagnostic.config({ virtual_text = to_enable_virtual_text })
+  end, { desc = "Toggle lsp_lines" })
+
   -- Formatting
   vim.keymap.set("n", "<leader>f", "<Cmd>Format<CR>")
   vim.keymap.set("n", "<leader>fw", "<Cmd>FormatWrite<CR>")
