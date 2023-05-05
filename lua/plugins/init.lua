@@ -21,21 +21,21 @@ return {
     end,
   },
 
-  {
-    "sainnhe/sonokai",
-    lazy = false,
-    priority = 999,
-    config = function()
-      vim.g.sonokai_colors_override = {
-        fg = { "#dedede", "250" },
-        bg0 = { "#303030", "235" },
-        bg1 = { "#404040", "236" },
-        bg3 = { "#505050", "237" },
-        bg4 = { "#545454", "237" },
-      }
-      -- vim.cmd.colorscheme 'sonokai'
-    end,
-  },
+  -- {
+  --   "sainnhe/sonokai",
+  --   lazy = false,
+  --   priority = 999,
+  --   config = function()
+  --     vim.g.sonokai_colors_override = {
+  --       fg = { "#dedede", "250" },
+  --       bg0 = { "#303030", "235" },
+  --       bg1 = { "#404040", "236" },
+  --       bg3 = { "#505050", "237" },
+  --       bg4 = { "#545454", "237" },
+  --     }
+  --     -- vim.cmd.colorscheme 'sonokai'
+  --   end,
+  -- },
 
   "tpope/vim-fugitive",
 
@@ -61,6 +61,16 @@ return {
   {
     "roobert/search-replace.nvim",
     opts = {},
+  },
+
+  {
+    "rmagatti/auto-session",
+    config = function()
+      require("auto-session").setup({
+        log_level = "error",
+        auto_session_suppress_dirs = { "~/", "~/Downloads", "/" },
+      })
+    end,
   },
 
   {
@@ -247,6 +257,44 @@ return {
       end
       dap.listeners.after.event_exited["dapui_config"] = function()
         dapui.close()
+      end
+    end,
+  },
+
+  {
+    "microsoft/vscode-js-debug",
+    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+  },
+
+  {
+    "mxsdev/nvim-dap-vscode-js",
+    config = function()
+      require("dap-vscode-js").setup({
+        debugger_path = "/home/ckftm/.local/share/nvim/lazy/vscode-js-debug",
+        -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+        adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+        -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+        -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+        -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+      })
+
+      for _, language in ipairs({ "typescript", "javascript" }) do
+        require("dap").configurations[language] = {
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch file",
+            program = "${file}",
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach",
+            processId = require("dap.utils").pick_process,
+            cwd = "${workspaceFolder}",
+          },
+        }
       end
     end,
   },

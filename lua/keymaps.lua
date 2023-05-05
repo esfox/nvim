@@ -20,6 +20,7 @@ function keymaps.general()
 
   vim.keymap.set("v", "ii", "<Esc>i")
   vim.keymap.set("i", "vv", "<Esc>lv")
+  vim.keymap.set("n", "<leader>v", "<c-v>")
 
   vim.keymap.set("n", "<c-v>", "p")
   vim.keymap.set("i", "<c-v>", "<Esc>pa")
