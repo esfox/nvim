@@ -39,7 +39,6 @@ return {
 
   "tpope/vim-fugitive",
 
-  "github/copilot.vim",
 
   "marcuscaisey/olddirs.nvim",
 
