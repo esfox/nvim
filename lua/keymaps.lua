@@ -45,7 +45,10 @@ function keymaps.general()
   vim.keymap.set("n", "<leader>wJ", "<c-w>J")
   vim.keymap.set("n", "<leader>wK", "<c-w>K")
   vim.keymap.set("n", "<leader>wL", "<c-w>L")
-  vim.keymap.set("n", "<leader>q", ":bd<cr>")
+  vim.keymap.set("n", "<leader>q", ":q!<cr>")
+  vim.keymap.set("n", "<leader>qa", ":qa<cr>")
+  vim.keymap.set("n", "<leader>qA", ":qa!<cr>")
+  vim.keymap.set("n", "<leader>qb", ":bd!<cr>")
 
   vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
