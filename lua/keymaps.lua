@@ -69,6 +69,24 @@ function keymaps.general()
 end
 
 function keymaps.for_plugins()
+  -- Nvim-tree
+  if helpers.is_laptop() then
+    vim.keymap.set("n", "<leader>B", function()
+      nvim_tree_toggled = not nvim_tree_toggled
+      vim.cmd("NvimTreeToggle<CR>")
+    end)
+
+    if not nvim_tree_toggled then
+      vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeFocus<CR>")
+    else
+      vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeToggle<CR>")
+    end
+  else
+    vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeToggle<CR>")
+  end
+
+  vim.keymap.set("", "<leader>b", "<cmd>NvimTreeFindFile<CR>")
+
   -- Barbar
   local barbar_keymap_options = { silent = true, noremap = true }
   vim.keymap.set({ "", "i" }, "<c-w>", "<Cmd>BufferClose<CR>", barbar_keymap_options)
@@ -310,24 +328,6 @@ end
 local nvim_tree_toggled = false
 
 function keymaps.for_nvim_tree(buffer_number)
-  -- Nvim-tree
-  if helpers.is_laptop() then
-    vim.keymap.set("n", "<leader>B", function()
-      nvim_tree_toggled = not nvim_tree_toggled
-      vim.cmd("NvimTreeToggle<CR>")
-    end)
-
-    if not nvim_tree_toggled then
-      vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeFocus<CR>")
-    else
-      vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeToggle<CR>")
-    end
-  else
-    vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeToggle<CR>")
-  end
-
-  vim.keymap.set("", "<leader>b", "<cmd>NvimTreeFindFile<CR>")
-
   local hop = require("hop")
   local nvim_tree_api = require("nvim-tree.api")
   vim.keymap.set("n", "H", "0", { buffer = buffer_number, noremap = true })
