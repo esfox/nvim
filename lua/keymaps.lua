@@ -59,7 +59,6 @@ function keymaps.general()
   -- Diagnostic keymaps
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-  vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
   -- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
   vim.keymap.set("n", "<leader>fb", function()
@@ -71,21 +70,21 @@ end
 function keymaps.for_plugins()
   -- Nvim-tree
   if helpers.is_laptop() then
-    vim.keymap.set("n", "<leader>B", function()
+    vim.keymap.set("n", "<leader>E", function()
       nvim_tree_toggled = not nvim_tree_toggled
       vim.cmd("NvimTreeToggle<CR>")
     end)
 
     if not nvim_tree_toggled then
-      vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeFocus<CR>")
+      vim.keymap.set({ "", "i" }, "<c-e>", "<cmd>NvimTreeFocus<CR>")
     else
-      vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeToggle<CR>")
+      vim.keymap.set({ "", "i" }, "<c-e>", "<cmd>NvimTreeToggle<CR>")
     end
   else
-    vim.keymap.set({ "", "i" }, "<c-b>", "<cmd>NvimTreeToggle<CR>")
+    vim.keymap.set({ "", "i" }, "<c-e>", "<cmd>NvimTreeToggle<CR>")
   end
 
-  vim.keymap.set("", "<leader>b", "<cmd>NvimTreeFindFile<CR>")
+  vim.keymap.set("", "<leader>e", "<cmd>NvimTreeFindFile<CR>")
 
   -- Barbar
   local barbar_keymap_options = { silent = true, noremap = true }
@@ -274,7 +273,7 @@ function keymaps.for_lsp(buffer_number)
   nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("gh", vim.lsp.buf.hover, "Hover Documentation")
   nmap("gH", vim.lsp.buf.signature_help, "Signature Documentation")
-  nmap("ge", vim.diagnostic.open_float, "[G]oto [R]eferences")
+  nmap("ge", vim.diagnostic.open_float, "[G]et [E]rrors")
   nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 
   -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
@@ -330,6 +329,13 @@ local nvim_tree_toggled = false
 function keymaps.for_nvim_tree(buffer_number)
   local hop = require("hop")
   local nvim_tree_api = require("nvim-tree.api")
+  vim.keymap.set(
+    "n",
+    "<c-e>",
+    "<cmd>NvimTreeToggle<CR>",
+    { buffer = buffer_number, noremap = true }
+  )
+
   vim.keymap.set("n", "H", "0", { buffer = buffer_number, noremap = true })
   vim.keymap.set(
     "n",
