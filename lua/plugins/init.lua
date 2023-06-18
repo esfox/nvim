@@ -39,7 +39,6 @@ return {
 
   "tpope/vim-fugitive",
 
-
   "marcuscaisey/olddirs.nvim",
 
   "JoosepAlviste/nvim-ts-context-commentstring",
