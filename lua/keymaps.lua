@@ -67,6 +67,8 @@ function keymaps.general()
   end, { desc = "[F]ormat [B]uffer" })
 end
 
+local nvim_tree_toggled = false
+
 function keymaps.for_plugins()
   -- Nvim-tree
   if helpers.is_laptop() then
@@ -270,7 +272,7 @@ function keymaps.for_lsp(buffer_number)
   nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
   nmap("gt", vim.lsp.buf.type_definition, "Type [D]efinition")
-  nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+  nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("gh", vim.lsp.buf.hover, "Hover Documentation")
   nmap("gH", vim.lsp.buf.signature_help, "Signature Documentation")
   nmap("ge", vim.diagnostic.open_float, "[G]et [E]rrors")
@@ -324,17 +326,20 @@ function keymaps.for_cmp(cmp)
   }
 end
 
-local nvim_tree_toggled = false
-
 function keymaps.for_nvim_tree(buffer_number)
   local hop = require("hop")
   local nvim_tree_api = require("nvim-tree.api")
-  vim.keymap.set(
-    "n",
-    "<c-e>",
-    "<cmd>NvimTreeToggle<CR>",
-    { buffer = buffer_number, noremap = true }
-  )
+
+  if not helpers.is_laptop() or nvim_tree_toggled then
+    vim.keymap.set(
+      "n",
+      "<c-e>",
+      "<cmd>NvimTreeToggle<CR>",
+      { buffer = buffer_number, noremap = true }
+    )
+  else
+    vim.keymap.set("n", "<c-e>", "", { buffer = buffer_number, noremap = true })
+  end
 
   vim.keymap.set("n", "H", "0", { buffer = buffer_number, noremap = true })
   vim.keymap.set(
