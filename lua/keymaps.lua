@@ -45,6 +45,8 @@ function keymaps.general()
   vim.keymap.set("n", "<leader>wJ", "<c-w>J")
   vim.keymap.set("n", "<leader>wK", "<c-w>K")
   vim.keymap.set("n", "<leader>wL", "<c-w>L")
+  vim.keymap.set("n", "<leader>wV", "<c-w><c-v>")
+  vim.keymap.set("n", "<leader>wS", "<c-w><c-s>")
   vim.keymap.set("n", "<leader>q", ":q!<cr>")
   vim.keymap.set("n", "<leader>qa", ":qa<cr>")
   vim.keymap.set("n", "<leader>qA", ":qa!<cr>")
@@ -315,14 +317,14 @@ function keymaps.for_cmp(cmp)
   local cmp_types = require("cmp.types")
 
   return {
-        ["<C-Space>"] = {
+    ["<C-Space>"] = {
       i = cmp.mapping.complete({}),
     },
-        ["<CR>"] = cmp.mapping.confirm({
+    ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }),
-        ["<Up>"] = {
+    ["<Up>"] = {
       i = function(fallback)
         if cmp.visible() then
           cmp.select_prev_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
@@ -331,7 +333,7 @@ function keymaps.for_cmp(cmp)
         end
       end,
     },
-        ["<Down>"] = {
+    ["<Down>"] = {
       i = function(fallback)
         if cmp.visible() then
           cmp.select_next_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
@@ -340,8 +342,8 @@ function keymaps.for_cmp(cmp)
         end
       end,
     },
-        ["<PageUp>"] = cmp.mapping.scroll_docs(-5),
-        ["<PageDown>"] = cmp.mapping.scroll_docs(5),
+    ["<PageUp>"] = cmp.mapping.scroll_docs(-5),
+    ["<PageDown>"] = cmp.mapping.scroll_docs(5),
   }
 end
 
