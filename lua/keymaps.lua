@@ -29,9 +29,12 @@ function keymaps.general()
   vim.keymap.set({ "", "i" }, "<c-a>", "<Esc>ggVG")
   vim.keymap.set("", "<c-s>", ":update<CR>")
   vim.keymap.set("i", "<c-s>", "<Esc>:update<CR>a")
-  vim.keymap.set("i", "<c-z>", "<Esc>ua")
+  vim.keymap.set("i", "<c-s>", "<Esc>:update<CR>a")
   vim.keymap.set({ "n", "i" }, "<c-l>", "<tab>")
   vim.keymap.set({ "n", "i" }, "<c-h>", "<c-o>")
+  -- vim.keymap.set("i", "<c-bs>", "<c-w>")
+  -- vim.keymap.set("i", "<c-bs>", "<esc>dbi")
+
   -- vim.keymap.set({ "n", "i" }, "<c-j>", "<tab>")
   -- vim.keymap.set({ "n", "i" }, "<c-k>", "<c-o>")
 
@@ -88,24 +91,26 @@ function keymaps.general()
   end, { desc = "[F]ormat [B]uffer" })
 end
 
-local nvim_tree_toggled = false
+local nvim_tree_keep_open = helpers.is_wide()
 
 function keymaps.for_plugins()
   -- Nvim-tree
-  if helpers.is_laptop() then
-    vim.keymap.set("n", "<leader>E", function()
-      nvim_tree_toggled = not nvim_tree_toggled
-      vim.cmd("NvimTreeToggle<CR>")
-    end)
-
-    if not nvim_tree_toggled then
-      vim.keymap.set({ "", "i" }, "<c-e>", "<cmd>NvimTreeFocus<CR>")
+  vim.keymap.set("n", "<leader>E", function()
+    nvim_tree_keep_open = not nvim_tree_keep_open
+    if nvim_tree_keep_open then
+      vim.cmd("NvimTreeOpen")
     else
-      vim.keymap.set({ "", "i" }, "<c-e>", "<cmd>NvimTreeToggle<CR>")
+      vim.cmd("NvimTreeClose")
     end
-  else
-    vim.keymap.set({ "", "i" }, "<c-e>", "<cmd>NvimTreeToggle<CR>")
-  end
+  end)
+
+  vim.keymap.set({ "", "i" }, "<c-e>", function()
+    if nvim_tree_keep_open then
+      vim.cmd("NvimTreeFocus")
+    else
+      vim.cmd("NvimTreeToggle")
+    end
+  end)
 
   vim.keymap.set("", "<leader>e", "<cmd>NvimTreeFindFile<CR>")
 
@@ -115,6 +120,8 @@ function keymaps.for_plugins()
   vim.keymap.set({ "", "i" }, "<a-w>", "<Cmd>BufferClose<CR>", barbar_keymap_options)
   vim.keymap.set({ "", "i" }, "<a-left>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
   vim.keymap.set({ "", "i" }, "<a-right>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
+  vim.keymap.set({ "", "i" }, "<a-h>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
+  vim.keymap.set({ "", "i" }, "<a-l>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
   -- vim.keymap.set({ "", "i" }, "<c-h>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
   -- vim.keymap.set({ "", "i" }, "<c-l>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
   vim.keymap.set({ "", "i" }, "<a-s-left>", "<Cmd>BufferMovePrevious<CR>", barbar_keymap_options)
@@ -351,15 +358,15 @@ function keymaps.for_nvim_tree(buffer_number)
   local hop = require("hop")
   local nvim_tree_api = require("nvim-tree.api")
 
-  if not helpers.is_laptop() or nvim_tree_toggled then
+  if nvim_tree_keep_open then
+    vim.keymap.set("n", "<c-e>", "<c-w><c-p>", { buffer = buffer_number, noremap = true })
+  else
     vim.keymap.set(
       "n",
       "<c-e>",
       "<cmd>NvimTreeToggle<CR>",
       { buffer = buffer_number, noremap = true }
     )
-  else
-    vim.keymap.set("n", "<c-e>", "", { buffer = buffer_number, noremap = true })
   end
 
   vim.keymap.set("n", "H", "0", { buffer = buffer_number, noremap = true })

@@ -13,8 +13,11 @@ return {
     local options = {
       on_attach = on_attach,
       sync_root_with_cwd = true,
+      hijack_unnamed_buffer_when_opening = true,
       view = {
-        width = helpers.is_laptop() and 45 or 60,
+        -- side = helpers.is_laptop() and 'left' or 'right',
+        side = "left",
+        width = helpers.is_laptop() and 45 or 55,
         number = true,
         relativenumber = true,
       },
@@ -43,20 +46,19 @@ return {
       },
     }
 
-    if helpers.is_laptop() then
-      options.view.side = "left"
-      options.hijack_unnamed_buffer_when_opening = true
-
-      vim.api.nvim_create_autocmd({ "VimEnter" }, {
-        callback = function()
+    vim.api.nvim_create_autocmd({ "VimEnter" }, {
+      callback = function()
+        if helpers.is_wide() then
           require("nvim-tree.api").tree.open()
-        end,
-      })
-    else
-      options.view.side = "right"
+        end
+      end,
+    })
+
+    if not helpers.is_laptop() then
+      options.view.side = "left"
       options.actions = {
         open_file = {
-          quit_on_open = true,
+          quit_on_open = not helpers.is_wide(),
         },
       }
     end
