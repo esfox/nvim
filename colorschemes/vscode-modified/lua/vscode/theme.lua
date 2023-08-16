@@ -555,6 +555,9 @@ theme.set_highlights = function(opts)
     hl(0, 'HopNextKey', { fg = c.bright_red, bold = true })
     hl(0, 'HopNextKey1', { fg = c.bright_green, bold = true })
     hl(0, 'HopNextKey2', { fg = c.bright_green, bold = true })
+
+    -- Scrollbar
+    hl(0, 'ScrollbarHandle', { fg = 'NONE', bg = c.vscLeftLight })
 end
 
 theme.link_highlight = function()

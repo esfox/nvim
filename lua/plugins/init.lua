@@ -20,7 +20,6 @@ return {
       -- vim.cmd.colorscheme 'sozhemtor'
     end,
   },
-
   -- {
   --   "sainnhe/sonokai",
   --   lazy = false,
@@ -38,29 +37,37 @@ return {
   -- },
 
   "tpope/vim-fugitive",
-
   "marcuscaisey/olddirs.nvim",
-
   "JoosepAlviste/nvim-ts-context-commentstring",
-
   "davidosomething/format-ts-errors.nvim",
-
   "tpope/vim-sleuth",
-
   "molecule-man/telescope-menufacture",
-
+  -- {
+  --   "nmac427/guess-indent.nvim",
+  --   opts = {
+  --     auto_cmd = true,               -- Set to false to disable automatic execution
+  --     override_editorconfig = false, -- Set to true to override settings set by .editorconfig
+  --     filetype_exclude = {           -- A list of filetypes for which the auto command gets disabled
+  --       "netrw",
+  --       "tutor",
+  --     },
+  --     buftype_exclude = { -- A list of buffer types for which the auto command gets disabled
+  --       "help",
+  --       "nofile",
+  --       "terminal",
+  --       "prompt",
+  --     },
+  --   },
+  -- },
   {
     "windwp/nvim-ts-autotag",
     opts = {},
   },
-
   "AndrewRadev/tagalong.vim",
-
   {
     "roobert/search-replace.nvim",
     opts = {},
   },
-
   {
     "rmagatti/auto-session",
     config = function()
@@ -70,7 +77,50 @@ return {
       })
     end,
   },
-
+  {
+    "kevinhwang91/nvim-hlslens",
+    config = function()
+      require("scrollbar.handlers.search").setup({
+        override_lens = function()
+        end,
+      })
+    end,
+  },
+  {
+    "petertriho/nvim-scrollbar",
+    config = function()
+      require("scrollbar").setup({
+        handle = {
+          highlight = "ScrollbarHandle",
+        },
+        handlers = {
+          diagnostic = false,
+        },
+        marks = {
+          GitAdd = {
+            text = "│",
+          },
+          GitChange = {
+            text = "│",
+          },
+        },
+      })
+    end,
+  },
+  -- {
+  --   "echasnovski/mini.map",
+  --   version = "*",
+  --   config = function()
+  --     local minimap = require("mini.map")
+  --     minimap.setup({
+  --       symbols = { encode = minimap.gen_encode_symbols.dot("4x2") },
+  --       integrations = {
+  --         minimap.gen_integration.builtin_search(),
+  --         minimap.gen_integration.gitsigns(),
+  --       },
+  --     })
+  --   end,
+  -- },
   {
     "SmiteshP/nvim-navbuddy",
     dependencies = {
@@ -84,7 +134,6 @@ return {
       },
     },
   },
-
   {
     "filipdutescu/renamer.nvim",
     branch = "master",
@@ -95,7 +144,6 @@ return {
       })
     end,
   },
-
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function()
@@ -103,14 +151,12 @@ return {
       vim.diagnostic.config({ virtual_lines = false })
     end,
   },
-
   {
     "themaxmarchuk/tailwindcss-colors.nvim",
     config = function()
       require("tailwindcss-colors").setup()
     end,
   },
-
   {
     "RRethy/vim-illuminate",
     config = function()
@@ -119,9 +165,7 @@ return {
       })
     end,
   },
-
   { "akinsho/git-conflict.nvim",          opts = {} },
-
   -- {
   --   'APZelos/blamer.nvim',
   --   config = function()
@@ -135,7 +179,6 @@ return {
     dependencies = "nvim-lua/plenary.nvim",
     opts = {},
   },
-
   { "brenoprata10/nvim-highlight-colors", opts = {} },
   { "kylechui/nvim-surround",             opts = {} },
   { "windwp/nvim-autopairs",              opts = {} },
@@ -149,14 +192,12 @@ return {
       },
     },
   },
-
   {
     "Wansmer/treesj",
     opts = {
       max_join_length = 1000,
     },
   },
-
   {
     "mg979/vim-visual-multi",
     branch = "master",
@@ -164,7 +205,6 @@ return {
       vim.g.VM_theme = "codedark"
     end,
   },
-
   -- {
   --   'shortcuts/no-neck-pain.nvim',
   --   -- enabled = false,
@@ -187,7 +227,6 @@ return {
       hop.setup()
     end,
   },
-
   {
     -- lsp configuration & plugins
     "neovim/nvim-lspconfig",
@@ -204,16 +243,19 @@ return {
       "folke/neodev.nvim",
     },
   },
-
-  { "lewis6991/gitsigns.nvim", opts = {} },
-
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup()
+      require("scrollbar.handlers.gitsigns").setup()
+    end,
+  },
   -- { 'folke/which-key.nvim', opts = {} },
 
   {
     "folke/trouble.nvim",
     opts = {},
   },
-
   {
     "mfussenegger/nvim-dap",
     config = function()
@@ -239,7 +281,6 @@ return {
       }
     end,
   },
-
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap" },
@@ -258,12 +299,10 @@ return {
       end
     end,
   },
-
   {
     "microsoft/vscode-js-debug",
     build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
   },
-
   {
     "mxsdev/nvim-dap-vscode-js",
     config = function()
@@ -296,7 +335,6 @@ return {
       end
     end,
   },
-
   {
     "mhartington/formatter.nvim",
     config = function()
@@ -318,7 +356,6 @@ return {
       })
     end,
   },
-
   {
     "lukas-reineke/indent-blankline.nvim",
     lazy = false,
@@ -344,7 +381,6 @@ return {
       })
     end,
   },
-
   {
     "numtostr/comment.nvim",
     config = function()
@@ -354,7 +390,6 @@ return {
       })
     end,
   },
-
   {
     "nvim-telescope/telescope.nvim",
     version = "*",
@@ -385,7 +420,6 @@ return {
       })
     end,
   },
-
   {
     "nvim-telescope/telescope-fzf-native.nvim",
     build = "make",
@@ -393,7 +427,6 @@ return {
       return vim.fn.executable("make") == 1
     end,
   },
-
   "nvim-treesitter/nvim-treesitter-context",
   "nvim-treesitter/playground",
 }
