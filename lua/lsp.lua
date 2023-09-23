@@ -86,6 +86,15 @@ function lsp.setup()
         lsp_setup_config["on_attach"] = function(_, bufnr)
           require("tailwindcss-colors").buf_attach(bufnr)
         end
+      elseif server_name == "jsonls" then
+        -- Enable Tailwind color highlighting
+        lsp_setup_config["filetypes"] = { "json", "jsonc" }
+        lsp_setup_config["settings"] = {
+          json = {
+            -- Schemas https://www.schemastore.org
+            schemas = require("schemastore").json.schemas(),
+          },
+        }
       end
 
       lspconfig[server_name].setup(lsp_setup_config)
