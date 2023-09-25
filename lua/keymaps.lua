@@ -161,20 +161,6 @@ function keymaps.for_plugins()
   vim.keymap.set({ "n", "i" }, "<c-/>", comment.toggle.linewise.current)
   vim.keymap.set({ "n", "i" }, "<c-?>", comment.toggle.blockwise.current)
 
-  -- Renamer
-  local renamer = require("renamer")
-  vim.keymap.set("n", "gr", function()
-    renamer.rename({})
-    vim.api.nvim_input("jk")
-    -- vim.api.nvim_buf_set_keymap(
-    --   0,
-    --   "n",
-    --   "z",
-    --   "<cmd>lua vim.api.nvim_input('i<esc>')<CR>",
-    --   { noremap = true, silent = true }
-    -- )
-  end, { noremap = true, silent = true })
-
   -- lsp_lines
   vim.keymap.set("", "gE", function()
     require("lsp_lines").toggle()
@@ -303,6 +289,7 @@ function keymaps.for_lsp(buffer_number)
   nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("gh", vim.lsp.buf.hover, "Hover Documentation")
   nmap("gH", vim.lsp.buf.signature_help, "Signature Documentation")
+  nmap("gr", vim.lsp.buf.rename, "Rename")
   nmap("ge", vim.diagnostic.open_float, "[G]et [E]rrors")
   nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 

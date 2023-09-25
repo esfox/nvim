@@ -61,6 +61,10 @@ return {
   --   },
   -- },
   {
+    "stevearc/dressing.nvim",
+    opts = {},
+  },
+  {
     "windwp/nvim-ts-autotag",
     opts = {},
   },
@@ -134,16 +138,6 @@ return {
         auto_attach = true,
       },
     },
-  },
-  {
-    "filipdutescu/renamer.nvim",
-    branch = "master",
-    dependencies = "nvim-lua/plenary.nvim",
-    config = function()
-      require("renamer").setup({
-        title = "",
-      })
-    end,
   },
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
