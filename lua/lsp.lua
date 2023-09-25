@@ -81,6 +81,22 @@ function lsp.setup()
             vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
           end,
         }
+
+        local function organize_imports()
+          local params = {
+            command = "_typescript.organizeImports",
+            arguments = { vim.api.nvim_buf_get_name(0) },
+            title = "",
+          }
+          vim.lsp.buf.execute_command(params)
+        end
+
+        lsp_setup_config["commands"] = {
+          OrganizeImports = {
+            organize_imports,
+            description = "Organize Imports",
+          },
+        }
       elseif server_name == "tailwindcss" then
         -- Enable Tailwind color highlighting
         lsp_setup_config["on_attach"] = function(_, bufnr)
