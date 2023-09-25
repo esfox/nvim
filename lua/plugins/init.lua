@@ -61,8 +61,38 @@ return {
   --   },
   -- },
   {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      cmdline = {
+        format = {
+          cmdline = {
+            view = "cmdline",
+            icon = ":",
+          },
+          search_down = { title = "" },
+          search_up = { title = "" },
+        },
+      },
+      views = {
+        cmdline_popup = {
+          border = {
+            style = "single",
+          },
+        },
+      },
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+  },
+  {
     "stevearc/dressing.nvim",
-    opts = {},
+    opts = {
+      input = {
+        border = "single",
+      },
+    },
   },
   {
     "windwp/nvim-ts-autotag",
@@ -86,8 +116,7 @@ return {
     "kevinhwang91/nvim-hlslens",
     config = function()
       require("scrollbar.handlers.search").setup({
-        override_lens = function()
-        end,
+        override_lens = function() end,
       })
     end,
   },
@@ -112,20 +141,12 @@ return {
       })
     end,
   },
-  -- {
-  --   "echasnovski/mini.map",
-  --   version = "*",
-  --   config = function()
-  --     local minimap = require("mini.map")
-  --     minimap.setup({
-  --       symbols = { encode = minimap.gen_encode_symbols.dot("4x2") },
-  --       integrations = {
-  --         minimap.gen_integration.builtin_search(),
-  --         minimap.gen_integration.gitsigns(),
-  --       },
-  --     })
-  --   end,
-  -- },
+  {
+    "VonHeikemen/searchbox.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+  },
   {
     "SmiteshP/nvim-navbuddy",
     dependencies = {
@@ -160,7 +181,7 @@ return {
       })
     end,
   },
-  { "akinsho/git-conflict.nvim",          opts = {} },
+  { "akinsho/git-conflict.nvim", opts = {} },
   -- {
   --   'APZelos/blamer.nvim',
   --   config = function()
@@ -175,8 +196,8 @@ return {
     opts = {},
   },
   { "brenoprata10/nvim-highlight-colors", opts = {} },
-  { "kylechui/nvim-surround",             opts = {} },
-  { "windwp/nvim-autopairs",              opts = {} },
+  { "kylechui/nvim-surround", opts = {} },
+  { "windwp/nvim-autopairs", opts = {} },
   {
     "romgrk/barbar.nvim",
     dependencies = "nvim-tree/nvim-web-devicons",
@@ -232,7 +253,7 @@ return {
 
       -- useful status updates for lsp
       -- note: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { "j-hui/fidget.nvim", opts = {} },
+      { "j-hui/fidget.nvim", opts = {}, tag = "legacy" },
 
       -- additional lua configuration, makes nvim stuff amazing!
       "folke/neodev.nvim",
