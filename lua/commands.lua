@@ -30,18 +30,6 @@ function commands.on_lsp_attach(buffer_number)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
 
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    buffer = buffer_number,
-    group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false }),
-    callback = function()
-      if helpers.is_noautocmd_write_path() then
-        return
-      end
-      vim.lsp.buf.format({ bufnr = buffer_number, async = async })
-    end,
-    desc = "[lsp] format on save",
-  })
-
   vim.api.nvim_create_autocmd("BufWritePost", {
     buffer = buffer_number,
     group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false }),
@@ -49,6 +37,7 @@ function commands.on_lsp_attach(buffer_number)
       if helpers.is_noautocmd_write_path() then
         return
       end
+      -- vim.lsp.buf.format({ bufnr = buffer_number, async = true })
       vim.cmd("silent! EslintFixAll")
       vim.cmd("FormatWrite")
     end,
