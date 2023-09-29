@@ -29,7 +29,8 @@ function keymaps.general()
   vim.keymap.set({ "", "i" }, "<c-a>", "<Esc>ggVG")
   vim.keymap.set("", "<c-s>", ":update<CR>")
   vim.keymap.set("i", "<c-s>", "<Esc>:update<CR>a")
-  vim.keymap.set("i", "<c-s>", "<Esc>:update<CR>a")
+  vim.keymap.set("", "<c-m-s>", ":NoAutocmdSave<CR>")
+  vim.keymap.set("i", "<c-m-s>", "<Esc>:NoAutocmdSave<CR>a")
   vim.keymap.set({ "n", "i" }, "<c-l>", "<tab>")
   vim.keymap.set({ "n", "i" }, "<c-h>", "<c-o>")
   -- vim.keymap.set("i", "<c-bs>", "<c-w>")
@@ -90,8 +91,6 @@ function keymaps.general()
     vim.cmd("FormatWrite")
   end, { desc = "[F]ormat [B]uffer" })
 end
-
-local nvim_tree_keep_open = helpers.is_wide()
 
 function keymaps.for_plugins()
   -- Nvim-tree
@@ -289,9 +288,13 @@ function keymaps.for_lsp(buffer_number)
   nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("gh", vim.lsp.buf.hover, "Hover Documentation")
   nmap("gH", vim.lsp.buf.signature_help, "Signature Documentation")
-  nmap("gr", vim.lsp.buf.rename, "Rename")
   nmap("ge", vim.diagnostic.open_float, "[G]et [E]rrors")
   nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+  nmap("gr", function()
+    vim.lsp.buf.rename()
+    vim.wait(50)
+    vim.api.nvim_input("jk")
+  end, "Rename")
 
   -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   -- nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
@@ -340,6 +343,8 @@ function keymaps.for_cmp(cmp)
     ["<PageDown>"] = cmp.mapping.scroll_docs(5),
   }
 end
+
+nvim_tree_keep_open = helpers.is_wide()
 
 function keymaps.for_nvim_tree(buffer_number)
   local hop = require("hop")
