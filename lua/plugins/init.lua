@@ -99,6 +99,14 @@ return {
     opts = {},
   },
   {
+    "antosha417/nvim-lsp-file-operations",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-tree.lua",
+    },
+    opts = {},
+  },
+  {
     "L3MON4D3/LuaSnip",
     config = function()
       require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
