@@ -151,6 +151,10 @@ function keymaps.for_plugins()
     hop.hint_words()
   end, { remap = true })
 
+  vim.keymap.set("", "M", function()
+    hop.hint_char1()
+  end, { remap = true })
+
   -- Navbuddy
   vim.keymap.set("n", "<leader>ns", "<cmd>Navbuddy<CR>")
 
@@ -249,7 +253,7 @@ function keymaps.for_plugins()
   vim.keymap.set(
     "n",
     "<leader>sg",
-    require("telescope.builtin").live_grep,
+    require("telescope").extensions.menufacture.live_grep,
     { desc = "[S]earch by [G]rep" }
   )
 
