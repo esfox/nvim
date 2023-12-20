@@ -22,11 +22,22 @@ function commands.load_auto_commands()
     group = highlight_group,
     pattern = "*",
   })
+
+  -- local format_group = vim.api.nvim_create_augroup("FormatAutogroup", { clear = true })
+  -- vim.api.nvim_create_autocmd("User", {
+  --   callback = function()
+  --     vim.cmd("silent! OrganizeImports")
+  --     vim.cmd("silent! EslintFixAll")
+  --     vim.cmd("silent! noautocmd w")
+  --   end,
+  --   group = format_group,
+  --   pattern = "FormatterPre",
+  -- })
 end
 
 function commands.on_lsp_attach(buffer_number)
   -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(buffer_number, "Format", function(_)
+  vim.api.nvim_buf_create_user_command(buffer_number, "LspFormat", function(_)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
 
@@ -38,7 +49,6 @@ function commands.on_lsp_attach(buffer_number)
         return
       end
       -- vim.lsp.buf.format({ bufnr = buffer_number, async = true })
-      vim.cmd("silent! EslintFixAll")
       vim.cmd("FormatWrite")
     end,
     desc = "Async format after write",

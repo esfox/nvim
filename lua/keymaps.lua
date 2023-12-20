@@ -85,11 +85,6 @@ function keymaps.general()
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
   -- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
-
-  vim.keymap.set("n", "<leader>fb", function()
-    vim.cmd("Format")
-    vim.cmd("FormatWrite")
-  end, { desc = "[F]ormat [B]uffer" })
 end
 
 function keymaps.for_plugins()
@@ -155,6 +150,9 @@ function keymaps.for_plugins()
     hop.hint_char1()
   end, { remap = true })
 
+  --- LSP commands
+  vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>")
+
   -- Navbuddy
   vim.keymap.set("n", "<leader>ns", "<cmd>Navbuddy<CR>")
 
@@ -172,9 +170,9 @@ function keymaps.for_plugins()
   end, { desc = "Toggle lsp_lines" })
 
   -- Formatting
-  vim.keymap.set("n", "<leader>f", "<Cmd>Format<CR>")
-  vim.keymap.set("n", "<leader>fw", "<Cmd>FormatWrite<CR>")
+  vim.keymap.set("n", "<leader>fc", "<Cmd>Format<CR>")
   vim.keymap.set("n", "<leader>fe", "<Cmd>EslintFixAll<CR>")
+  vim.keymap.set("n", "<leader>fi", "<Cmd>OrganizeImports<CR>")
 
   -- Treesitter
   vim.keymap.set("n", "<leader>th", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
@@ -185,9 +183,6 @@ function keymaps.for_plugins()
   -- TreeSJ
   vim.keymap.set("n", "<leader>js", "<cmd>TSJSplit<CR>")
   vim.keymap.set("n", "<leader>jj", "<cmd>TSJJoin<CR>")
-
-  -- NoNeckPain
-  vim.keymap.set("n", "<leader>vc", ":NoNeckPain<CR>")
 
   -- Telescope
   vim.keymap.set("n", "<leader>/", function()
