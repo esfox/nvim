@@ -421,6 +421,13 @@ return {
     end,
   },
   {
+    "radyz/telescope-gitsigns",
+    dependencies = {
+      "lewis6991/gitsigns.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+  },
+  {
     "nvim-telescope/telescope.nvim",
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim", "debugloop/telescope-undo.nvim" },
@@ -429,6 +436,7 @@ return {
       pcall(require("telescope").load_extension, "fzf")
       pcall(require("telescope").load_extension, "olddirs")
       pcall(require("telescope").load_extension, "undo")
+      pcall(require("telescope").load_extension, "git_signs")
 
       -- vim.cmd [[highlight TelescopeNormal guibg=#2c2c2c]]
       -- vim.cmd [[highlight TelescopePreviewNormal guibg=#363636]]
@@ -439,6 +447,10 @@ return {
       require("telescope").setup({
         defaults = {
           layout_strategy = "vertical",
+          layout_config = {
+            mirror = true,
+            preview_height = 0.45,
+          },
           -- sorting_strategy = 'ascending',
           borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
           mappings = {

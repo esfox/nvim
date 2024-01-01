@@ -199,12 +199,11 @@ function keymaps.for_plugins()
     require("telescope.builtin").oldfiles({ cwd_only = true })
   end, { desc = "Find [p]reviously opened files" })
 
-  vim.keymap.set(
-    { "", "i", "v" },
-    "<c-o>",
-    require("telescope").extensions.menufacture.find_files,
-    { desc = "Search Files" }
-  )
+  vim.keymap.set({ "", "i", "v" }, "<c-o>", function()
+    require("telescope").extensions.menufacture.find_files({
+      previewer = false,
+    })
+  end, { desc = "Search Files" })
 
   vim.keymap.set({ "", "i", "v" }, "<c-r>", function()
     require("telescope").extensions.olddirs.picker({
@@ -223,6 +222,13 @@ function keymaps.for_plugins()
       end,
     })
   end)
+
+  vim.keymap.set(
+    { "n", "i" },
+    "<leader>gs",
+    ":Telescope git_signs<CR>",
+    { desc = "Current Buffer Git Status" }
+  )
 
   vim.keymap.set(
     { "n", "i" },
