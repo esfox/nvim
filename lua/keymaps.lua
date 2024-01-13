@@ -88,25 +88,29 @@ function keymaps.general()
 end
 
 function keymaps.for_plugins()
-  -- Nvim-tree
-  vim.keymap.set("n", "<leader>E", function()
-    nvim_tree_keep_open = not nvim_tree_keep_open
-    if nvim_tree_keep_open then
-      vim.cmd("NvimTreeOpen")
-    else
-      vim.cmd("NvimTreeClose")
-    end
-  end)
+  -- Neo-tree
+  vim.keymap.set({ "", "i" }, "<c-e>", ":Neotree toggle<cr>")
+  vim.keymap.set({ "", "i" }, "<leader>e", ":Neotree reveal<cr>")
 
-  vim.keymap.set({ "", "i" }, "<c-e>", function()
-    if nvim_tree_keep_open then
-      vim.cmd("NvimTreeFocus")
-    else
-      vim.cmd("NvimTreeToggle")
-    end
-  end)
-
-  vim.keymap.set("", "<leader>e", "<cmd>NvimTreeFindFile<CR>")
+  -- -- Nvim-tree
+  -- vim.keymap.set("n", "<leader>E", function()
+  --   nvim_tree_keep_open = not nvim_tree_keep_open
+  --   if nvim_tree_keep_open then
+  --     vim.cmd("NvimTreeOpen")
+  --   else
+  --     vim.cmd("NvimTreeClose")
+  --   end
+  -- end)
+  --
+  -- vim.keymap.set({ "", "i" }, "<c-e>", function()
+  --   if nvim_tree_keep_open then
+  --     vim.cmd("NvimTreeFocus")
+  --   else
+  --     vim.cmd("NvimTreeToggle")
+  --   end
+  -- end)
+  --
+  -- vim.keymap.set("", "<leader>e", "<cmd>NvimTreeFindFile<CR>")
 
   -- Barbar
   local barbar_keymap_options = { silent = true, noremap = true }

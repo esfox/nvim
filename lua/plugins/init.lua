@@ -103,6 +103,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-tree.lua",
+      -- "nvim-neo-tree/neo-tree.nvim",
     },
     opts = {},
   },
@@ -449,7 +450,6 @@ return {
           layout_strategy = "vertical",
           layout_config = {
             mirror = true,
-            preview_height = 0.45,
           },
           -- sorting_strategy = 'ascending',
           borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
