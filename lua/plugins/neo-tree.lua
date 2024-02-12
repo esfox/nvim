@@ -1,5 +1,7 @@
 -- return {}
 
+local keymaps = require("keymaps")
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -12,14 +14,7 @@ return {
   opts = {
     window = {
       width = 55,
-      mappings = {
-        ["/"] = "noop",
-        ["<c-x>"] = "noop",
-        ["h"] = "close_node",
-        ["l"] = "open",
-        ["<leader>/"] = "filter_on_submit",
-        ["<esc>"] = "clear_filter",
-      },
+      mappings = keymaps.for_neo_tree(),
     },
     filesystem = {
       filtered_items = {
@@ -79,9 +74,22 @@ return {
       {
         event = "file_opened",
         handler = function()
+          -- local state = require("neo-tree.sources.manager").get_state("filesystem")
+          -- local cmds = require("neo-tree.sources.filesystem.commands")
+          -- cmds.clear_filter(state)
           require("neo-tree.command").execute({ action = "close" })
         end,
       },
+    },
+    commands = {
+      open_and_clear_filter = function(state)
+        local node = state.tree:get_node()
+        if node and node.type == "file" then
+          local cmds = require("neo-tree.sources.filesystem.commands")
+          cmds.open(state)
+          -- cmds.clear_filter(state)
+        end
+      end,
     },
   },
 }
