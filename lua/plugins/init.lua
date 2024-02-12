@@ -1,5 +1,3 @@
-local keymaps = require("keymaps")
-
 return {
   -- {
   --   'rafamadriz/neon',
@@ -60,6 +58,15 @@ return {
   --     },
   --   },
   -- },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local harpoon = require("harpoon")
+      harpoon:setup()
+    end,
+  },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -124,6 +131,7 @@ return {
       require("auto-session").setup({
         log_level = "error",
         auto_session_suppress_dirs = { "~/", "~/Downloads", "/" },
+        pre_save_cmds = { "Neotree close" },
       })
     end,
   },
@@ -183,12 +191,6 @@ return {
     end,
   },
   {
-    "themaxmarchuk/tailwindcss-colors.nvim",
-    config = function()
-      require("tailwindcss-colors").setup()
-    end,
-  },
-  {
     "RRethy/vim-illuminate",
     config = function()
       require("illuminate").configure({
@@ -204,7 +206,14 @@ return {
   --     vim.g.blamer_enabled = 1
   --   end,
   -- },
-
+  {
+    "johmsalas/text-case.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("textcase").setup({})
+      require("telescope").load_extension("textcase")
+    end,
+  },
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
@@ -213,16 +222,16 @@ return {
   { "brenoprata10/nvim-highlight-colors", opts = {} },
   { "kylechui/nvim-surround", opts = {} },
   { "windwp/nvim-autopairs", opts = {} },
-  {
-    "romgrk/barbar.nvim",
-    dependencies = "nvim-tree/nvim-web-devicons",
-    opts = {
-      animation = false,
-      icons = {
-        button = "",
-      },
-    },
-  },
+  -- {
+  --   "romgrk/barbar.nvim",
+  --   dependencies = "nvim-tree/nvim-web-devicons",
+  --   opts = {
+  --     animation = false,
+  --     icons = {
+  --       button = "",
+  --     },
+  --   },
+  -- },
   {
     "Wansmer/treesj",
     opts = {
@@ -377,48 +386,65 @@ return {
           javascriptreact = { require("formatter.filetypes.javascriptreact").prettierd },
           json = { require("formatter.filetypes.json").prettierd },
           css = { require("formatter.filetypes.css").prettierd },
+          scss = { require("formatter.filetypes.css").prettierd },
           html = { require("formatter.filetypes.html").prettierd },
+          angular = { require("formatter.filetypes.html").prettierd },
           markdown = { require("formatter.filetypes.markdown").prettierd },
           yaml = { require("formatter.filetypes.yaml").prettierd },
           graphql = { require("formatter.filetypes.graphql").prettierd },
-          vue = { require("formatter.filetypes.vue").prettierd },
           lua = { require("formatter.filetypes.lua").stylua },
+          vue = { require("formatter.filetypes.vue").prettier },
         },
       })
     end,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    main = 'ibl',
+    main = "ibl",
     lazy = false,
     priority = 900,
     config = function()
-      vim.cmd([[highlight IblIndent guifg=#464646 gui=nocombine]])
+      local hooks = require("ibl.hooks")
 
-      -- vim.cmd([[highlight IndentBlanklineIndent1 guifg=#384651 gui=nocombine]])
-      -- vim.cmd([[highlight IndentBlanklineIndent2 guifg=#404e41 gui=nocombine]])
-      -- vim.cmd([[highlight IndentBlanklineIndent3 guifg=#4c413d gui=nocombine]])
-      -- vim.cmd([[highlight IndentBlanklineIndent4 guifg=#535031 gui=nocombine]])
-      -- vim.cmd([[highlight IndentBlanklineIndent5 guifg=#594b36 gui=nocombine]])
+      local highlight = {
+        "IndentBlanklineIndent1",
+        "IndentBlanklineIndent2",
+        "IndentBlanklineIndent3",
+        "IndentBlanklineIndent4",
+        "IndentBlanklineIndent5",
+      }
+
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#384651", nocombine = true })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#404e41", nocombine = true })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent3", { fg = "#4c413d", nocombine = true })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent4", { fg = "#535031", nocombine = true })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent5", { fg = "#594b36", nocombine = true })
+      end)
 
       require("ibl").setup({
-        -- show_current_context = true,
-        -- show_current_context_start = true,
-        -- space_char_blankline = " ",
-        -- char_highlight_list = {
-        --   "IndentBlanklineIndent1",
-        --   "IndentBlanklineIndent2",
-        --   "IndentBlanklineIndent3",
-        --   "IndentBlanklineIndent4",
-        --   "IndentBlanklineIndent5",
-        -- },
+        scope = {
+          enabled = true,
+        },
+        indent = {
+          char = "│",
+          highlight = highlight,
+        },
       })
     end,
   },
   {
     "numtostr/comment.nvim",
     config = function()
-      require("Comment").setup({
+      local comment = require("Comment")
+
+      local ft = require("Comment.ft")
+
+      -- Angular template files
+      local commentstr = "<!-- %s -->"
+      ft.set("angular", { commentstr, commentstr })
+
+      comment.setup({
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
         sticky = true,
       })

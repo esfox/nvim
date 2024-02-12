@@ -31,13 +31,18 @@ function keymaps.general()
   vim.keymap.set("i", "<c-s>", "<Esc>:update<CR>a")
   vim.keymap.set("", "<c-m-s>", ":NoAutocmdSave<CR>")
   vim.keymap.set("i", "<c-m-s>", "<Esc>:NoAutocmdSave<CR>a")
-  vim.keymap.set({ "n", "i" }, "<c-l>", "<tab>")
-  vim.keymap.set({ "n", "i" }, "<c-h>", "<c-o>")
+  vim.keymap.set({ "n", "i" }, "<c-left>", "<c-o>")
+  vim.keymap.set({ "n", "i" }, "<c-right>", "<tab>")
   -- vim.keymap.set("i", "<c-bs>", "<c-w>")
   -- vim.keymap.set("i", "<c-bs>", "<esc>dbi")
 
   -- vim.keymap.set({ "n", "i" }, "<c-j>", "<tab>")
   -- vim.keymap.set({ "n", "i" }, "<c-k>", "<c-o>")
+
+  vim.keymap.set({ "", "i" }, "<c-w>", ":bd<CR>")
+  vim.keymap.set("", "<leader>b", ":Telescope buffers<CR>")
+  vim.keymap.set("", "<leader>m", ":Telescope marks<CR>")
+  vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
 
   -- window management
   vim.keymap.set("n", "<leader>wh", "<c-w>h")
@@ -89,10 +94,12 @@ end
 
 function keymaps.for_plugins()
   -- Neo-tree
-  vim.keymap.set({ "", "i" }, "<c-e>", ":Neotree toggle<cr>")
-  vim.keymap.set({ "", "i" }, "<leader>e", ":Neotree reveal<cr>")
+  vim.keymap.set({ "", "i" }, "<c-e>", function()
+    require("neo-tree.command").execute({ action = "focus", toggle = true })
+  end)
+  vim.keymap.set("n", "<leader>e", ":Neotree reveal<cr>")
 
-  -- -- Nvim-tree
+  -- Nvim-tree
   -- vim.keymap.set("n", "<leader>E", function()
   --   nvim_tree_keep_open = not nvim_tree_keep_open
   --   if nvim_tree_keep_open then
@@ -112,37 +119,68 @@ function keymaps.for_plugins()
   --
   -- vim.keymap.set("", "<leader>e", "<cmd>NvimTreeFindFile<CR>")
 
+  -- Harpoon
+  local harpoon = require("harpoon")
+  vim.keymap.set("n", "<leader><space>", function()
+    harpoon:list():append()
+  end)
+
+  vim.keymap.set({ "", "i" }, "<c-,>", function()
+    harpoon.ui:toggle_quick_menu(harpoon:list())
+  end)
+
+  vim.keymap.set("n", "<home>", function()
+    harpoon:list():prev()
+  end)
+
+  vim.keymap.set("n", "<end>", function()
+    harpoon:list():next()
+  end)
+
+  vim.keymap.set({ "", "i" }, "<c-j>", function()
+    harpoon:list():select(1)
+  end)
+  vim.keymap.set({ "", "i" }, "<c-k>", function()
+    harpoon:list():select(2)
+  end)
+  vim.keymap.set({ "", "i" }, "<c-l>", function()
+    harpoon:list():select(3)
+  end)
+  vim.keymap.set({ "", "i" }, "<c-;>", function()
+    harpoon:list():select(4)
+  end)
+
   -- Barbar
-  local barbar_keymap_options = { silent = true, noremap = true }
-  vim.keymap.set({ "", "i" }, "<c-w>", "<Cmd>BufferClose<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-w>", "<Cmd>BufferClose<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-left>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-right>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-h>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-l>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
-  -- vim.keymap.set({ "", "i" }, "<c-h>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
-  -- vim.keymap.set({ "", "i" }, "<c-l>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-s-left>", "<Cmd>BufferMovePrevious<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-s-right>", "<Cmd>BufferMoveNext<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-1>", "<Cmd>BufferGoto 1<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-2>", "<Cmd>BufferGoto 2<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-3>", "<Cmd>BufferGoto 3<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-4>", "<Cmd>BufferGoto 4<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-5>", "<Cmd>BufferGoto 5<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-6>", "<Cmd>BufferGoto 6<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-7>", "<Cmd>BufferGoto 7<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-8>", "<Cmd>BufferGoto 8<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<a-9>", "<Cmd>BufferGoto 9<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-1>", "<Cmd>BufferGoto 1<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-2>", "<Cmd>BufferGoto 2<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-3>", "<Cmd>BufferGoto 3<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-4>", "<Cmd>BufferGoto 4<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-5>", "<Cmd>BufferGoto 5<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-6>", "<Cmd>BufferGoto 6<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-7>", "<Cmd>BufferGoto 7<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-8>", "<Cmd>BufferGoto 8<CR>", barbar_keymap_options)
-  vim.keymap.set({ "", "i" }, "<c-9>", "<Cmd>BufferGoto 9<CR>", barbar_keymap_options)
-  -- vim.keymap.set("n", "<leader>b", "<Cmd>BufferPick<CR>", barbar_keymap_options)
+  -- local barbar_keymap_options = { silent = true, noremap = true }
+  -- vim.keymap.set({ "", "i" }, "<c-w>", "<Cmd>BufferClose<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-w>", "<Cmd>BufferClose<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-left>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-right>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-h>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-l>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
+  -- -- vim.keymap.set({ "", "i" }, "<c-h>", "<Cmd>BufferPrevious<CR>", barbar_keymap_options)
+  -- -- vim.keymap.set({ "", "i" }, "<c-l>", "<Cmd>BufferNext<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-s-left>", "<Cmd>BufferMovePrevious<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-s-right>", "<Cmd>BufferMoveNext<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-1>", "<Cmd>BufferGoto 1<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-2>", "<Cmd>BufferGoto 2<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-3>", "<Cmd>BufferGoto 3<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-4>", "<Cmd>BufferGoto 4<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-5>", "<Cmd>BufferGoto 5<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-6>", "<Cmd>BufferGoto 6<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-7>", "<Cmd>BufferGoto 7<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-8>", "<Cmd>BufferGoto 8<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<a-9>", "<Cmd>BufferGoto 9<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-1>", "<Cmd>BufferGoto 1<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-2>", "<Cmd>BufferGoto 2<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-3>", "<Cmd>BufferGoto 3<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-4>", "<Cmd>BufferGoto 4<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-5>", "<Cmd>BufferGoto 5<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-6>", "<Cmd>BufferGoto 6<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-7>", "<Cmd>BufferGoto 7<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-8>", "<Cmd>BufferGoto 8<CR>", barbar_keymap_options)
+  -- vim.keymap.set({ "", "i" }, "<c-9>", "<Cmd>BufferGoto 9<CR>", barbar_keymap_options)
+  -- -- vim.keymap.set("n", "<leader>b", "<Cmd>BufferPick<CR>", barbar_keymap_options)
 
   -- Hop
   local hop = require("hop")
@@ -174,7 +212,11 @@ function keymaps.for_plugins()
   end, { desc = "Toggle lsp_lines" })
 
   -- Formatting
-  vim.keymap.set("n", "<leader>fc", "<Cmd>Format<CR>")
+  vim.keymap.set(
+    "n",
+    "<leader>fc",
+    ":silent! OrganizeImports<CR> <bar> :silent! EslintFixAll<CR> <bar> :Format<CR>"
+  )
   vim.keymap.set("n", "<leader>fe", "<Cmd>EslintFixAll<CR>")
   vim.keymap.set("n", "<leader>fi", "<Cmd>OrganizeImports<CR>")
 
@@ -353,8 +395,22 @@ function keymaps.for_cmp(cmp)
   }
 end
 
--- nvim_tree_keep_open = helpers.is_wide()
-nvim_tree_keep_open = false
+function keymaps.for_neo_tree()
+  return {
+    ["/"] = "noop",
+    ["<c-x>"] = "noop",
+    ["<backspace>"] = "noop",
+    ["h"] = "close_node",
+    ["l"] = "open",
+    ["<leader>/"] = "filter_on_submit",
+    ["<esc>"] = "clear_filter",
+    ["^"] = "navigate_up",
+    -- ["l"] = "open_and_clear_filter",
+    -- ["<cr>"] = "open_and_clear_filter",
+  }
+end
+
+nvim_tree_keep_open = helpers.is_wide()
 
 function keymaps.for_nvim_tree(buffer_number)
   local hop = require("hop")

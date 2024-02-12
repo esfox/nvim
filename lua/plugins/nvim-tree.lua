@@ -28,6 +28,9 @@ return {}
 --           },
 --         },
 --       },
+--       live_filter = {
+--         always_show_folders = false,
+--       },
 --       git = {
 --         ignore = false,
 --       },

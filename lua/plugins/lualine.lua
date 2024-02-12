@@ -19,14 +19,26 @@ return {
         section_separators = { left = "", right = "" },
       },
       sections = {
+        -- lualine_b = {
+        --   -- {
+        --   --   "filename",
+        --   --   path = 1,
+        --   -- },
+        --   "branch",
+        -- },
+        -- lualine_c = {
         lualine_b = {
-          -- {
-          --   "filename",
-          --   path = 1,
-          -- },
-          "branch",
+          {
+            function()
+              for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                if vim.api.nvim_buf_get_option(buf, "modified") then
+                  return "Unsaved buffers" -- any message or icon
+                end
+              end
+              return ""
+            end,
+          },
         },
-        lualine_c = {},
         lualine_x = {
           "diagnostics",
           {
