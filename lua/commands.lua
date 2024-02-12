@@ -23,6 +23,13 @@ function commands.load_auto_commands()
     pattern = "*",
   })
 
+  vim.api.nvim_create_autocmd("BufRead,BufEnter", {
+    pattern = "*.component.html",
+    callback = function()
+      vim.bo.filetype = "angular"
+    end,
+  })
+
   -- local format_group = vim.api.nvim_create_augroup("FormatAutogroup", { clear = true })
   -- vim.api.nvim_create_autocmd("User", {
   --   callback = function()

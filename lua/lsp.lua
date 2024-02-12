@@ -97,13 +97,7 @@ function lsp.setup()
             description = "Organize Imports",
           },
         }
-      elseif server_name == "tailwindcss" then
-        -- Enable Tailwind color highlighting
-        lsp_setup_config["on_attach"] = function(_, bufnr)
-          require("tailwindcss-colors").buf_attach(bufnr)
-        end
       elseif server_name == "jsonls" then
-        -- Enable Tailwind color highlighting
         lsp_setup_config["filetypes"] = { "json", "jsonc" }
         lsp_setup_config["settings"] = {
           json = {
@@ -111,6 +105,12 @@ function lsp.setup()
             schemas = require("schemastore").json.schemas(),
           },
         }
+      elseif server_name == "angularls" then
+        lsp_setup_config["filetypes"] = { "angular" }
+      elseif server_name == "emmet_language_server" then
+        lsp_setup_config["filetypes"] = { "angular", "html", "css", "scss" }
+      elseif server_name == "html" then
+        lsp_setup_config["filetypes"] = { "angular", "html" }
       end
 
       lspconfig[server_name].setup(lsp_setup_config)
