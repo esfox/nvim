@@ -108,7 +108,7 @@ function lsp.setup()
       elseif server_name == "angularls" then
         lsp_setup_config["filetypes"] = { "angular" }
       elseif server_name == "emmet_language_server" then
-        lsp_setup_config["filetypes"] = { "angular", "html", "css", "scss" }
+        lsp_setup_config["filetypes"] = { "angular", "html", "css", "scss", "typescriptreact" }
       elseif server_name == "html" then
         lsp_setup_config["filetypes"] = { "angular", "html" }
       end
