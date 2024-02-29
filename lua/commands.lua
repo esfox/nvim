@@ -10,6 +10,20 @@ function commands.load_user_commands()
   vim.api.nvim_create_user_command("GitBlameView", function(_)
     vim.cmd("silent! Git blame")
   end, { desc = "View Git blame for current file" })
+
+  vim.api.nvim_create_user_command("CopyCurrentFilePath", function(_)
+    local filepath = vim.fn.expand("%:.")
+    os.execute("echo " .. filepath .. "| xclip -sel clipboard")
+    print("Copied current file path (" .. filepath .. ")")
+    vim.fn.getchar()
+  end, { desc = "Copy current file path" })
+
+  vim.api.nvim_create_user_command("CopyCurrentFileAbsolutePath", function(_)
+    local filepath = vim.fn.expand("%:p")
+    os.execute("echo " .. filepath .. "| xclip -sel clipboard")
+    print("Copied current absolute file path (" .. filepath .. ")")
+    vim.fn.getchar()
+  end, { desc = "Copy current file absolute path" })
 end
 
 function commands.load_auto_commands()

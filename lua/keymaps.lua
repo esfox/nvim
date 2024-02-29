@@ -66,20 +66,6 @@ function keymaps.general()
     vim.fn.getchar()
   end)
 
-  vim.keymap.set("n", "<leader>fc", function()
-    local filepath = vim.fn.expand("%")
-    os.execute("echo " .. filepath .. "| xclip -sel clipboard")
-    print("Copied current file path (" .. filepath .. ")")
-    vim.fn.getchar()
-  end)
-
-  vim.keymap.set("n", "<leader>fC", function()
-    local filepath = vim.fn.expand("%:p")
-    os.execute("echo " .. filepath .. "| xclip -sel clipboard")
-    print("Copied current absolute file path (" .. filepath .. ")")
-    vim.fn.getchar()
-  end)
-
   vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
   -- Remap for dealing with word wrap
