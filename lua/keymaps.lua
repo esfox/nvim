@@ -270,7 +270,7 @@ function keymaps.for_plugins()
   end)
 
   vim.keymap.set(
-    { "n", "i" },
+    { "n" },
     "<leader>gs",
     ":Telescope git_signs<CR>",
     { desc = "Current Buffer Git Status" }
@@ -408,6 +408,11 @@ function keymaps.for_neo_tree()
     -- ["l"] = "open_and_clear_filter",
     -- ["<cr>"] = "open_and_clear_filter",
   }
+end
+
+function keymaps.for_gitsigns()
+  local gs = package.loaded.gitsigns
+  vim.keymap.set("n", "<leader>gh", gs.preview_hunk_inline)
 end
 
 nvim_tree_keep_open = helpers.is_wide()
