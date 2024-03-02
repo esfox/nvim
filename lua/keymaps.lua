@@ -398,7 +398,7 @@ end
 
 function keymaps.for_gitsigns()
   local gs = package.loaded.gitsigns
-  vim.keymap.set("n", "<leader>gh", gs.preview_hunk_inline)
+  vim.keymap.set("n", "<leader>gh", gs.preview_hunk)
 end
 
 nvim_tree_keep_open = helpers.is_wide()
