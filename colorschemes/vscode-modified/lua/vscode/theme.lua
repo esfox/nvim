@@ -137,6 +137,7 @@ theme.set_highlights = function(opts)
 
     hl(0, '@keyword', { fg = c.blue, bg = 'NONE' })
     hl(0, '@keyword.return', { fg = c.red, bg = 'NONE' })
+    hl(0, '@keyword.exception.typescript', { fg = c.red, bg = 'NONE' })
     hl(0, '@keyword.function', { fg = c.vscBlue, bg = 'NONE' })
     hl(0, '@keyword.operator', { fg = c.vscBlue, bg = 'NONE' })
     hl(0, '@keyword.conditional', { fg = c.red, bg = 'NONE' })
