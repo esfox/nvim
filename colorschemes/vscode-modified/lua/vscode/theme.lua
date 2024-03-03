@@ -452,6 +452,12 @@ theme.set_highlights = function(opts)
     hl(0, 'NvimTreeGitMerge', { fg = c.vscGitUntracked, bg = 'NONE' })
     hl(0, 'NvimTreeGitDirty', { fg = c.vscGitModified, bg = 'NONE' })
     hl(0, 'NvimTreeGitNew', { fg = c.vscGitAdded, bg = 'NONE' })
+    hl(0, 'NvimTreeFolderIcon', { fg = c.vscBlue, bg = 'NONE' })
+    hl(0, 'NvimTreeIndentMarker', { fg = c.vscLineNumber, bg = 'NONE' })
+
+    -- buffer_manager
+
+    hl(0, 'BufferManagerModified', { fg = c.yellow_orange, bg = 'NONE' })
 
     -- Bufferline
     hl(0, 'BufferLineIndicatorSelected', { fg = c.vscLeftDark, bg = 'NONE' })
@@ -521,9 +527,6 @@ theme.set_highlights = function(opts)
     hl(0, 'DashboardKey', { fg = c.vscWhite, bg = 'NONE' })
     hl(0, 'DashboardFooter', { fg = c.vscBlue, bg = 'NONE', italic = true })
 
-    hl(0, 'NvimTreeFolderIcon', { fg = c.vscBlue, bg = 'NONE' })
-    hl(0, 'NvimTreeIndentMarker', { fg = c.vscLineNumber, bg = 'NONE' })
-
     hl(0, 'LspFloatWinNormal', { fg = c.vscFront, bg = 'NONE' })
     hl(0, 'LspFloatWinBorder', { fg = c.vscLineNumber, bg = 'NONE' })
     hl(0, 'LspSagaHoverBorder', { fg = c.vscLineNumber, bg = 'NONE' })
@@ -554,18 +557,18 @@ theme.set_highlights = function(opts)
     hl(0, 'TelescopeMatching', { fg = c.vscMediumBlue, bg = 'NONE', bold = true })
     hl(0, 'TelescopePromptPrefix', { fg = c.vscFront, bg = 'NONE' })
 
-    -- symbols-outline
-    -- white fg and lualine blue bg
-    hl(0, 'FocusedSymbol', { fg = '#ffffff', bg = c.vscUiBlue })
-    hl(0, 'SymbolsOutlineConnector', { fg = c.vscLineNumber, bg = 'NONE' })
-
-    -- plugins
+    -- Hop
     hl(0, 'HopNextKey', { fg = c.bright_red, bold = true })
     hl(0, 'HopNextKey1', { fg = c.bright_green, bold = true })
     hl(0, 'HopNextKey2', { fg = c.bright_green, bold = true })
 
     -- Scrollbar
     hl(0, 'ScrollbarHandle', { fg = 'NONE', bg = c.vscLeftLight })
+
+    -- symbols-outline
+    -- white fg and lualine blue bg
+    hl(0, 'FocusedSymbol', { fg = '#ffffff', bg = c.vscUiBlue })
+    hl(0, 'SymbolsOutlineConnector', { fg = c.vscLineNumber, bg = 'NONE' })
 end
 
 theme.link_highlight = function()
