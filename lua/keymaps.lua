@@ -105,36 +105,32 @@ function keymaps.for_plugins()
   --
   -- vim.keymap.set("", "<leader>e", "<cmd>NvimTreeFindFile<CR>")
 
-  -- Harpoon
-  local harpoon = require("harpoon")
-  vim.keymap.set("n", "<leader><space>", function()
-    harpoon:list():append()
-  end)
-
+  -- buffer_manager
+  local buffer_manager = require("buffer_manager.ui")
   vim.keymap.set({ "", "i" }, "<c-,>", function()
-    harpoon.ui:toggle_quick_menu(harpoon:list())
-  end)
-
-  vim.keymap.set("n", "<home>", function()
-    harpoon:list():prev()
-  end)
-
-  vim.keymap.set("n", "<end>", function()
-    harpoon:list():next()
-  end)
-
+    buffer_manager.toggle_quick_menu()
+  end, { silent = true })
+  vim.keymap.set({ "", "i" }, "<c-b>", function()
+    buffer_manager.toggle_quick_menu()
+  end, { silent = true })
   vim.keymap.set({ "", "i" }, "<c-j>", function()
-    harpoon:list():select(1)
-  end)
+    buffer_manager.nav_file(1)
+  end, { silent = true })
   vim.keymap.set({ "", "i" }, "<c-k>", function()
-    harpoon:list():select(2)
-  end)
+    buffer_manager.nav_file(2)
+  end, { silent = true })
   vim.keymap.set({ "", "i" }, "<c-l>", function()
-    harpoon:list():select(3)
-  end)
+    buffer_manager.nav_file(3)
+  end, { silent = true })
   vim.keymap.set({ "", "i" }, "<c-;>", function()
-    harpoon:list():select(4)
-  end)
+    buffer_manager.nav_file(4)
+  end, { silent = true })
+  vim.keymap.set({ "", "i" }, "<a-left>", function()
+    buffer_manager.nav_next()
+  end, { silent = true })
+  vim.keymap.set({ "", "i" }, "<a-right>", function()
+    buffer_manager.nav_prev()
+  end, { silent = true })
 
   -- Barbar
   -- local barbar_keymap_options = { silent = true, noremap = true }
@@ -166,7 +162,7 @@ function keymaps.for_plugins()
   -- vim.keymap.set({ "", "i" }, "<c-7>", "<Cmd>BufferGoto 7<CR>", barbar_keymap_options)
   -- vim.keymap.set({ "", "i" }, "<c-8>", "<Cmd>BufferGoto 8<CR>", barbar_keymap_options)
   -- vim.keymap.set({ "", "i" }, "<c-9>", "<Cmd>BufferGoto 9<CR>", barbar_keymap_options)
-  -- -- vim.keymap.set("n", "<leader>b", "<Cmd>BufferPick<CR>", barbar_keymap_options)
+  -- vim.keymap.set("n", "<leader>b", "<Cmd>BufferPick<CR>", barbar_keymap_options)
 
   -- Hop
   local hop = require("hop")

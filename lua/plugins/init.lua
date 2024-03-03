@@ -61,15 +61,6 @@ return {
   --   },
   -- },
   {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local harpoon = require("harpoon")
-      harpoon:setup()
-    end,
-  },
-  {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
@@ -238,12 +229,24 @@ return {
   --     icons = {
   --       button = "",
   --     },
+  --     -- hide = { visible = true, current = true, inactive = true },
   --   },
+  --   config = function()
+  --     -- For some reason, this hides the barbar.nvim bufferline, which is what is desired
+  --     vim.o.showtabline = 0
+  --   end,
   -- },
+  {
+    "j-morano/buffer_manager.nvim",
+    opts = {
+      short_file_names = true,
+    },
+  },
   {
     "Wansmer/treesj",
     opts = {
       max_join_length = 1000,
+      use_default_keymaps = false,
     },
   },
   {
