@@ -32,6 +32,11 @@ if vim.g.vscode then
   return
 end
 
+if vim.g.started_by_firenvim then
+  require("firenvim-settings")
+  return
+end
+
 require("lazy").setup("plugins")
 keymaps.for_plugins()
 
