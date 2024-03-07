@@ -24,6 +24,12 @@ function commands.load_user_commands()
     print("Copied current absolute file path (" .. filepath .. ")")
     vim.fn.getchar()
   end, { desc = "Copy current file absolute path" })
+
+  -- Angular
+  vim.api.nvim_create_user_command("SetAngularFiletype", function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_set_option(bufnr, "filetype", "angular")
+  end, { desc = "Set current buffer filetype to `angular`" })
 end
 
 function commands.load_auto_commands()
