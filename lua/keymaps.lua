@@ -199,6 +199,7 @@ function keymaps.for_plugins()
     "<leader>fc",
     ":silent! OrganizeImports<CR> <bar> :silent! EslintFixAll<CR> <bar> :Format<CR>"
   )
+  vim.keymap.set("n", "<leader>ff", ":Format<CR>")
   vim.keymap.set("n", "<leader>fe", "<Cmd>EslintFixAll<CR>")
   vim.keymap.set("n", "<leader>fi", "<Cmd>OrganizeImports<CR>")
 
