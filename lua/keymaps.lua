@@ -126,10 +126,10 @@ function keymaps.for_plugins()
     buffer_manager.nav_file(4)
   end, { silent = true })
   vim.keymap.set({ "", "i" }, "<a-left>", function()
-    buffer_manager.nav_next()
+    buffer_manager.nav_prev()
   end, { silent = true })
   vim.keymap.set({ "", "i" }, "<a-right>", function()
-    buffer_manager.nav_prev()
+    buffer_manager.nav_next()
   end, { silent = true })
 
   -- Barbar
