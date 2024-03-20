@@ -39,10 +39,14 @@ function keymaps.general()
   -- vim.keymap.set({ "n", "i" }, "<c-j>", "<tab>")
   -- vim.keymap.set({ "n", "i" }, "<c-k>", "<c-o>")
 
+  vim.keymap.set("n", "<leader>gb", ":GitBlameView<cr>")
+
   vim.keymap.set({ "", "i" }, "<c-w>", ":bd<CR>")
+  vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
+
   vim.keymap.set("", "<leader>b", ":Telescope buffers<CR>")
   vim.keymap.set("", "<leader>m", ":Telescope marks<CR>")
-  vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
+  vim.keymap.set("n", "<leader>gs", ":Telescope git_signs<CR>")
 
   -- window management
   vim.keymap.set("n", "<leader>wh", "<c-w>h")
@@ -251,13 +255,6 @@ function keymaps.for_plugins()
       end,
     })
   end)
-
-  vim.keymap.set(
-    { "n" },
-    "<leader>gs",
-    ":Telescope git_signs<CR>",
-    { desc = "Current Buffer Git Status" }
-  )
 
   vim.keymap.set(
     { "n", "i" },
