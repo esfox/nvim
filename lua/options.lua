@@ -6,7 +6,7 @@ function options.general()
   vim.opt.number = true
   vim.opt.relativenumber = true
   vim.opt.clipboard = "unnamedplus"
-  vim.opt.guifont = { "JetBrains Mono NL Light", "h14" }
+  vim.opt.guifont = { "JetBrains Mono NL Light", ":h13.2" }
   vim.opt.cmdheight = 0
   vim.opt.colorcolumn = "100"
   vim.opt.list = true
@@ -50,7 +50,7 @@ function options.general()
   vim.o.scrolloff = 5
 
   if vim.g.neovide then
-    vim.g.neovide_scale_factor = helpers.is_laptop() and 0.85 or 0.7
+    vim.g.neovide_scale_factor = helpers.is_laptop() and 0.8 or 0.7
     vim.g.neovide_cursor_vfx_mode = "ripple"
   end
 end

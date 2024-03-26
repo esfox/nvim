@@ -17,7 +17,6 @@ return {
         "javascript",
         "json",
         "markdown",
-        "help",
         "vim",
         "comment",
       },

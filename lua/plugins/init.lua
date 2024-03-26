@@ -389,26 +389,29 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = 'ibl',
     lazy = false,
     priority = 900,
     config = function()
-      vim.cmd([[highlight IndentBlanklineIndent1 guifg=#384651 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent2 guifg=#404e41 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent3 guifg=#4c413d gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent4 guifg=#535031 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent5 guifg=#594b36 gui=nocombine]])
+      vim.cmd([[highlight IblIndent guifg=#464646 gui=nocombine]])
 
-      require("indent_blankline").setup({
-        show_current_context = true,
-        show_current_context_start = true,
-        space_char_blankline = " ",
-        char_highlight_list = {
-          "IndentBlanklineIndent1",
-          "IndentBlanklineIndent2",
-          "IndentBlanklineIndent3",
-          "IndentBlanklineIndent4",
-          "IndentBlanklineIndent5",
-        },
+      -- vim.cmd([[highlight IndentBlanklineIndent1 guifg=#384651 gui=nocombine]])
+      -- vim.cmd([[highlight IndentBlanklineIndent2 guifg=#404e41 gui=nocombine]])
+      -- vim.cmd([[highlight IndentBlanklineIndent3 guifg=#4c413d gui=nocombine]])
+      -- vim.cmd([[highlight IndentBlanklineIndent4 guifg=#535031 gui=nocombine]])
+      -- vim.cmd([[highlight IndentBlanklineIndent5 guifg=#594b36 gui=nocombine]])
+
+      require("ibl").setup({
+        -- show_current_context = true,
+        -- show_current_context_start = true,
+        -- space_char_blankline = " ",
+        -- char_highlight_list = {
+        --   "IndentBlanklineIndent1",
+        --   "IndentBlanklineIndent2",
+        --   "IndentBlanklineIndent3",
+        --   "IndentBlanklineIndent4",
+        --   "IndentBlanklineIndent5",
+        -- },
       })
     end,
   },

@@ -353,7 +353,8 @@ function keymaps.for_cmp(cmp)
   }
 end
 
-nvim_tree_keep_open = helpers.is_wide()
+-- nvim_tree_keep_open = helpers.is_wide()
+nvim_tree_keep_open = false
 
 function keymaps.for_nvim_tree(buffer_number)
   local hop = require("hop")
