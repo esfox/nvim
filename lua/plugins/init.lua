@@ -414,6 +414,7 @@ return {
           graphql = { require("formatter.filetypes.graphql").prettierd },
           lua = { require("formatter.filetypes.lua").stylua },
           vue = { require("formatter.filetypes.vue").prettier },
+          astro = { require("formatter.filetypes.javascript").prettierd },
         },
       })
     end,
