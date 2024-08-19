@@ -146,6 +146,7 @@ theme.set_highlights = function(opts)
     hl(0, '@keyword.typescript', { fg = c.blue, bg = 'NONE' })
     hl(0, '@keyword.repeat.typescript', { fg = c.red, bg = 'NONE' })
     hl(0, '@keyword.import.typescript', { fg = c.red, bg = 'NONE' })
+    hl(0, '@keyword.import.tsx', { fg = c.red, bg = 'NONE' })
 
     hl(0, '@text.title', { fg = isDark and c.vscBlue or c.yellow_orange, bold = true })
     hl(0, '@text.literal', { fg = c.vscFront, bg = 'NONE' })
