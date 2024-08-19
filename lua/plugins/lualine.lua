@@ -19,15 +19,13 @@ return {
         section_separators = { left = "", right = "" },
       },
       sections = {
-        -- lualine_b = {
-        --   -- {
-        --   --   "filename",
-        --   --   path = 1,
-        --   -- },
-        --   "branch",
-        -- },
-        -- lualine_c = {
         lualine_b = {
+          {
+            "filename",
+            path = 4,
+          },
+        },
+        lualine_c = {
           {
             function()
               for _, buf in ipairs(vim.api.nvim_list_bufs()) do
