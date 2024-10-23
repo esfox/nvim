@@ -8,7 +8,7 @@ function options.general()
   vim.opt.clipboard = "unnamedplus"
   vim.opt.guifont = { "JetBrains Mono NL Light", ":h13" }
   vim.opt.cmdheight = 0
-  vim.opt.colorcolumn = "100"
+  vim.opt.colorcolumn = "120"
   vim.opt.list = true
   vim.wo.wrap = false
 
