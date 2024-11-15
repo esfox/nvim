@@ -85,7 +85,13 @@ function keymaps.for_plugins()
   vim.keymap.set({ "", "i" }, "<c-e>", function()
     require("neo-tree.command").execute({ action = "focus", toggle = true })
   end)
-  vim.keymap.set("n", "<leader>e", ":Neotree reveal<cr>")
+  vim.keymap.set("n", "<leader>e", function()
+    require("neo-tree.command").execute({
+      action = "focus",
+      toggle = true,
+      reveal = true,
+    })
+  end)
 
   -- Nvim-tree
   -- vim.keymap.set("n", "<leader>E", function()
@@ -380,6 +386,19 @@ function keymaps.for_neo_tree()
     ["<leader>/"] = "filter_on_submit",
     ["<esc>"] = "clear_filter",
     ["^"] = "navigate_up",
+    ["gy"] = function(state)
+      local node = state.tree:get_node()
+      local filepath = node:get_id()
+      local relative_path = vim.fn.fnamemodify(filepath, ":.")
+      os.execute("echo " .. relative_path .. "| xclip -sel clipboard")
+      vim.notify("Copied: " .. relative_path)
+    end,
+    ["gY"] = function(state)
+      local node = state.tree:get_node()
+      local filename = node.name
+      os.execute("echo " .. filename .. "| xclip -sel clipboard")
+      vim.notify("Copied: " .. filename)
+    end,
     -- ["l"] = "open_and_clear_filter",
     -- ["<cr>"] = "open_and_clear_filter",
   }
