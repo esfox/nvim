@@ -61,15 +61,6 @@ return {
   --   },
   -- },
   {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local harpoon = require("harpoon")
-      harpoon:setup()
-    end,
-  },
-  {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
@@ -178,12 +169,6 @@ return {
     end,
   },
   {
-    "VonHeikemen/searchbox.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-  },
-  {
     "SmiteshP/nvim-navbuddy",
     dependencies = {
       "neovim/nvim-lspconfig",
@@ -289,7 +274,10 @@ return {
     priority = 1,
     opts = {},
   },
+  {
+    "Exafunction/codeium.vim",
     config = function()
+      vim.g.codeium_idle_delay = 50
     end,
   },
   {
