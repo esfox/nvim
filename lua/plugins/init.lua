@@ -73,6 +73,11 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
+      lsp = {
+        progress = {
+          enabled = false,
+        },
+      },
       cmdline = {
         format = {
           cmdline = {
@@ -468,7 +473,7 @@ return {
       ft.set("angular", { commentstr, commentstr })
 
       comment.setup({
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+        -- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
         sticky = true,
       })
     end,
