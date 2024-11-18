@@ -43,7 +43,7 @@ function commands.load_auto_commands()
     pattern = "*",
   })
 
-  vim.api.nvim_create_autocmd("BufRead,BufEnter", {
+  vim.api.nvim_create_autocmd({ "BufRead", "BufEnter" }, {
     pattern = "*.component.html",
     callback = function()
       vim.bo.filetype = "angular"

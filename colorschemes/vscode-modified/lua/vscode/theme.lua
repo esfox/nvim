@@ -134,6 +134,8 @@ theme.set_highlights = function(opts)
     hl(0, '@tag', { fg = c.vscBlue, bg = 'NONE' })
     hl(0, '@tag.delimiter', { fg = c.gray, bg = 'NONE' })
     hl(0, '@tag.attribute', { fg = c.green, bg = 'NONE' })
+    hl(0, '@tag.builtin.tsx', { fg = c.blue, bg = 'NONE' })
+    hl(0, '@tag.tsx', { fg = c.orange, bg = 'NONE' })
 
     hl(0, '@keyword', { fg = c.blue, bg = 'NONE' })
     hl(0, '@keyword.return', { fg = c.red, bg = 'NONE' })
