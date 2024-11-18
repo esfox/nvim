@@ -285,11 +285,11 @@ return {
   -- },
 
   {
-    "phaazon/hop.nvim",
+    "smoka7/hop.nvim",
     priority = 1,
+    opts = {},
+  },
     config = function()
-      local hop = require("hop")
-      hop.setup()
     end,
   },
   {
