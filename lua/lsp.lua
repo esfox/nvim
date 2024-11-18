@@ -33,8 +33,8 @@ function lsp.setup()
   }
 
   -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
   -- Setup mason so it can manage external tooling
   require("mason").setup()
@@ -45,11 +45,13 @@ function lsp.setup()
     ensure_installed = vim.tbl_keys(servers),
   })
 
+  local blink = require("blink.cmp")
   mason_lspconfig.setup_handlers({
     function(server_name)
       local lspconfig = require("lspconfig")
+      local capabilities = lspconfig[server_name].capabilities
       local lsp_setup_config = {
-        capabilities = capabilities,
+        capabilities = blink.get_lsp_capabilities(capabilities),
         on_attach = on_attach,
         settings = servers[server_name],
       }
