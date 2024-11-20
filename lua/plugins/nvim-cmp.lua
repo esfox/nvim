@@ -57,6 +57,13 @@ return {
           return item
         end,
       },
+      performance = {
+        debounce = 10,
+        max_view_entries = 10,
+        throttle = 10,
+        fetching_timeout = 100,
+        confirm_resolve_timeout = 10,
+      },
     })
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
