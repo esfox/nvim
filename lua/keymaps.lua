@@ -78,6 +78,17 @@ function keymaps.general()
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
   -- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+
+  -- Comments
+  vim.keymap.set("n", "<c-/>", function()
+    vim.api.nvim_input("<Esc>gcc")
+  end)
+  vim.keymap.set("i", "<c-/>", function()
+    vim.api.nvim_input("<Esc>gcci")
+  end)
+  vim.keymap.set("v", "<c-/>", function()
+    vim.api.nvim_input("gcc")
+  end)
 end
 
 function keymaps.for_plugins()
@@ -187,12 +198,6 @@ function keymaps.for_plugins()
 
   -- Navbuddy
   vim.keymap.set("n", "<leader>ns", "<cmd>Navbuddy<CR>")
-
-  -- Comment
-  local comment = require("Comment.api")
-  vim.keymap.set("n", "gc", comment.call("toggle.linewise", "g@"), { expr = true })
-  vim.keymap.set({ "n", "i" }, "<c-/>", comment.toggle.linewise.current)
-  vim.keymap.set({ "n", "i" }, "<c-?>", comment.toggle.blockwise.current)
 
   -- lsp_lines
   vim.keymap.set("", "gE", function()
