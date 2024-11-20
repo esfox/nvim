@@ -353,40 +353,6 @@ function keymaps.for_lsp(buffer_number)
   )
 end
 
-function keymaps.for_cmp(cmp)
-  local cmp_types = require("cmp.types")
-
-  return {
-    ["<C-Space>"] = {
-      i = cmp.mapping.complete({}),
-    },
-    ["<CR>"] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    }),
-    ["<Up>"] = {
-      i = function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
-        else
-          fallback()
-        end
-      end,
-    },
-    ["<Down>"] = {
-      i = function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item({ behavior = cmp_types.cmp.SelectBehavior.Select })
-        else
-          fallback()
-        end
-      end,
-    },
-    ["<PageUp>"] = cmp.mapping.scroll_docs(-5),
-    ["<PageDown>"] = cmp.mapping.scroll_docs(5),
-  }
-end
-
 function keymaps.for_neo_tree()
   return {
     ["/"] = "noop",
