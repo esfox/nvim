@@ -78,6 +78,7 @@ function keymaps.general()
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
   -- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+
   -- Comments
   vim.keymap.set("n", "<c-/>", function()
     vim.api.nvim_input("<Esc>gcc")
@@ -206,14 +207,17 @@ function keymaps.for_plugins()
   end, { desc = "Toggle lsp_lines" })
 
   -- Formatting
-  vim.keymap.set(
-    "n",
-    "<leader>fc",
-    ":silent! OrganizeImports<CR> <bar> :silent! EslintFixAll<CR> <bar> :Format<CR>"
-  )
+  local vtsls = require("vtsls")
+  vim.keymap.set("n", "<leader>fc", function()
+    vtsls.commands["organize_imports"]()
+    vim.cmd("silent EslintFixAll")
+    vim.cmd("Format")
+  end)
   vim.keymap.set("n", "<leader>ff", ":Format<CR>")
   vim.keymap.set("n", "<leader>fe", "<Cmd>EslintFixAll<CR>")
-  vim.keymap.set("n", "<leader>fi", "<Cmd>OrganizeImports<CR>")
+  vim.keymap.set("n", "<leader>fi", function()
+    vtsls.commands["add_missing_imports"]()
+  end)
 
   -- Treesitter
   vim.keymap.set("n", "<leader>th", "<Cmd>TSHighlightCapturesUnderCursor<CR>")

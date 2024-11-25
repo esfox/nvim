@@ -43,6 +43,7 @@ return {
   "tpope/vim-sleuth",
   "molecule-man/telescope-menufacture",
   "b0o/schemastore.nvim",
+  "yioneko/nvim-vtsls",
   -- {
   --   "nmac427/guess-indent.nvim",
   --   opts = {
