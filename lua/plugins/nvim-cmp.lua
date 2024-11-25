@@ -1,5 +1,16 @@
 local keymaps = require("keymaps")
 
+local function deprio(kind)
+  return function(e1, e2)
+    if e1:get_kind() == kind then
+      return false
+    end
+    if e2:get_kind() == kind then
+      return true
+    end
+  end
+end
+
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
@@ -39,7 +50,19 @@ return {
     }
 
     local cmp = require("cmp")
+    local types = require("cmp.types")
     cmp.setup({
+      sorting = {
+        comparators = {
+          cmp.config.compare.exact,
+          deprio(types.lsp.CompletionItemKind.Text),
+          deprio(types.lsp.CompletionItemKind.Snippet),
+          cmp.config.compare.offset,
+          cmp.config.compare.score,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.kind,
+        },
+      },
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
@@ -59,7 +82,7 @@ return {
       },
       performance = {
         debounce = 10,
-        max_view_entries = 10,
+        max_view_entries = 20,
         throttle = 10,
         fetching_timeout = 100,
         confirm_resolve_timeout = 10,
