@@ -61,6 +61,12 @@ return {
   --   },
   -- },
   {
+    "folke/ts-comments.nvim",
+    opts = {},
+    event = "VeryLazy",
+    enabled = vim.fn.has("nvim-0.10.0") == 1,
+  },
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
@@ -446,23 +452,6 @@ return {
           char = "│",
           highlight = highlight,
         },
-      })
-    end,
-  },
-  {
-    "numtostr/comment.nvim",
-    config = function()
-      local comment = require("Comment")
-
-      local ft = require("Comment.ft")
-
-      -- Angular template files
-      local commentstr = "<!-- %s -->"
-      ft.set("angular", { commentstr, commentstr })
-
-      comment.setup({
-        -- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-        sticky = true,
       })
     end,
   },
