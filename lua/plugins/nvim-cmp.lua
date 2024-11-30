@@ -41,7 +41,7 @@ return {
       Folder = "",
       EnumMember = "",
       Constant = "",
-      Struct = "",
+      Struct = "󰙅",
       Event = "",
       Operator = "",
       TypeParameter = "",
