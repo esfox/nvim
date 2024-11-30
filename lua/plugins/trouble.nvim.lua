@@ -1,4 +1,8 @@
 return {
   "folke/trouble.nvim",
-  opts = {},
+  config = function()
+    require("trouble").setup({})
+
+    vim.keymap.set("n", "<leader>xx", ":Trouble diagnostics<cr>")
+  end,
 }

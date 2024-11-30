@@ -38,7 +38,6 @@ if vim.g.started_by_firenvim then
 end
 
 require("lazy").setup("plugins")
-keymaps.for_plugins()
 
 require("neodev").setup()
 require("lsp").setup()

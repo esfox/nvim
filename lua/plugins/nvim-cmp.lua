@@ -1,5 +1,3 @@
-local keymaps = require("keymaps")
-
 local function deprio(kind)
   return function(e1, e2)
     if e1:get_kind() == kind then
@@ -51,6 +49,7 @@ return {
 
     local cmp = require("cmp")
     local types = require("cmp.types")
+
     cmp.setup({
       sorting = {
         comparators = {
@@ -68,7 +67,35 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      mapping = keymaps.for_cmp(cmp),
+      mapping = {
+        ["<C-Space>"] = {
+          i = cmp.mapping.complete({}),
+        },
+        ["<CR>"] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        }),
+        ["<Up>"] = {
+          i = function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item({ behavior = types.cmp.SelectBehavior.Select })
+            else
+              fallback()
+            end
+          end,
+        },
+        ["<Down>"] = {
+          i = function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item({ behavior = types.cmp.SelectBehavior.Select })
+            else
+              fallback()
+            end
+          end,
+        },
+        ["<PageUp>"] = cmp.mapping.scroll_docs(-5),
+        ["<PageDown>"] = cmp.mapping.scroll_docs(5),
+      },
       sources = {
         { name = "nvim_lsp" },
         { name = "luasnip" },
@@ -88,7 +115,5 @@ return {
         confirm_resolve_timeout = 10,
       },
     })
-    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }

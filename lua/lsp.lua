@@ -8,9 +8,9 @@ function lsp.setup()
   -- LSP settings.
   --  This function gets run when an LSP connects to a particular buffer.
   local on_attach = function(_, bufnr)
-    keymaps.for_lsp(bufnr)
     commands.on_lsp_attach(bufnr)
     options.on_lsp_attach()
+    keymaps.on_lsp_attach(bufnr)
   end
 
   -- Enable the following language servers

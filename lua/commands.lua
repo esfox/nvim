@@ -7,10 +7,6 @@ function commands.load_user_commands()
     vim.cmd("silent! noautocmd w")
   end, { desc = "Save without running auto commands" })
 
-  vim.api.nvim_create_user_command("GitBlameView", function(_)
-    vim.cmd("silent! Git blame")
-  end, { desc = "View Git blame for current file" })
-
   vim.api.nvim_create_user_command("CopyCurrentFilePath", function(_)
     local filepath = vim.fn.expand("%:.")
     os.execute("echo " .. filepath .. "| xclip -sel clipboard")

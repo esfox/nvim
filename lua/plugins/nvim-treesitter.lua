@@ -87,5 +87,8 @@ return {
         enable_autocmd = false,
       },
     })
+
+    -- Keymaps
+    vim.keymap.set("n", "<leader>th", ":TSHighlightCapturesUnderCursor<CR>")
   end,
 }
