@@ -1,0 +1,7 @@
+return {
+  "APZelos/blamer.nvim",
+  config = function()
+    vim.cmd([[ highlight Blamer guifg=#505050 gui=bold ]])
+    vim.g.blamer_enabled = 1
+  end,
+}
