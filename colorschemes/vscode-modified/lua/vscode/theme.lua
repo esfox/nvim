@@ -568,6 +568,11 @@ theme.set_highlights = function(opts)
     -- Scrollbar
     hl(0, 'ScrollbarHandle', { fg = 'NONE', bg = c.vscLeftLight })
 
+    -- nvim-notify
+    hl(0, 'NotifyERRORBorder', { fg = c.vscRed })
+    hl(0, 'NotifyERRORIcon', { fg = c.vscRed })
+    hl(0, 'NotifyERRORTitle', { fg = c.vscRed })
+
     -- symbols-outline
     -- white fg and lualine blue bg
     hl(0, 'FocusedSymbol', { fg = '#ffffff', bg = c.vscUiBlue })
