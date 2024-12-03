@@ -53,13 +53,13 @@ return {
     cmp.setup({
       sorting = {
         comparators = {
-          cmp.config.compare.exact,
           deprio(types.lsp.CompletionItemKind.Text),
-          deprio(types.lsp.CompletionItemKind.Snippet),
+          cmp.config.compare.exact,
           cmp.config.compare.offset,
           cmp.config.compare.score,
           cmp.config.compare.recently_used,
           cmp.config.compare.kind,
+          deprio(types.lsp.CompletionItemKind.Snippet),
         },
       },
       snippet = {
