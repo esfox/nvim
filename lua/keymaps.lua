@@ -60,6 +60,18 @@ function keymaps.general()
     vim.fn.getchar()
   end)
 
+  vim.keymap.set("n", "<leader>fy", function()
+    local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
+    os.execute("echo " .. relative_path .. "| tr -d '\n' | xclip -sel clipboard")
+    vim.notify("Copied: " .. relative_path)
+  end)
+
+  vim.keymap.set("n", "<leader>fY", function()
+    local filename = vim.fn.expand("%:t")
+    os.execute("echo " .. filename .. "| tr -d '\n' | xclip -sel clipboard")
+    vim.notify("Copied: " .. filename)
+  end)
+
   -- Disable default space behavior
   vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 

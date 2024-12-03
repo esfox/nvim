@@ -24,13 +24,13 @@ return {
             local node = state.tree:get_node()
             local filepath = node:get_id()
             local relative_path = vim.fn.fnamemodify(filepath, ":.")
-            os.execute("echo " .. relative_path .. "| xclip -sel clipboard")
+            os.execute("echo " .. relative_path .. "| tr -d '\n' | xclip -sel clipboard")
             vim.notify("Copied: " .. relative_path)
           end,
           ["gY"] = function(state)
             local node = state.tree:get_node()
             local filename = node.name
-            os.execute("echo " .. filename .. "| xclip -sel clipboard")
+            os.execute("echo " .. filename .. "| tr -d '\n' | xclip -sel clipboard")
             vim.notify("Copied: " .. filename)
           end,
           -- ["l"] = "open_and_clear_filter",
