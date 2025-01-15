@@ -7,8 +7,8 @@ theme.set_highlights = function(opts)
     local isDark = true
 
     hl(0, 'Normal', { fg = c.vscFront, bg = c.vscBack })
-    hl(0, 'NormalFloat', { fg = c.vscFront, bg = c.vscBack })
-    hl(0, 'FloatBorder', { fg = c.vscLineNumber, bg = 'NONE' })
+    hl(0, 'NormalFloat', { fg = c.vscFront, bg = c.vscPopupBack })
+    hl(0, 'FloatBorder', { fg = c.vscFront, bg = c.vscPopupBack })
     hl(0, 'ColorColumn', { fg = 'NONE', bg = c.bg3 })
     hl(0, 'Cursor', { fg = c.vscCursorDark, bg = c.vscCursorLight })
     hl(0, 'CursorLine', { bg = c.vscCursorDarkDark })
