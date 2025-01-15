@@ -3,11 +3,6 @@ return {
   version = "*",
   dependencies = { "nvim-lua/plenary.nvim", "debugloop/telescope-undo.nvim" },
   config = function()
-    -- Enable telescope fzf native, if installed
-    pcall(require("telescope").load_extension, "fzf")
-    pcall(require("telescope").load_extension, "undo")
-    pcall(require("telescope").load_extension, "git_signs")
-
     -- vim.cmd [[highlight TelescopeNormal guibg=#2c2c2c]]
     -- vim.cmd [[highlight TelescopePreviewNormal guibg=#363636]]
     -- vim.cmd [[highlight TelescopeBorder guibg=#2c2c2c]]
@@ -30,6 +25,12 @@ return {
       },
     })
 
+    -- Enable telescope fzf native, if installed
+    pcall(require("telescope").load_extension, "fzf")
+    pcall(require("telescope").load_extension, "undo")
+    pcall(require("telescope").load_extension, "git_signs")
+    pcall(require("telescope").load_extension, "git_file_history")
+
     vim.keymap.set("", "<leader>b", ":Telescope buffers<CR>")
     vim.keymap.set("", "<leader>m", ":Telescope marks<CR>")
 
@@ -39,10 +40,6 @@ return {
         require("telescope.themes").get_dropdown()
       )
     end, { desc = "[/] Fuzzily search in current buffer" })
-
-    vim.keymap.set({ "n", "i", "v" }, "<c-p>", function()
-      require("telescope.builtin").oldfiles({ cwd_only = true })
-    end, { desc = "Find [p]reviously opened files" })
 
     vim.keymap.set({ "", "i", "v" }, "<c-o>", function()
       local telescope = require("telescope")
@@ -62,7 +59,7 @@ return {
     end, { desc = "Search Files" })
 
     vim.keymap.set(
-      { "n", "i" },
+      { "n", "i", "v" },
       "<leader>;",
       require("telescope.builtin").commands,
       { desc = "Search Commands" }
