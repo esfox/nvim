@@ -41,22 +41,22 @@ return {
       )
     end, { desc = "[/] Fuzzily search in current buffer" })
 
-    vim.keymap.set({ "", "i", "v" }, "<c-o>", function()
-      local telescope = require("telescope")
-      telescope.extensions.menufacture.find_files({
-        previewer = false,
-        menufacture = {
-          mappings = {
-            [{ "i", "n" }] = {
-              ["<c-h>"] = telescope.extensions.menufacture.menu_actions.toggle_hidden.action,
-              ["<c-i>"] = telescope.extensions.menufacture.menu_actions.toggle_no_ignore.action,
-            },
-            -- toggle_hidden = { [{ "i", "n" }] = "<c-h>" },
-            -- toggle_no_ignore = { [{ "i", "n" }] = "<c-i>" },
-          },
-        },
-      })
-    end, { desc = "Search Files" })
+    -- vim.keymap.set({ "", "i", "v" }, "<c-o>", function()
+    --   local telescope = require("telescope")
+    --   telescope.extensions.menufacture.find_files({
+    --     previewer = false,
+    --     menufacture = {
+    --       mappings = {
+    --         [{ "i", "n" }] = {
+    --           ["<c-h>"] = telescope.extensions.menufacture.menu_actions.toggle_hidden.action,
+    --           ["<c-i>"] = telescope.extensions.menufacture.menu_actions.toggle_no_ignore.action,
+    --         },
+    --         -- toggle_hidden = { [{ "i", "n" }] = "<c-h>" },
+    --         -- toggle_no_ignore = { [{ "i", "n" }] = "<c-i>" },
+    --       },
+    --     },
+    --   })
+    -- end, { desc = "Search Files" })
 
     vim.keymap.set(
       { "n", "i", "v" },
