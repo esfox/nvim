@@ -12,6 +12,8 @@ return {
       vim.cmd("colorscheme seoulbones")
       vim.cmd("set wrap")
       vim.cmd("set cc=")
+      vim.cmd("highlight WriterMode gui=bold")
+      vim.cmd("match WriterMode /./")
       vim.opt.guifont = { "JetBrains Mono NL SemiBold", ":h17" }
     end, { desc = "Set light colorscheme and word wrap" })
   end,
