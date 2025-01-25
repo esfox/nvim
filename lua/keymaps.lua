@@ -62,14 +62,12 @@ function keymaps.general()
 
   vim.keymap.set("n", "<leader>fy", function()
     local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
-    os.execute("echo " .. relative_path .. "| tr -d '\n' | xclip -sel clipboard")
-    vim.notify("Copied: " .. relative_path)
+    helpers.copy_to_sys_clipboard(relative_path)
   end)
 
   vim.keymap.set("n", "<leader>fY", function()
     local filename = vim.fn.expand("%:t")
-    os.execute("echo " .. filename .. "| tr -d '\n' | xclip -sel clipboard")
-    vim.notify("Copied: " .. filename)
+    helpers.copy_to_sys_clipboard(filename)
   end)
 
   -- Disable default space behavior

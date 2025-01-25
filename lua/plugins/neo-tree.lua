@@ -1,3 +1,5 @@
+local helpers = require("helpers")
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -24,14 +26,12 @@ return {
             local node = state.tree:get_node()
             local filepath = node:get_id()
             local relative_path = vim.fn.fnamemodify(filepath, ":.")
-            os.execute("echo " .. relative_path .. "| tr -d '\n' | xclip -sel clipboard")
-            vim.notify("Copied: " .. relative_path)
+            helpers.copy_to_sys_clipboard(relative_path)
           end,
           ["gY"] = function(state)
             local node = state.tree:get_node()
             local filename = node.name
-            os.execute("echo " .. filename .. "| tr -d '\n' | xclip -sel clipboard")
-            vim.notify("Copied: " .. filename)
+            helpers.copy_to_sys_clipboard(filename)
           end,
           -- ["l"] = "open_and_clear_filter",
           -- ["<cr>"] = "open_and_clear_filter",

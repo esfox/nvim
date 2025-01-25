@@ -24,4 +24,9 @@ function helpers.is_noautocmd_write_path()
   return false
 end
 
+function helpers.copy_to_sys_clipboard(string)
+  os.execute("echo '" .. string .. "'| tr -d '\n' | xclip -sel clipboard")
+  vim.notify("Copied: " .. string)
+end
+
 return helpers
