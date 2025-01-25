@@ -20,6 +20,7 @@ return {
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent3", { fg = "#4c413d", nocombine = true })
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent4", { fg = "#535031", nocombine = true })
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent5", { fg = "#594b36", nocombine = true })
+      vim.api.nvim_set_hl(0, "IblScope", { fg = "#ffcd82", nocombine = true })
     end)
 
     require("ibl").setup({
