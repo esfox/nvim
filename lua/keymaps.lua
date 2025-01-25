@@ -1,3 +1,5 @@
+local helpers = require("helpers")
+
 local keymaps = {}
 
 function keymaps.general()
@@ -29,13 +31,11 @@ function keymaps.general()
   vim.keymap.set("i", "<c-m-s>", "<Esc>:NoAutocmdSave<CR>a")
   vim.keymap.set({ "n", "i" }, "<c-left>", "<c-o>")
   vim.keymap.set({ "n", "i" }, "<c-right>", "<tab>")
-  -- vim.keymap.set("i", "<c-bs>", "<c-w>")
-  -- vim.keymap.set("i", "<c-bs>", "<esc>dbi")
 
   -- vim.keymap.set({ "n", "i" }, "<c-j>", "<tab>")
   -- vim.keymap.set({ "n", "i" }, "<c-k>", "<c-o>")
 
-  vim.keymap.set({ "", "i" }, "<c-w>", ":bd<CR>")
+  vim.keymap.set("n", "<c-w>", ":bd<CR>")
   vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
 
   -- window management
@@ -89,6 +89,17 @@ function keymaps.general()
     vim.api.nvim_input("<Esc>gcci")
   end)
   vim.keymap.set("v", "<c-/>", function()
+    vim.api.nvim_input("gcc")
+  end)
+
+  -- Support for Kitty, which binds <c-/> as F11
+  vim.keymap.set("n", "<f11>", function()
+    vim.api.nvim_input("<Esc>gcc")
+  end)
+  vim.keymap.set("i", "<f11>", function()
+    vim.api.nvim_input("<Esc>gcci")
+  end)
+  vim.keymap.set("v", "<f11>", function()
     vim.api.nvim_input("gcc")
   end)
 end
