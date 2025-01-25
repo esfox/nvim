@@ -11,7 +11,7 @@ return {
         show_relative_numbers = true,
       },
       symbol_folding = {
-        autofold_depth = false,
+        autofold_depth = 3,
       },
       keymaps = {
         toggle_preview = "<noop>",
