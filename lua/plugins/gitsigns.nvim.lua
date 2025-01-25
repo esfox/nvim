@@ -9,7 +9,7 @@ return {
         vim.keymap.set("n", "<leader>gh", gs.preview_hunk)
       end,
     })
-    require("scrollbar.handlers.gitsigns").setup()
+    -- require("scrollbar.handlers.gitsigns").setup()
 
     vim.keymap.set("n", "<leader>gs", ":Telescope git_signs<CR>")
   end,
