@@ -4,6 +4,46 @@ local commands = require("commands")
 
 local lsp = {}
 
+local function setup_sonarlint()
+  require("sonarlint").setup({
+    server = {
+      cmd = {
+        "sonarlint-language-server",
+        "-stdio",
+        "-analyzers",
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar"),
+      },
+    },
+    filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+    autostart = true,
+  })
+
+  -- require("sonarlint").setup({
+  --   server = {
+  --     cmd = {
+  --       "sonarlint-language-server",
+  --       -- Ensure that sonarlint-language-server uses stdio channel
+  --       "-stdio",
+  --       "-analyzers",
+  --       -- paths to the analyzers you need, using those for python and java in this example
+  --       vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarlintomnisharp.jar"),
+  --       vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar"),
+  --     },
+  --     settings = {
+  --       sonarlint = {
+  --         test = "test",
+  --       },
+  --     },
+  --   },
+  --   filetypes = {
+  --     "typescript",
+  --     "javascript",
+  --     "cs",
+  --   },
+  --   autostart = true,
+  -- })
+end
+
 function lsp.setup()
   -- LSP settings.
   --  This function gets run when an LSP connects to a particular buffer.
@@ -45,9 +85,11 @@ function lsp.setup()
     ensure_installed = vim.tbl_keys(servers),
   })
 
+  local lspconfig = require("lspconfig")
+  setup_sonarlint()
+
   mason_lspconfig.setup_handlers({
     function(server_name)
-      local lspconfig = require("lspconfig")
       local lsp_setup_config = {
         capabilities = capabilities,
         on_attach = on_attach,
@@ -64,6 +106,8 @@ function lsp.setup()
             },
           },
         }
+      elseif server_name == "denols" then
+        lsp_setup_config["root_dir"] = lspconfig.util.root_pattern("deno.json")
       elseif server_name == "jsonls" then
         lsp_setup_config["filetypes"] = { "json", "jsonc" }
         lsp_setup_config["settings"] = {
@@ -75,9 +119,12 @@ function lsp.setup()
       elseif server_name == "angularls" then
         lsp_setup_config["filetypes"] = { "angular" }
       elseif server_name == "emmet_language_server" then
-        lsp_setup_config["filetypes"] = { "angular", "html", "css", "scss", "typescriptreact" }
+        lsp_setup_config["filetypes"] =
+          { "angular", "html", "css", "scss", "typescriptreact", "svelte" }
+      elseif server_name == "prettierd" then
+        lsp_setup_config["filetypes"] = lsp_setup_config["filetypes"].insert("svg")
       elseif server_name == "html" then
-        lsp_setup_config["filetypes"] = { "angular", "html" }
+        lsp_setup_config["filetypes"] = { "angular", "html", "svelte" }
       end
 
       lspconfig[server_name].setup(lsp_setup_config)
