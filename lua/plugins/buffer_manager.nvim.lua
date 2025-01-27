@@ -9,7 +9,13 @@ return {
       format_function = function(filepath)
         local filename = vim.fs.basename(filepath)
         local relative_path = plenary.path:new(filepath):make_relative()
-        relative_path = relative_path:match("(.*[/\\])"):sub(1, -2)
+        local path_match = relative_path:match("(.*[/\\])")
+
+        if path_match == nil then
+          return relative_path
+        end
+
+        relative_path = path_match:sub(1, -2)
         return filename .. " ... " .. relative_path
       end,
     })
