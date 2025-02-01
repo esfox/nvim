@@ -16,7 +16,7 @@ return {
         end
 
         relative_path = path_match:sub(1, -2)
-        return filename .. " ... " .. relative_path
+        return filename .. "｜" .. relative_path
       end,
     })
 
