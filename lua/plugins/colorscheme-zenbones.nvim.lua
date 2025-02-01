@@ -10,6 +10,7 @@ return {
     vim.api.nvim_create_user_command("WriterMode", function(_)
       vim.cmd("set background=light")
       vim.cmd("colorscheme seoulbones")
+      vim.cmd("set linebreak")
       vim.cmd("set wrap")
       vim.cmd("set cc=")
       vim.cmd("highlight WriterMode gui=bold")
