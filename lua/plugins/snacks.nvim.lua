@@ -37,33 +37,44 @@ return {
     words = { enabled = false },
     zen = { enabled = false },
   },
-  config = function()
-    vim.keymap.set({ "n", "i", "v" }, "<c-p>", function()
-      Snacks.picker.smart({
-        reverse = true,
-        layout = {
-          preset = "select",
-        },
-        format = "file",
-        filter = {
-          cwd = true,
-        },
-        matcher = {
-          cwd_bonus = true,
-          frecency = true,
-          sort_empty = true,
-        },
-        transform = "unique_file",
-      })
-    end)
+  init = function()
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "VeryLazy",
+      callback = function()
+        -- commands, command_history, lines, cliphist (?), diagnostics, git_diff, grep, lsp, undo, search_history
 
-    vim.keymap.set("n", "gR", function()
-      Snacks.picker.lsp_references({
-        reverse = true,
-        layout = {
-          preset = "dropdown",
-        },
-      })
-    end)
+        vim.keymap.set({ "n", "v" }, "<leader>p", function()
+          Snacks.picker.undo()
+        end)
+
+        vim.keymap.set({ "n", "i", "v" }, "<c-p>", function()
+          Snacks.picker.smart({
+            reverse = true,
+            layout = {
+              preset = "select",
+            },
+            format = "file",
+            filter = {
+              cwd = true,
+            },
+            matcher = {
+              cwd_bonus = true,
+              frecency = true,
+              sort_empty = true,
+            },
+            transform = "unique_file",
+          })
+        end)
+
+        vim.keymap.set("n", "gR", function()
+          Snacks.picker.lsp_references({
+            reverse = true,
+            layout = {
+              preset = "dropdown",
+            },
+          })
+        end)
+      end,
+    })
   end,
 }
