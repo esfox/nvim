@@ -34,12 +34,12 @@ return {
     vim.keymap.set("", "<leader>b", ":Telescope buffers<CR>")
     vim.keymap.set("", "<leader>m", ":Telescope marks<CR>")
 
-    vim.keymap.set("n", "<leader>/", function()
-      -- You can pass additional configuration to telescope to change theme, layout, etc.
-      require("telescope.builtin").current_buffer_fuzzy_find(
-        require("telescope.themes").get_dropdown()
-      )
-    end, { desc = "[/] Fuzzily search in current buffer" })
+    -- vim.keymap.set("n", "<leader>/", function()
+    --   -- You can pass additional configuration to telescope to change theme, layout, etc.
+    --   require("telescope.builtin").current_buffer_fuzzy_find(
+    --     require("telescope.themes").get_dropdown()
+    --   )
+    -- end, { desc = "[/] Fuzzily search in current buffer" })
 
     -- vim.keymap.set({ "", "i", "v" }, "<c-o>", function()
     --   local telescope = require("telescope")
@@ -58,12 +58,12 @@ return {
     --   })
     -- end, { desc = "Search Files" })
 
-    vim.keymap.set(
-      { "n", "i", "v" },
-      "<leader>;",
-      require("telescope.builtin").commands,
-      { desc = "Search Commands" }
-    )
+    -- vim.keymap.set(
+    --   { "n", "i", "v" },
+    --   "<leader>;",
+    --   require("telescope.builtin").commands,
+    --   { desc = "Search Commands" }
+    -- )
 
     vim.keymap.set(
       "n",
@@ -79,12 +79,12 @@ return {
       { desc = "[S]earch [H]elp" }
     )
 
-    vim.keymap.set(
-      "n",
-      "<leader>sg",
-      require("telescope").extensions.menufacture.live_grep,
-      { desc = "[S]earch by [G]rep" }
-    )
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>sg",
+    --   require("telescope").extensions.menufacture.live_grep,
+    --   { desc = "[S]earch by [G]rep" }
+    -- )
 
     vim.keymap.set(
       "n",
