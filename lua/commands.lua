@@ -45,17 +45,6 @@ function commands.load_auto_commands()
       vim.bo.filetype = "angular"
     end,
   })
-
-  -- local format_group = vim.api.nvim_create_augroup("FormatAutogroup", { clear = true })
-  -- vim.api.nvim_create_autocmd("User", {
-  --   callback = function()
-  --     vim.cmd("silent! OrganizeImports")
-  --     vim.cmd("silent! EslintFixAll")
-  --     vim.cmd("silent! noautocmd w")
-  --   end,
-  --   group = format_group,
-  --   pattern = "FormatterPre",
-  -- })
 end
 
 function commands.on_lsp_attach(buffer_number)
@@ -64,15 +53,15 @@ function commands.on_lsp_attach(buffer_number)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
 
-  vim.api.nvim_create_autocmd("BufWritePost", {
+  vim.api.nvim_create_autocmd("BufWritePre", {
     buffer = buffer_number,
     group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false }),
     callback = function()
       if helpers.is_noautocmd_write_path() then
         return
       end
-      -- vim.lsp.buf.format({ bufnr = buffer_number, async = true })
-      vim.cmd("FormatWrite")
+      -- vim.cmd("silent! EslintFixAll")
+      vim.cmd("silent! noautocmd w")
     end,
     desc = "Async format after write",
   })
