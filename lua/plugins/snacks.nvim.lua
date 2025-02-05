@@ -22,6 +22,28 @@ local custom_dropdown_layout = {
 }
 
 ---@type snacks.picker.layout.Config
+local custom_no_input_layout = {
+  reverse = true,
+  layout = {
+    backdrop = false,
+    row = 1,
+    width = 0.85,
+    min_width = 80,
+    height = 0.8,
+    border = "none",
+    box = "vertical",
+    { win = "list", border = "single" },
+    {
+      box = "vertical",
+      border = "single",
+      title = "{title} {live} {flags}",
+      title_pos = "center",
+      { win = "preview", title = "{preview}", border = "none" },
+    },
+  },
+}
+
+---@type snacks.picker.layout.Config
 local custom_select_layout = {
   preview = false,
   layout = {
@@ -68,6 +90,28 @@ return {
       enabled = true,
       matcher = {
         frecency = true,
+      },
+      win = {
+        input = {
+          keys = {
+            ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
+          },
+        },
+        list = {
+          keys = {
+            ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
+
+            ["m"] = function()
+              local hop = require("hop")
+              hop.hint_lines({})
+            end,
+          },
+        },
+        preview = {
+          keys = {
+            ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
+          },
+        },
       },
     },
     profiler = { enabled = false },
@@ -129,30 +173,39 @@ return {
           Snacks.picker.command_history({ layout = custom_select_layout })
         end)
 
-        vim.keymap.set("n", "<leader>pg", function()
+        vim.keymap.set("n", "<leader>lg", function()
           Snacks.picker.grep({ layout = custom_dropdown_layout })
         end)
 
-        vim.keymap.set("n", "<leader>pd", function()
+        vim.keymap.set("n", "<leader>ld", function()
           Snacks.picker.diagnostics_buffer({ layout = custom_dropdown_layout })
         end)
 
-        vim.keymap.set("n", "<leader>pD", function()
+        vim.keymap.set("n", "<leader>lD", function()
           Snacks.picker.diagnostics({ layout = custom_dropdown_layout })
         end)
 
-        vim.keymap.set("n", "<leader>pu", function()
+        vim.keymap.set("n", "<leader>lu", function()
           Snacks.picker.undo({ layout = custom_dropdown_layout })
+        end)
+
+        vim.keymap.set("n", "<leader>ls", function()
+          Snacks.picker.lsp_symbols({ layout = custom_dropdown_layout })
+        end)
+
+        vim.keymap.set("n", "<leader>lS", function()
+          Snacks.picker.lsp_workspace_symbols({ layout = custom_dropdown_layout })
         end)
 
         vim.keymap.set("n", "gR", function()
           Snacks.picker.lsp_references({ layout = custom_dropdown_layout })
         end)
 
-        vim.keymap.set("n", "<leader>pc", function()
+        vim.keymap.set("n", "<leader>lc", function()
           Snacks.picker.git_log_file({
+            focus = "list",
             confirm = "",
-            layout = custom_dropdown_layout,
+            layout = custom_no_input_layout,
           })
         end)
       end,

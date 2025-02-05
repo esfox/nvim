@@ -65,12 +65,12 @@ return {
     --   { desc = "Search Commands" }
     -- )
 
-    vim.keymap.set(
-      "n",
-      "<leader>sw",
-      require("telescope.builtin").grep_string,
-      { desc = "[S]earch current [W]ord" }
-    )
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>sw",
+    --   require("telescope.builtin").grep_string,
+    --   { desc = "[S]earch current [W]ord" }
+    -- )
 
     vim.keymap.set(
       "n",
@@ -95,8 +95,8 @@ return {
 
     vim.keymap.set("n", "<leader>su", ":Telescope undo<cr>")
     -- vim.keymap.set("n", "gR", require("telescope.builtin").lsp_references)
-    vim.keymap.set("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols)
+    -- vim.keymap.set("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols)
     vim.keymap.set("n", "<leader>ts", require("telescope.builtin").treesitter)
-    vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
+    -- vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
   end,
 }

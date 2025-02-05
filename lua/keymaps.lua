@@ -105,7 +105,7 @@ end
 
 function keymaps.on_lsp_attach(buffer_number)
   -- Keymaps
-  vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>")
+  -- vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>")
 
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer_number })
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = buffer_number })
