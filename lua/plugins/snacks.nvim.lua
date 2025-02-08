@@ -1,7 +1,7 @@
 ---@type snacks.picker.layout.Config
 local custom_dropdown_layout = {
-  reverse = true,
   layout = {
+    position = "float",
     backdrop = false,
     row = 1,
     width = 0.85,
@@ -9,14 +9,21 @@ local custom_dropdown_layout = {
     height = 0.8,
     border = "none",
     box = "vertical",
-    { win = "list", border = "single" },
+    { win = "preview", title = "{preview}", border = "single" },
     {
       box = "vertical",
       border = "single",
       title = "{title} {live} {flags}",
       title_pos = "center",
       { win = "input", height = 1, border = "bottom" },
-      { win = "preview", title = "{preview}", border = "none" },
+      {
+        win = "list",
+        border = "none",
+        wo = {
+          winhighlight = "CursorLine:Visual",
+          relativenumber = true,
+        },
+      },
     },
   },
 }
@@ -57,10 +64,40 @@ local custom_select_layout = {
     title = "{title}",
     title_pos = "center",
     { win = "input", height = 1, border = "bottom" },
-    { win = "list", border = "none" },
+    {
+      win = "list",
+      border = "none",
+      wo = {
+        winhighlight = "CursorLine:Visual",
+        relativenumber = true,
+      },
+    },
     { win = "preview", title = "{preview}", height = 0.4, border = "top" },
   },
 }
+
+local function get_list_keymaps()
+  local limit = 50
+  local keymap = {
+    ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
+    ["m"] = function()
+      local hop = require("hop")
+      hop.hint_lines({})
+    end,
+  }
+
+  for i = 1, limit do
+    keymap[i .. "j"] = function()
+      vim.api.nvim_input(string.rep("j", i))
+    end
+
+    keymap[i .. "k"] = function()
+      vim.api.nvim_input(string.rep("k", i))
+    end
+  end
+
+  return keymap
+end
 
 return {
   "folke/snacks.nvim",
@@ -98,14 +135,7 @@ return {
           },
         },
         list = {
-          keys = {
-            ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
-
-            ["m"] = function()
-              local hop = require("hop")
-              hop.hint_lines({})
-            end,
-          },
+          keys = get_list_keymaps(),
         },
         preview = {
           keys = {
@@ -157,6 +187,7 @@ return {
         end)
 
         vim.keymap.set({ "n", "v" }, "<leader>/", function()
+          get_list_keymaps()
           Snacks.picker.lines({
             jump = { match = false },
             layout = {
