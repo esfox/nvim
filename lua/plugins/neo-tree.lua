@@ -12,6 +12,12 @@ return {
   config = function()
     require("neo-tree").setup({
       window = {
+        position = "float",
+        popup = {
+          size = {
+            width = 110,
+          },
+        },
         width = 55,
         mappings = {
           ["/"] = "noop",

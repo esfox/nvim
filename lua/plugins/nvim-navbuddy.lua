@@ -7,6 +7,9 @@ return {
   },
   config = function()
     require("nvim-navbuddy").setup({
+      window = {
+        size = { width = "95%", height = "55%" },
+      },
       lsp = {
         auto_attach = true,
       },
