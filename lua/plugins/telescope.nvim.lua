@@ -33,6 +33,7 @@ return {
 
     vim.keymap.set("", "<leader>b", ":Telescope buffers<CR>")
     vim.keymap.set("", "<leader>m", ":Telescope marks<CR>")
+    vim.keymap.set("", "<leader>lh", ":Telescope git_signs<CR>")
 
     -- vim.keymap.set("n", "<leader>/", function()
     --   -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -72,12 +73,12 @@ return {
     --   { desc = "[S]earch current [W]ord" }
     -- )
 
-    vim.keymap.set(
-      "n",
-      "<leader>sh",
-      require("telescope.builtin").help_tags,
-      { desc = "[S]earch [H]elp" }
-    )
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>sh",
+    --   require("telescope.builtin").help_tags,
+    --   { desc = "[S]earch [H]elp" }
+    -- )
 
     -- vim.keymap.set(
     --   "n",

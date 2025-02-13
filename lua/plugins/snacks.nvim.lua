@@ -79,7 +79,8 @@ local custom_select_layout = {
 local function get_list_keymaps()
   local limit = 50
   local keymap = {
-    ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
+    ["<c-j>"] = { "focus_input", mode = { "i", "n" } },
+    ["<c-k>"] = { "focus_preview", mode = { "i", "n" } },
     ["m"] = function()
       local hop = require("hop")
       hop.hint_lines({})
@@ -119,6 +120,7 @@ return {
     dim = { enabled = false },
     git = { enabled = false },
     gitbrowse = { enabled = false },
+    image = { enabled = true },
     input = { enabled = false },
     layout = { enabled = false },
     notifier = { enabled = false },
@@ -131,7 +133,8 @@ return {
       win = {
         input = {
           keys = {
-            ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
+            ["<c-j>"] = { "focus_list", mode = { "i", "n" } },
+            ["<c-k>"] = { "focus_preview", mode = { "i", "n" } },
           },
         },
         list = {
@@ -139,7 +142,8 @@ return {
         },
         preview = {
           keys = {
-            ["<c-k>"] = { "cycle_win", mode = { "i", "n" } },
+            ["<c-j>"] = { "focus_list", mode = { "i", "n" } },
+            ["<c-k>"] = { "focus_input", mode = { "i", "n" } },
           },
         },
       },
@@ -238,6 +242,10 @@ return {
             confirm = "",
             layout = custom_no_input_layout,
           })
+        end)
+
+        vim.keymap.set("n", "<leader>sh", function()
+          Snacks.picker.help({ layout = custom_dropdown_layout })
         end)
       end,
     })
