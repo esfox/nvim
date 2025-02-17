@@ -9,6 +9,9 @@ return {
 
     vim.api.nvim_create_user_command("WriterMode", function(_)
       vim.cmd("set background=light")
+      vim.cmd(
+        "set guicursor=n-v-c:block-Cursor/lCursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor"
+      )
       vim.cmd("colorscheme seoulbones")
       vim.cmd("set linebreak")
       vim.cmd("set wrap")
