@@ -1,7 +1,8 @@
 return {
   "stevearc/conform.nvim",
   config = function()
-    local prettier_options = {
+    local js_formatter_options = {
+      "biome",
       "prettierd",
       "prettier",
       stop_after_first = true,
@@ -14,21 +15,26 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         cs = { "csharpier" },
-        javascript = prettier_options,
-        typescript = prettier_options,
-        javascriptreact = prettier_options,
-        typescriptreact = prettier_options,
-        json = prettier_options,
-        css = prettier_options,
-        scss = prettier_options,
-        html = prettier_options,
-        angular = prettier_options,
-        markdown = prettier_options,
-        yaml = prettier_options,
-        graphql = prettier_options,
-        vue = prettier_options,
-        astro = prettier_options,
-        svelte = prettier_options,
+        javascript = js_formatter_options,
+        typescript = js_formatter_options,
+        javascriptreact = js_formatter_options,
+        typescriptreact = js_formatter_options,
+        json = js_formatter_options,
+        css = js_formatter_options,
+        scss = js_formatter_options,
+        html = js_formatter_options,
+        angular = js_formatter_options,
+        markdown = js_formatter_options,
+        yaml = js_formatter_options,
+        graphql = js_formatter_options,
+        vue = js_formatter_options,
+        astro = js_formatter_options,
+        svelte = js_formatter_options,
+      },
+      formatters = {
+        biome = {
+          require_cwd = true,
+        },
       },
     })
 

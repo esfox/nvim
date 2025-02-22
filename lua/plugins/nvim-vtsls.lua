@@ -5,7 +5,7 @@ return {
 
     vim.keymap.set("n", "<leader>fc", function()
       vtsls.commands["organize_imports"]()
-      vim.cmd("silent EslintFixAll")
+      vim.cmd("silent! EslintFixAll")
       require("conform").format({ async = true, lsp_format = "fallback" })
     end)
 
