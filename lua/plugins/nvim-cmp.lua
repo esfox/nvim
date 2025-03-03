@@ -99,6 +99,7 @@ return {
       sources = {
         { name = "nvim_lsp" },
         { name = "luasnip" },
+        { name = "calc" },
       },
       formatting = {
         format = function(entry, item)
