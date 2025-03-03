@@ -79,8 +79,8 @@ local custom_select_layout = {
 local function get_list_keymaps()
   local limit = 50
   local keymap = {
-    ["<c-j>"] = { "focus_input", mode = { "i", "n" } },
-    ["<c-k>"] = { "focus_preview", mode = { "i", "n" } },
+    ["<c-k>"] = { "focus_input", mode = { "i", "n" } },
+    ["<c-i>"] = { "focus_preview", mode = { "i", "n" } },
     ["m"] = function()
       local hop = require("hop")
       hop.hint_lines({})
@@ -133,8 +133,8 @@ return {
       win = {
         input = {
           keys = {
-            ["<c-j>"] = { "focus_list", mode = { "i", "n" } },
-            ["<c-k>"] = { "focus_preview", mode = { "i", "n" } },
+            ["<c-k>"] = { "focus_list", mode = { "i", "n" } },
+            ["<c-i>"] = { "focus_preview", mode = { "i", "n" } },
           },
         },
         list = {
@@ -142,8 +142,8 @@ return {
         },
         preview = {
           keys = {
-            ["<c-j>"] = { "focus_list", mode = { "i", "n" } },
-            ["<c-k>"] = { "focus_input", mode = { "i", "n" } },
+            ["<c-k>"] = { "focus_list", mode = { "i", "n" } },
+            ["<c-i>"] = { "focus_input", mode = { "i", "n" } },
           },
         },
       },
@@ -172,6 +172,7 @@ return {
           Snacks.picker.smart({
             layout = custom_select_layout,
             format = "file",
+            hidden = true,
             filter = {
               cwd = true,
             },
