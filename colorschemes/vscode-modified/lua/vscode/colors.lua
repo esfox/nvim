@@ -100,6 +100,8 @@ colors.get_colors = function()
         vscUiBlue = '#084671',
         vscUiOrange = '#f28b25',
         vscPopupHighlightLightBlue = '#d7eafe',
+
+        warning = '#e5da5c',
     }
 
     return mycolors
