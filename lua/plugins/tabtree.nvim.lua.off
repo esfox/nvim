@@ -1,0 +1,27 @@
+return {
+  "roobert/tabtree.nvim",
+  config = function()
+    require("tabtree").setup({
+      -- print the capture group name when executing next/previous
+      --debug = true,
+
+      -- disable key bindings
+      --key_bindings_disabled = true,
+
+      key_bindings = {
+        next = "<Tab>",
+        previous = "<S-Tab>",
+      },
+
+      default_config = {
+        target_query = [[
+              (string_fragment) @string_fragment
+              (lexical_declaration) @lexical_declaration
+              (identifier) @identifier
+              (member_expression) @member_expression
+          ]],
+        offsets = {},
+      },
+    })
+  end,
+}

@@ -15,6 +15,7 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         cs = { "csharpier" },
+        sql = { "sleek" },
         javascript = js_formatter_options,
         typescript = js_formatter_options,
         javascriptreact = js_formatter_options,
@@ -30,11 +31,16 @@ return {
         vue = js_formatter_options,
         astro = js_formatter_options,
         svelte = js_formatter_options,
+        ["*"] = { "injected" },
       },
       formatters = {
         biome = {
           require_cwd = true,
         },
+      },
+      sleek = {
+        command = "sleek",
+        args = "--indent-spaces=2 --lines-between-queries=3",
       },
     })
 

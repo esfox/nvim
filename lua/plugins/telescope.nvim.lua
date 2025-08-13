@@ -16,7 +16,8 @@ return {
           mirror = true,
         },
         -- sorting_strategy = 'ascending',
-        borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
         mappings = {
           i = {
             ["<c-v>"] = { "<c-r>+", type = "command" },

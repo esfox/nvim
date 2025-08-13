@@ -168,28 +168,29 @@ return {
       callback = function()
         -- commands, command_history, lines, cliphist (?), diagnostics, git_diff, grep, lsp, undo, search_history
 
-        vim.keymap.set({ "n", "i", "v" }, "<c-p>", function()
-          Snacks.picker.smart({
-            layout = custom_select_layout,
-            format = "file",
-            hidden = true,
-            filter = {
-              cwd = true,
-            },
-            formatters = {
-              file = {
-                filename_first = true,
-                truncate = 100,
-              },
-            },
-            matcher = {
-              cwd_bonus = true,
-              frecency = true,
-              sort_empty = true,
-            },
-            transform = "unique_file",
-          })
-        end)
+        -- vim.keymap.set({ "n", "i", "v" }, "<c-p>", function()
+        --   Snacks.picker.smart({
+        --     layout = custom_select_layout,
+        --     format = "file",
+        --     hidden = true,
+        --     filter = {
+        --       cwd = true,
+        --     },
+        --     formatters = {
+        --       file = {
+        --         filename_first = true,
+        --         truncate = 100,
+        --       },
+        --     },
+        --     matcher = {
+        --       cwd_bonus = true,
+        --       frecency = true,
+        --       history_bonus = true,
+        --       sort_empty = true,
+        --     },
+        --     transform = "unique_file",
+        --   })
+        -- end)
 
         vim.keymap.set({ "n", "v" }, "<leader>/", function()
           get_list_keymaps()

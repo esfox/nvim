@@ -6,11 +6,11 @@ return {
 
     telescope.load_extension("smart_open")
 
-    -- vim.keymap.set({ "n", "i", "v" }, "<c-p>", function()
-    --   telescope.extensions.smart_open.smart_open({
-    --     cwd_only = true,
-    --   })
-    -- end, { desc = "Find [p]reviously opened files" })
+    vim.keymap.set({ "n", "i", "v" }, "<c-p>", function()
+      telescope.extensions.smart_open.smart_open({
+        cwd_only = true,
+      })
+    end, { desc = "Find [p]reviously opened files" })
   end,
   dependencies = {
     "kkharji/sqlite.lua",
