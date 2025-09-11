@@ -45,6 +45,16 @@ function commands.load_auto_commands()
       vim.bo.filetype = "angular"
     end,
   })
+
+  -- vim.api.nvim_create_autocmd("FileType", {
+  --   pattern = { "grug-far", "Grug FAR*" },
+  --   callback = function()
+  --     vim.keymap.set("n", "<enter>", function()
+  --       require("grug-far").get_instance(0):open_location()
+  --       require("grug-far").get_instance(0):close()
+  --     end, { buffer = true })
+  --   end,
+  -- })
 end
 
 function commands.on_lsp_attach(buffer_number)

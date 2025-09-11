@@ -105,6 +105,13 @@ function lsp.setup()
               importModuleSpecifierEnding = "ts",
             },
           },
+          vtsls = {
+            experimental = {
+              completion = {
+                enableServerSideFuzzyMatch = true,
+              },
+            },
+          },
         }
       elseif server_name == "denols" then
         lsp_setup_config["root_dir"] = lspconfig.util.root_pattern("deno.json")

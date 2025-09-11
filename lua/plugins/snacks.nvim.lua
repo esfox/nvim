@@ -210,9 +210,16 @@ return {
           Snacks.picker.command_history({ layout = custom_select_layout })
         end)
 
-        vim.keymap.set("n", "<leader>lg", function()
-          Snacks.picker.grep({ layout = custom_dropdown_layout })
-        end)
+        -- vim.keymap.set("n", "<leader>lg", function()
+        --   Snacks.picker.grep({
+        --     formatters = {
+        --       file = {
+        --         truncate = 1000,
+        --       },
+        --     },
+        --     layout = custom_dropdown_layout,
+        --   })
+        -- end)
 
         vim.keymap.set("n", "<leader>ld", function()
           Snacks.picker.diagnostics_buffer({ layout = custom_dropdown_layout })

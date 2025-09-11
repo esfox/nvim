@@ -4,6 +4,12 @@ return {
   ---@module "quicker"
   ---@type quicker.SetupOptions
   opts = {
+    number = true,
     relativenumber = true,
   },
+  use_default_opts = false,
+  on_qf = function()
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+  end,
 }
