@@ -12,7 +12,10 @@ function keymaps.general()
   vim.keymap.set("n", "U", "<c-r>")
   vim.keymap.set("n", "<leader><cr>", "<CR>")
   vim.keymap.set("n", "<c-cr>", "<Enter>:cclose<CR>")
-  vim.keymap.set("n", "<Enter>", "o<Esc>")
+  vim.keymap.set("n", "<Enter>", function()
+    local buftype = vim.fn.win_gettype()
+    return buftype == "quickfix" and "<CR>" or "o<Esc>"
+  end, { noremap = true, expr = true })
   vim.keymap.set("n", '"', "m")
   vim.keymap.set("i", "<c-bs>", "<c-w>")
   -- vim.keymap.set('n', 'p', 'pgvy')
@@ -35,7 +38,7 @@ function keymaps.general()
 
   vim.keymap.set("n", "<c-h>", "<c-6>")
   vim.keymap.set("n", "<c-w>", ":bd<CR>")
-  vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
+  -- vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
 
   -- window management
   vim.keymap.set("n", "<leader>wh", "<c-w>h")
@@ -50,6 +53,7 @@ function keymaps.general()
   vim.keymap.set("n", "<leader>wL", "<c-w>L")
   vim.keymap.set("n", "<leader>wV", "<c-w><c-v>")
   vim.keymap.set("n", "<leader>wS", "<c-w><c-s>")
+
   vim.keymap.set("n", "<leader>q", ":q!<cr>")
   vim.keymap.set("n", "<leader>qa", ":qa<cr>")
   vim.keymap.set("n", "<leader>qA", ":qa!<cr>")
