@@ -18,6 +18,9 @@ return {
         relative_path = path_match:sub(1, -2)
         return filename .. "｜" .. relative_path
       end,
+      win_extra_options = {
+        wrap = false,
+      },
     })
 
     -- buffer_manager

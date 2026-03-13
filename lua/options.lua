@@ -10,7 +10,6 @@ function options.general()
   vim.opt.cmdheight = 0
   vim.opt.colorcolumn = "120"
   vim.opt.list = true
-  vim.wo.wrap = false
 
   vim.o.shiftwidth = 2
   vim.o.tabstop = 2
