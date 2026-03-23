@@ -38,6 +38,8 @@ function keymaps.general()
 
   vim.keymap.set("n", "<c-h>", "<c-6>")
   vim.keymap.set("n", "<c-w>", ":bd<CR>")
+
+  vim.keymap.set("n", "<c-r>", "q")
   -- vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
 
   -- window management
