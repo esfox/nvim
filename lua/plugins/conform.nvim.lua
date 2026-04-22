@@ -3,15 +3,23 @@ return {
   config = function()
     local js_formatter_options = {
       "biome",
+      "biome-organize-imports",
       "prettierd",
       "prettier",
       stop_after_first = true,
     }
 
     require("conform").setup({
-      format_after_save = {
-        lsp_format = "fallback",
-      },
+      -- format_after_save = {
+      --   lsp_format = "fallback",
+      -- },
+      format_on_save = function()
+        local lsp_format_opt = "never"
+        return {
+          timeout_ms = 500,
+          lsp_format = lsp_format_opt,
+        }
+      end,
       formatters_by_ft = {
         lua = { "stylua" },
         cs = { "csharpier" },
@@ -45,7 +53,8 @@ return {
     })
 
     vim.keymap.set("n", "<leader>ff", function()
-      require("conform").format({ async = true })
+      -- require("conform").format({ async = true })
+      require("conform").format({ async = true, lsp_format = "never" })
     end)
   end,
 }
