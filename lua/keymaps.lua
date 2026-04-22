@@ -76,6 +76,12 @@ function keymaps.general()
     helpers.copy_to_sys_clipboard(filename)
   end)
 
+  vim.keymap.set("n", "<leader>fw", function()
+    local absolute_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":p")
+    local file_url = "file://" .. absolute_path
+    helpers.copy_to_sys_clipboard(file_url)
+  end)
+
   -- Disable default space behavior
   vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
