@@ -53,6 +53,12 @@ return {
             local filename = node.name
             helpers.copy_to_sys_clipboard(filename)
           end,
+          ["gA"] = function(state)
+            local node = state.tree:get_node()
+            local filepath = node:get_id()
+            local absolute_path = vim.fn.fnamemodify(filepath, ":p")
+            helpers.copy_to_sys_clipboard(absolute_path)
+          end,
           -- ["l"] = "open_and_clear_filter",
           -- ["<cr>"] = "open_and_clear_filter",
         },
