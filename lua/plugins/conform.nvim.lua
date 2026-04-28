@@ -44,6 +44,16 @@ return {
       formatters = {
         biome = {
           require_cwd = true,
+          options = {
+            formatters = {
+              markdown = {
+                indentWidth = 4,
+                formatter = {
+                  indentWidth = 4,
+                },
+              },
+            },
+          },
         },
       },
       sleek = {
