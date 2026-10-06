@@ -7,6 +7,7 @@ return {
       on_attach = function()
         local gs = package.loaded.gitsigns
         vim.keymap.set("n", "<leader>gh", gs.preview_hunk)
+        vim.keymap.set("n", "<leader>gr", gs.reset_hunk)
       end,
     })
     -- require("scrollbar.handlers.gitsigns").setup()

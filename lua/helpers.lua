@@ -6,14 +6,6 @@ end
 
 local helpers = {}
 
-function helpers.is_laptop()
-  return vim.loop.os_gethostname() == "ckftm-laptop"
-end
-
-function helpers.is_wide()
-  return vim.go.columns > 150
-end
-
 function helpers.is_noautocmd_write_path()
   for _, dir in ipairs(paths_specs.noautocmd_write_paths) do
     if vim.fn.getcwd() == dir then
@@ -25,7 +17,7 @@ function helpers.is_noautocmd_write_path()
 end
 
 function helpers.copy_to_sys_clipboard(string)
-  os.execute("echo '" .. string .. "'| tr -d '\n' | xclip -sel clipboard")
+  os.execute("echo '" .. string .. "'| tr -d '\n' | pbcopy")
   vim.notify("Copied: " .. string)
 end
 

@@ -1,141 +1,110 @@
-local helpers = require("helpers")
-
 local keymaps = {}
 
 function keymaps.general()
-  vim.keymap.set({ "i", "c" }, "jk", "<Esc>")
-  vim.keymap.set({ "i", "c" }, "JK", "<Esc>")
-  vim.keymap.set({ "n", "v" }, "J", "30j")
-  vim.keymap.set({ "n", "v" }, "K", "30k")
-  vim.keymap.set({ "", "v" }, "H", "^")
-  vim.keymap.set({ "", "v" }, "L", "$")
-  vim.keymap.set("n", "U", "<c-r>")
-  vim.keymap.set("n", "<leader><cr>", "<CR>")
-  vim.keymap.set("n", "<c-cr>", "<Enter>:cclose<CR>")
-  vim.keymap.set("n", "<Enter>", function()
-    local buftype = vim.fn.win_gettype()
-    return buftype == "quickfix" and "<CR>" or "o<Esc>"
-  end, { noremap = true, expr = true })
-  vim.keymap.set("n", '"', "m")
-  vim.keymap.set("i", "<c-bs>", "<c-w>")
-  -- vim.keymap.set('n', 'p', 'pgvy')
+  -- ==========================================
+  -- 1. INSERT / COMMAND MODE ('i', 'c')
+  -- ==========================================
+  -- Exit insert mode to Normal mode
+  vim.keymap.set({ "i", "c" }, "jk", "<Esc>", { desc = "Exit to Normal Mode" })
+  vim.keymap.set({ "i", "c" }, "JK", "<Esc>", { desc = "Exit to Normal Mode" })
+
+  -- ==========================================
+  -- 2. VISUAL MODE ('v')
+  -- ==========================================
+  -- Toggle between visual and visual-block mode
+  vim.keymap.set("v", "[", function()
+    local mode = vim.fn.mode()
+    return mode == "\22" and "v" or "\22"
+  end, { expr = true, desc = "Toggle visual-block mode" })
+
+  -- Jumps & Motions in visual mode
+  vim.keymap.set("v", "J", "30j")
+  vim.keymap.set("v", "K", "30k")
+  vim.keymap.set("v", "H", "^")
+  vim.keymap.set("v", "L", "$")
+
+  -- Quick back to typing mode from visual
+  vim.keymap.set("v", "ii", "<Esc>i")
+
+  -- Visual paste without clobbering register
   vim.keymap.set("v", "p", '"_dP')
 
-  vim.keymap.set("v", "ii", "<Esc>i")
-  vim.keymap.set("i", "vv", "<Esc>lv")
-  vim.keymap.set("n", "<leader>v", "<c-v>")
+  -- ==========================================
+  -- 3. NORMAL MODE ('n')
+  -- ==========================================
+  -- Motions & Scroll
+  vim.keymap.set("n", "J", "30j")
+  vim.keymap.set("n", "K", "30k")
+  vim.keymap.set("n", "H", "^")
+  vim.keymap.set("n", "L", "$")
+  vim.keymap.set("n", "<c-c>", "i")
 
+  -- Enter visual block mode
+  vim.keymap.set("n", "<leader>v", "<c-v>", { desc = "Enter visual block mode" })
+
+  -- Redo
+  vim.keymap.set("n", "U", "<c-r>")
+
+  -- Paste from clipboard
   vim.keymap.set("n", "<c-v>", "p")
-  vim.keymap.set("i", "<c-v>", "<Esc>pa")
-  vim.keymap.set("c", "<c-v>", "<c-r>+")
-  vim.keymap.set({ "", "i" }, "<c-a>", "<Esc>ggVG")
-  vim.keymap.set("", "<c-s>", ":update<CR>")
-  vim.keymap.set("i", "<c-s>", "<Esc>:update<CR>a")
-  vim.keymap.set("", "<c-m-s>", ":NoAutocmdSave<CR>")
-  vim.keymap.set("i", "<c-m-s>", "<Esc>:NoAutocmdSave<CR>a")
-  vim.keymap.set({ "n", "i" }, "<c-left>", "<c-o>")
-  vim.keymap.set({ "n", "i" }, "<c-right>", "<tab>")
 
-  vim.keymap.set("n", "<c-h>", "<c-6>")
-  vim.keymap.set("n", "<c-w>", ":bd<CR>")
-
-  vim.keymap.set("n", "<c-r>", "q")
-  -- vim.keymap.set("n", "<leader>W", ":bufdo bd<CR>")
-
-  -- window management
-  vim.keymap.set("n", "<leader>wh", "<c-w>h")
-  vim.keymap.set("n", "<leader>wj", "<c-w>j")
-  vim.keymap.set("n", "<leader>wk", "<c-w>k")
-  vim.keymap.set("n", "<leader>wl", "<c-w>l")
-
-  vim.keymap.set("n", "<leader>wm", "<c-w>_")
-  vim.keymap.set("n", "<leader>wH", "<c-w>H")
-  vim.keymap.set("n", "<leader>wJ", "<c-w>J")
-  vim.keymap.set("n", "<leader>wK", "<c-w>K")
-  vim.keymap.set("n", "<leader>wL", "<c-w>L")
-  vim.keymap.set("n", "<leader>wV", "<c-w><c-v>")
-  vim.keymap.set("n", "<leader>wS", "<c-w><c-s>")
-
-  vim.keymap.set("n", "<leader>q", ":q!<cr>")
-  vim.keymap.set("n", "<leader>qa", ":qa<cr>")
-  vim.keymap.set("n", "<leader>qA", ":qa!<cr>")
-  vim.keymap.set("n", "<leader>qb", ":bd!<cr>")
-  vim.keymap.set("n", "<leader>fp", function()
-    local filepath = vim.fn.expand("%")
-    print("Filepath: " .. filepath)
-    vim.fn.getchar()
-  end)
-
-  vim.keymap.set("n", "<leader>fy", function()
-    local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
-    helpers.copy_to_sys_clipboard(relative_path)
-  end)
-
-  vim.keymap.set("n", "<leader>fY", function()
-    local filename = vim.fn.expand("%:t")
-    helpers.copy_to_sys_clipboard(filename)
-  end)
-
-  vim.keymap.set("n", "<leader>fw", function()
-    local absolute_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":p")
-    local file_url = "file://" .. absolute_path
-    helpers.copy_to_sys_clipboard(file_url)
-  end)
-
-  -- Disable default space behavior
-  vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
-
-  -- Remap for dealing with word wrap
+  -- Word wrap movement
   vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
   vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-  -- Diagnostic keymaps
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-
-  -- Comments
-  vim.keymap.set("n", "<c-/>", function()
-    vim.api.nvim_input("<Esc>gcc")
-  end)
-  vim.keymap.set("i", "<c-/>", function()
-    vim.api.nvim_input("<Esc>gcci")
-  end)
-  vim.keymap.set("v", "<c-/>", function()
-    vim.api.nvim_input("gcc")
-  end)
-
-  -- Support for Kitty, which binds <c-/> as F11
-  vim.keymap.set("n", "<f11>", function()
-    vim.api.nvim_input("<Esc>gcc")
-  end)
-  vim.keymap.set("i", "<f11>", function()
-    vim.api.nvim_input("<Esc>gcci")
-  end)
-  vim.keymap.set("v", "<f11>", function()
-    vim.api.nvim_input("gcc")
-  end)
+  -- Disable default space behavior
+  vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 end
 
-function keymaps.on_lsp_attach(buffer_number)
-  -- Keymaps
-  -- vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>")
+function keymaps.layout()
+  local layout = require("layout")
 
-  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer_number })
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = buffer_number })
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = buffer_number })
-  vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { buffer = buffer_number })
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = buffer_number })
-  vim.keymap.set("n", "gh", vim.lsp.buf.hover, { buffer = buffer_number })
-  vim.keymap.set("n", "gH", vim.lsp.buf.signature_help, { buffer = buffer_number })
-  vim.keymap.set("n", "ge", vim.diagnostic.open_float, { buffer = buffer_number })
-  vim.keymap.set("n", "gr", function()
-    vim.lsp.buf.rename()
-    vim.wait(50)
-    vim.api.nvim_input("jk")
-  end, { buffer = buffer_number })
+  -- ==========================================
+  -- Floating Command Editor Trigger
+  -- ==========================================
+  -- <C-Esc> (and <C-e> / <C-Space> / <Nul>) opens the floating command editor
+  vim.keymap.set({ "n", "t" }, "<C-Esc>", layout.open_command_modal, { desc = "Open floating command editor" })
+  vim.keymap.set({ "n", "t" }, "<C-esc>", layout.open_command_modal, { desc = "Open floating command editor" })
+  vim.keymap.set({ "n", "t" }, "\x1b[27;5u", layout.open_command_modal, { desc = "Open floating command editor" })
+  vim.keymap.set({ "n", "t" }, "<C-e>", layout.open_command_modal, { desc = "Open floating command editor" })
+  vim.keymap.set({ "n", "t" }, "<M-e>", layout.open_command_modal, { desc = "Open floating command editor" })
+  vim.keymap.set({ "n", "t" }, "<A-e>", layout.open_command_modal, { desc = "Open floating command editor" })
+  vim.keymap.set({ "n", "t" }, "<C-Space>", layout.open_command_modal, { desc = "Open floating command editor" })
+  vim.keymap.set({ "n", "t" }, "<Nul>", layout.open_command_modal, { desc = "Open floating command editor" })
 
-  -- vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { buffer = buffer_number })
-  -- vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { buffer = buffer_number })
+  -- ==========================================
+  -- Terminal Mode Navigation
+  -- ==========================================
+  -- <C-k> toggles between Terminal mode ('t') and Normal mode ('n')
+  vim.keymap.set("t", "<C-k>", layout.toggle_terminal_normal, { desc = "Terminal to Normal mode" })
+
+  -- ==========================================
+  -- Terminal Normal Mode Keymaps
+  -- ==========================================
+  if layout.term_buf and vim.api.nvim_buf_is_valid(layout.term_buf) then
+    -- Typing keys enter terminal insert mode directly
+    vim.keymap.set("n", "i", function() vim.cmd("startinsert") end, { buffer = layout.term_buf, desc = "Enter terminal mode" })
+    vim.keymap.set("n", "a", function() vim.cmd("startinsert") end, { buffer = layout.term_buf, desc = "Enter terminal mode" })
+    vim.keymap.set("n", "A", function() vim.cmd("startinsert") end, { buffer = layout.term_buf, desc = "Enter terminal mode" })
+    vim.keymap.set("n", "I", function() vim.cmd("startinsert") end, { buffer = layout.term_buf, desc = "Enter terminal mode" })
+    vim.keymap.set("n", "o", function() vim.cmd("startinsert") end, { buffer = layout.term_buf, desc = "Enter terminal mode" })
+    vim.keymap.set("n", "O", function() vim.cmd("startinsert") end, { buffer = layout.term_buf, desc = "Enter terminal mode" })
+
+    -- <C-k> and 'q' toggle back to Terminal mode
+    vim.keymap.set({ "n", "v", "x" }, "<C-k>", layout.toggle_terminal_normal, { buffer = layout.term_buf, desc = "Normal to Terminal mode" })
+    vim.keymap.set({ "n", "v", "x" }, "q", layout.toggle_terminal_normal, { buffer = layout.term_buf, desc = "Normal to Terminal mode" })
+
+    -- <C-c> sends interrupt to terminal
+    vim.keymap.set("n", "<C-c>", layout.handle_ctrl_c, { buffer = layout.term_buf, desc = "Kill terminal command (Ctrl-C)" })
+
+    -- <C-d> triggers quit confirmation
+    vim.keymap.set({ "t", "n" }, "<C-d>", layout.handle_ctrl_d, { buffer = layout.term_buf, desc = "Ctrl-D exit confirmation" })
+
+    -- <C-p> triggers saved commands picker
+    vim.keymap.set({ "t", "n" }, "<C-p>", function()
+      require("saved_commands.picker").open_picker()
+    end, { buffer = layout.term_buf, desc = "Saved commands picker" })
+  end
 end
 
 return keymaps

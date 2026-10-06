@@ -29,7 +29,7 @@ return {
           {
             function()
               for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-                if vim.api.nvim_buf_get_option(buf, "modified") then
+                if vim.bo[buf].modified then
                   return "Unsaved buffers" -- any message or icon
                 end
               end
@@ -44,20 +44,7 @@ return {
             fmt = show_macro_recording,
           },
         },
-        lualine_y = {
-          function()
-            local active_lsps = vim.lsp.get_active_clients()
-            if next(active_lsps) == nil then
-              return ""
-            end
-
-            local active_lsp_names = {}
-            for _, value in ipairs(active_lsps) do
-              table.insert(active_lsp_names, value.name)
-            end
-            return "[" .. table.concat(active_lsp_names, ", ") .. "]"
-          end,
-        },
+        lualine_y = {},
         lualine_z = {},
       },
     })

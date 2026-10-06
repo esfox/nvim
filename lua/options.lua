@@ -1,61 +1,63 @@
-local helpers = require("helpers")
-
 local options = {}
 
 function options.general()
-  vim.opt.number = true
-  vim.opt.relativenumber = true
-  vim.opt.clipboard = "unnamedplus"
-  vim.opt.guifont = { "JetBrains Mono NL Light", ":h13" }
+  -- Line Numbers (Disabled for now, revisit for input system)
+  vim.opt.number = false
+  vim.opt.relativenumber = false
+
+  -- Clean Screen (Kill Editor Gutter / Lines)
+  vim.wo.signcolumn = "no"
+  vim.opt.colorcolumn = ""
+  vim.opt.list = false
   vim.opt.cmdheight = 0
-  vim.opt.colorcolumn = "120"
-  vim.opt.list = true
+  vim.opt.showmode = false
+  vim.opt.laststatus = 0 -- Hide bottom statusline
+  vim.opt.ruler = false
+  vim.opt.statusline = " " -- Erase ugly buffer names from split dividers
+  vim.opt.fillchars = { stl = "─", stlnc = "─" } -- Clean horizontal line divider
 
-  vim.o.shiftwidth = 2
-  vim.o.tabstop = 2
-  vim.o.expandtab = true
+  -- Mode Indicator via Cursor Shape & Highlight
+  -- Normal/Visual = Colored Block, Terminal Mode = Blinking Beam
+  vim.opt.guicursor = "n-v-c:block-CursorNormal,t:ver25-blinkon100-CursorTerm,i-ci-ve:ver25,r-cr:hor20,o:hor50"
 
-  -- Set highlight on search
-  vim.o.hlsearch = false
+  -- Highlight groups for cursor colors
+  vim.api.nvim_set_hl(0, "CursorNormal", { fg = "#1a1b26", bg = "#ff9e64" }) -- Orange block in Normal
+  vim.api.nvim_set_hl(0, "CursorTerm", { fg = "#1a1b26", bg = "#7aa2f7" })   -- Blue beam in Terminal
 
-  -- Enable mouse mode
+  -- Terminal Scroll & History
+  vim.o.scrollback = 20000
+  vim.o.scrolloff = 0 -- Keep prompt pinned to bottom cleanly
+
+  -- Clipboard & History
+  vim.opt.clipboard = "unnamedplus"
+  vim.o.undofile = true
   vim.o.mouse = "a"
 
-  -- Enable break indent
-  vim.o.breakindent = true
-
-  -- Save undo history
-  vim.o.undofile = true
-
-  -- Case insensitive searching UNLESS /C or capital in search
+  -- Scrollback Search Power
+  vim.o.hlsearch = false
   vim.o.ignorecase = true
   vim.o.smartcase = true
 
-  -- Keep signcolumn on by default
-  vim.wo.signcolumn = "yes"
+  -- Shell & Window Title
+  vim.o.shell = vim.env.SHELL or "zsh"
+  vim.opt.title = true
+  vim.opt.completeopt = { "menu", "menuone", "noinsert" }
 
-  -- Decrease update time
+  -- Nested editor routing (route vim/editor to nvim for flatten.nvim)
+  local bin_path = vim.fn.stdpath("config") .. "/bin"
+  if vim.fn.isdirectory(bin_path) == 1 and not (vim.env.PATH or ""):find(bin_path, 1, true) then
+    vim.env.PATH = bin_path .. ":" .. (vim.env.PATH or "")
+  end
+  vim.env.EDITOR = "nvim"
+  vim.env.VISUAL = "nvim"
+
+  -- Visuals & Timing
+  vim.o.termguicolors = true
+  vim.o.background = "dark"
+  vim.opt.guifont = { "JetBrains Mono NL Light", ":h13" }
   vim.o.updatetime = 250
   vim.o.timeout = true
   vim.o.timeoutlen = 300
-
-  -- Set completeopt to have a better completion experience
-  vim.o.completeopt = "menuone,noselect"
-
-  -- NOTE: You should make sure your terminal supports this
-  vim.o.termguicolors = true
-  vim.o.background = "dark"
-
-  vim.o.scrolloff = 5
-
-  if vim.g.neovide then
-    vim.g.neovide_scale_factor = helpers.is_laptop() and 0.8 or 0.7
-    vim.g.neovide_cursor_vfx_mode = "ripple"
-  end
-end
-
-function options.on_lsp_attach()
-  vim.o.formatoptions = vim.o.formatoptions:gsub("cro", "")
 end
 
 return options

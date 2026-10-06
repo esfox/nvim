@@ -1,0 +1,98 @@
+[
+  {
+    "tags": [
+      "docker",
+      "dev"
+    ],
+    "keyword": "dke",
+    "name": "Docker Exec",
+    "command": "docker exec -it {container:web} {cmd:sh}",
+    "description": "Execute interactive command in running container"
+  },
+  {
+    "tags": [
+      "git"
+    ],
+    "keyword": "gcm",
+    "name": "Git Commit",
+    "command": "git commit -m \"{message:chore: update}\"",
+    "description": "Commit with message"
+  },
+  {
+    "tags": [
+      "git"
+    ],
+    "keyword": "gcb",
+    "name": "Git Checkout New Branch",
+    "command": "git checkout -b {branch_name}",
+    "description": "Create and switch to new git branch"
+  },
+  {
+    "tags": [
+      "rust"
+    ],
+    "keyword": "ct",
+    "name": "Cargo Test",
+    "command": "cargo test {test_name} -- --nocapture",
+    "description": "Run specific cargo test with output"
+  },
+  {
+    "tags": [
+      "files",
+      "find"
+    ],
+    "keyword": "findf",
+    "name": "Find Files by Name",
+    "command": "find . -type f -name \"*{pattern:lua}*\"",
+    "description": "Find files matching pattern"
+  },
+  {
+    "tags": [
+      "archive"
+    ],
+    "keyword": "untargz",
+    "name": "Tar Extract",
+    "command": "tar -xzvf {archive:archive.tar.gz}",
+    "description": "Extract tar.gz archive"
+  },
+  {
+    "tags": [
+      "tinybird"
+    ],
+    "keyword": "tbd",
+    "name": "Tinybird - Local Deploy",
+    "command": "cd /Users/ckftm/Development/repositories/kepla/analytics && sh /Users/ckftm/Development/files/kepla-notebook/tinybird/local-safe-tinybird-deploy.sh",
+    "description": "Local safe tinybird deploy"
+  },
+  {
+    "tags": [
+      "ffmpeg",
+      "video",
+      "convert"
+    ],
+    "keyword": "mov2mp4",
+    "name": ".mov -> .mp4",
+    "command": "ffmpeg -i \"{mov}\" -c copy \"{mp4}\"",
+    "description": ""
+  },
+  {
+    "tags": [
+      "ffmpeg",
+      "video"
+    ],
+    "keyword": "mp4c",
+    "name": ".mp4 compress",
+    "command": "mv {videoFile} raw.{videoFile} && ffmpeg -i raw.{videoFile} -c:v libx264 -preset ultrafast -crf 28 -c:a aac -b:a 128k {videoFile} && rm raw.{videoFile}",
+    "description": ""
+  },
+  {
+    "description": "",
+    "tags": [
+      "dotnet",
+      "test"
+    ],
+    "name": "dotnet test - class",
+    "command": "cd /Users/ckftm/Development/repositories/kepla/server/test/Kepla.Application.Tests && \\\ndotnet test Kepla.Application.Tests.csproj \\\n  --configuration Debug \\\n  -- \\\n  --filter-class {class}",
+    "keyword": "dtc"
+  }
+]

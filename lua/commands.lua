@@ -1,80 +1,87 @@
-local helpers = require("helpers")
-
 local commands = {}
-
-function commands.load_user_commands()
-  vim.api.nvim_create_user_command("NoAutocmdSave", function(_)
-    vim.cmd("silent! noautocmd w")
-  end, { desc = "Save without running auto commands" })
-
-  vim.api.nvim_create_user_command("CopyCurrentFilePath", function(_)
-    local filepath = vim.fn.expand("%:.")
-    os.execute("echo " .. filepath .. "| xclip -sel clipboard")
-    print("Copied current file path (" .. filepath .. ")")
-    vim.fn.getchar()
-  end, { desc = "Copy current file path" })
-
-  vim.api.nvim_create_user_command("CopyCurrentFileAbsolutePath", function(_)
-    local filepath = vim.fn.expand("%:p")
-    os.execute("echo " .. filepath .. "| xclip -sel clipboard")
-    print("Copied current absolute file path (" .. filepath .. ")")
-    vim.fn.getchar()
-  end, { desc = "Copy current file absolute path" })
-
-  -- Angular
-  vim.api.nvim_create_user_command("SetAngularFiletype", function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_option(bufnr, "filetype", "angular")
-  end, { desc = "Set current buffer filetype to `angular`" })
-end
 
 function commands.load_auto_commands()
   -- [[ Highlight on yank ]]
   local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
   vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()
-      vim.highlight.on_yank()
+      vim.hl.on_yank()
     end,
     group = highlight_group,
     pattern = "*",
   })
 
-  vim.api.nvim_create_autocmd({ "BufRead", "BufEnter" }, {
-    pattern = "*.component.html",
+  -- [[ Terminal Startup & Lifecycle ]]
+  local term_group = vim.api.nvim_create_augroup("TerminalLifecycle", { clear = true })
+
+  -- Always start in terminal; if file/folder given in args, cd into its directory
+  vim.api.nvim_create_autocmd("VimEnter", {
+    group = term_group,
     callback = function()
-      vim.bo.filetype = "angular"
-    end,
-  })
+      local arg = vim.fn.argv(0)
+      if arg and arg ~= "" then
+        local target_dir
+        if vim.fn.isdirectory(arg) == 1 then
+          target_dir = vim.fn.fnamemodify(arg, ":p")
+        else
+          target_dir = vim.fn.fnamemodify(arg, ":p:h")
+        end
 
-  -- vim.api.nvim_create_autocmd("FileType", {
-  --   pattern = { "grug-far", "Grug FAR*" },
-  --   callback = function()
-  --     vim.keymap.set("n", "<enter>", function()
-  --       require("grug-far").get_instance(0):open_location()
-  --       require("grug-far").get_instance(0):close()
-  --     end, { buffer = true })
-  --   end,
-  -- })
-end
+        if target_dir and target_dir ~= "" and vim.fn.isdirectory(target_dir) == 1 then
+          vim.fn.chdir(target_dir)
+        end
 
-function commands.on_lsp_attach(buffer_number)
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(buffer_number, "LspFormat", function(_)
-    vim.lsp.buf.format()
-  end, { desc = "Format current buffer with LSP" })
-
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    buffer = buffer_number,
-    group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false }),
-    callback = function()
-      if helpers.is_noautocmd_write_path() then
-        return
+        vim.cmd("%bwipeout!")
       end
-      -- vim.cmd("silent! EslintFixAll")
-      vim.cmd("silent! noautocmd w")
+
+      require("layout").setup()
+      require("keymaps").layout()
     end,
-    desc = "Async format after write",
   })
+
+  -- Auto-close when shell exits (regardless of exit code, e.g. Ctrl-C then Ctrl-D)
+  vim.api.nvim_create_autocmd("TermClose", {
+    group = term_group,
+    callback = function()
+      vim.schedule(function()
+        vim.cmd("quitall!")
+      end)
+    end,
+  })
+
+  -- [[ Strict Single-Buffer Enforcement ]]
+  -- Block split, tab, and new buffer commands in main window (tmux handles multiplexing)
+  local blocked_cmds = { "split", "vsplit", "tabnew", "tabedit", "tab", "enew", "new", "vnew", "sp", "vs" }
+  for _, cmd in ipairs(blocked_cmds) do
+    vim.cmd(string.format(
+      "cnoreabbrev <expr> %s (getcmdtype() == ':' && getcmdline() ==# '%s' && v:lua.require('layout').is_main_win()) ? 'echo \"Single buffer only! Use tmux.\"' : '%s'",
+      cmd,
+      cmd,
+      cmd
+    ))
+  end
+
+  -- [[ Safe Quit Confirmation ]]
+  vim.api.nvim_create_user_command("Quit", function()
+    require("layout").confirm_quit()
+  end, { desc = "Confirm quit from nvim.term" })
+  vim.api.nvim_create_user_command("Q", function()
+    require("layout").confirm_quit()
+  end, { desc = "Confirm quit from nvim.term" })
+
+  -- In main host window, redirect :q and :qa to :Quit confirmation modal
+  vim.cmd([[
+    cnoreabbrev <expr> q (getcmdtype() == ':' && getcmdline() ==# 'q' && v:lua.require('layout').is_main_win()) ? 'Quit' : 'q'
+    cnoreabbrev <expr> qa (getcmdtype() == ':' && getcmdline() ==# 'qa' && v:lua.require('layout').is_main_win()) ? 'Quit' : 'qa'
+  ]])
+
+  -- [[ Saved Commands Creation ]]
+  vim.api.nvim_create_user_command("CreateSavedCommand", function()
+    require("saved_commands.form").open_create_form()
+  end, { desc = "Open form to create new saved command" })
+  vim.api.nvim_create_user_command("SaveCommand", function()
+    require("saved_commands.form").open_create_form()
+  end, { desc = "Open form to create new saved command" })
 end
 
 return commands

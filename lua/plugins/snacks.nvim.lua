@@ -233,18 +233,6 @@ return {
           Snacks.picker.undo({ layout = custom_dropdown_layout })
         end)
 
-        vim.keymap.set("n", "<leader>ls", function()
-          Snacks.picker.lsp_symbols({ layout = custom_dropdown_layout })
-        end)
-
-        vim.keymap.set("n", "<leader>lS", function()
-          Snacks.picker.lsp_workspace_symbols({ layout = custom_dropdown_layout })
-        end)
-
-        vim.keymap.set("n", "gR", function()
-          Snacks.picker.lsp_references({ layout = custom_dropdown_layout })
-        end)
-
         vim.keymap.set("n", "<leader>lc", function()
           Snacks.picker.git_log_file({
             focus = "list",

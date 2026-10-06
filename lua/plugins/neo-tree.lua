@@ -140,9 +140,6 @@ return {
       },
     })
 
-    vim.keymap.set({ "", "i" }, "<c-e>", function()
-      require("neo-tree.command").execute({ action = "focus", toggle = true })
-    end)
     vim.keymap.set("n", "<leader>e", function()
       require("neo-tree.command").execute({
         action = "focus",

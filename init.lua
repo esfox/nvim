@@ -10,7 +10,7 @@ vim.g.maplocalleader = " "
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -25,22 +25,19 @@ vim.opt.rtp:prepend(lazypath)
 options.general()
 keymaps.general()
 commands.load_auto_commands()
-commands.load_user_commands()
 
-if vim.g.vscode then
-  require("vscode-settings")
-  return
-end
-
-if vim.g.started_by_firenvim then
-  require("firenvim-settings")
-  return
+-- grug-far uses pcall(vim.treesitter.get_parser) expecting an error on failure,
+-- but 0.12 returns nil instead. Wrap to restore the throw behavior.
+local _orig_get_parser = vim.treesitter.get_parser
+vim.treesitter.get_parser = function(...)
+  local parser = _orig_get_parser(...)
+  if not parser then
+    error("no parser for language")
+  end
+  return parser
 end
 
 require("lazy").setup("plugins")
-
-require("neodev").setup()
-require("lsp").setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

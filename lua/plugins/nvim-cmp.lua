@@ -14,6 +14,7 @@ return {
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "saadparwaiz1/cmp_luasnip",
+    "tamago324/cmp-zsh",
   },
   config = function()
     local luasnip = require("luasnip")
@@ -47,10 +48,31 @@ return {
       TypeParameter = "",
     }
 
+    local ok_zsh, cmp_zsh = pcall(require, "cmp_zsh")
+    if ok_zsh then
+      local orig_complete = cmp_zsh.complete
+      cmp_zsh.complete = function(self, request, callback)
+        local ok_layout, layout = pcall(require, "layout")
+        if ok_layout and layout.sync_cwd then
+          layout.sync_cwd(true)
+        end
+        return orig_complete(self, request, callback)
+      end
+      cmp_zsh.setup({
+        zshrc = false,
+        filetypes = { "zsh" },
+      })
+    end
+
     local cmp = require("cmp")
     local types = require("cmp.types")
 
     cmp.setup({
+      preselect = cmp.PreselectMode.Item,
+      completion = {
+        autocomplete = false,
+        completeopt = "menu,menuone,noinsert",
+      },
       sorting = {
         comparators = {
           deprio(types.lsp.CompletionItemKind.Text),
@@ -68,13 +90,50 @@ return {
         end,
       },
       mapping = {
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            local col = vim.fn.col(".")
+            local line = vim.api.nvim_get_current_line()
+            local before = line:sub(1, col - 1)
+            if before:match("^%s*$") then
+              fallback()
+            else
+              cmp.complete()
+            end
+          end
+        end, { "i", "s" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
         ["<C-Space>"] = {
           i = cmp.mapping.complete({}),
         },
-        ["<CR>"] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        }),
+        ["<Right>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.confirm({
+              behavior = cmp.ConfirmBehavior.Replace,
+              select = true,
+            })
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+        ["<CR>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.confirm({
+              behavior = cmp.ConfirmBehavior.Replace,
+              select = true,
+            })
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
         ["<Up>"] = {
           i = function(fallback)
             if cmp.visible() then
@@ -93,10 +152,29 @@ return {
             end
           end,
         },
+        ["<C-p>"] = {
+          i = function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item({ behavior = types.cmp.SelectBehavior.Select })
+            else
+              fallback()
+            end
+          end,
+        },
+        ["<C-n>"] = {
+          i = function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item({ behavior = types.cmp.SelectBehavior.Select })
+            else
+              fallback()
+            end
+          end,
+        },
         ["<PageUp>"] = cmp.mapping.scroll_docs(-5),
         ["<PageDown>"] = cmp.mapping.scroll_docs(5),
       },
       sources = {
+        { name = "zsh" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "calc" },

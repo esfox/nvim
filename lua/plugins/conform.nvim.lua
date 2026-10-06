@@ -10,16 +10,6 @@ return {
     }
 
     require("conform").setup({
-      -- format_after_save = {
-      --   lsp_format = "fallback",
-      -- },
-      format_on_save = function()
-        local lsp_format_opt = "never"
-        return {
-          timeout_ms = 500,
-          lsp_format = lsp_format_opt,
-        }
-      end,
       formatters_by_ft = {
         lua = { "stylua" },
         cs = { "csharpier" },
@@ -55,16 +45,11 @@ return {
             },
           },
         },
-      },
-      sleek = {
-        command = "sleek",
-        args = "--indent-spaces=2 --lines-between-queries=3",
+        sleek = {
+          command = "sleek",
+          args = "--indent-spaces=2 --lines-between-queries=3",
+        },
       },
     })
-
-    vim.keymap.set("n", "<leader>ff", function()
-      -- require("conform").format({ async = true })
-      require("conform").format({ async = true, lsp_format = "never" })
-    end)
   end,
 }
