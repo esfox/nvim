@@ -63,4 +63,19 @@ function M.save_command(new_cmd, original_name)
   return true, nil
 end
 
+--- Detect current shell and return appropriate buffer filetype
+--- @return string
+function M.get_shell_filetype()
+  local shell = vim.o.shell or vim.env.SHELL or "sh"
+  local bin = shell:match("([^/]+)$") or shell
+  if bin == "zsh" then
+    return "zsh"
+  elseif bin == "bash" then
+    return "bash"
+  elseif bin == "fish" then
+    return "fish"
+  end
+  return "sh"
+end
+
 return M

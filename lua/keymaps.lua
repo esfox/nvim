@@ -54,6 +54,60 @@ function keymaps.general()
 
   -- Disable default space behavior
   vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+  -- ==========================================
+  -- 4. PARAMETER TEXT OBJECTS ('ap', 'ip')
+  -- ==========================================
+  -- 'ap' selects around {{param}} (including {{ and }})
+  -- 'ip' selects inside {{param}} (excluding {{ and }})
+  local function select_param(inner)
+    local cur_pos = vim.api.nvim_win_get_cursor(0)
+    local row = cur_pos[1]
+    local col = cur_pos[2] + 1 -- 1-indexed column
+    local line = vim.api.nvim_get_current_line()
+
+    -- Search for all {{...}} in current line
+    local best_s, best_e = nil, nil
+    local init = 1
+    while true do
+      local s, e = line:find("{{.-}}", init)
+      if not s then
+        break
+      end
+      if col >= s and col <= e then
+        best_s, best_e = s, e
+        break
+      elseif col < s and not best_s then
+        -- Cursor is before {{...}}, pick next closest on this line
+        best_s, best_e = s, e
+        break
+      end
+      init = e + 1
+    end
+
+    if not best_s then
+      return
+    end
+
+    local start_col = best_s
+    local end_col = best_e
+
+    if inner then
+      start_col = best_s + 2
+      end_col = best_e - 2
+      if start_col > end_col then
+        return
+      end
+    end
+
+    -- Set visual selection
+    vim.api.nvim_win_set_cursor(0, { row, start_col - 1 })
+    vim.cmd("normal! v")
+    vim.api.nvim_win_set_cursor(0, { row, end_col - 1 })
+  end
+
+  vim.keymap.set({ "x", "o" }, "ap", function() select_param(false) end, { desc = "Around parameter {{...}}" })
+  vim.keymap.set({ "x", "o" }, "ip", function() select_param(true) end, { desc = "Inside parameter {{...}}" })
 end
 
 function keymaps.layout()
@@ -62,10 +116,7 @@ function keymaps.layout()
   -- ==========================================
   -- Floating Command Editor Trigger
   -- ==========================================
-  -- <C-Esc> (and <C-e> / <C-Space> / <Nul>) opens the floating command editor
-  vim.keymap.set({ "n", "t" }, "<C-Esc>", layout.open_command_modal, { desc = "Open floating command editor" })
-  vim.keymap.set({ "n", "t" }, "<C-esc>", layout.open_command_modal, { desc = "Open floating command editor" })
-  vim.keymap.set({ "n", "t" }, "\x1b[27;5u", layout.open_command_modal, { desc = "Open floating command editor" })
+  -- <C-e> (and <M-e> / <A-e> / <C-Space> / <Nul>) opens the floating command editor
   vim.keymap.set({ "n", "t" }, "<C-e>", layout.open_command_modal, { desc = "Open floating command editor" })
   vim.keymap.set({ "n", "t" }, "<M-e>", layout.open_command_modal, { desc = "Open floating command editor" })
   vim.keymap.set({ "n", "t" }, "<A-e>", layout.open_command_modal, { desc = "Open floating command editor" })
@@ -96,6 +147,10 @@ function keymaps.layout()
 
     -- <C-c> sends interrupt to terminal
     vim.keymap.set("n", "<C-c>", layout.handle_ctrl_c, { buffer = layout.term_buf, desc = "Kill terminal command (Ctrl-C)" })
+
+    -- <CR> / <Enter> submits command from normal mode
+    vim.keymap.set("n", "<CR>", layout.handle_enter, { buffer = layout.term_buf, desc = "Submit command to terminal" })
+    vim.keymap.set("n", "<Enter>", layout.handle_enter, { buffer = layout.term_buf, desc = "Submit command to terminal" })
 
     -- <C-d> triggers quit confirmation
     vim.keymap.set({ "t", "n" }, "<C-d>", layout.handle_ctrl_d, { buffer = layout.term_buf, desc = "Ctrl-D exit confirmation" })

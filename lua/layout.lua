@@ -606,87 +606,21 @@ function M.end_edit_session()
 end
 
 function M.confirm_quit()
-  vim.cmd("stopinsert")
-
-  local ok_popup, Popup = pcall(require, "nui.popup")
-  if not ok_popup then
-    vim.cmd("quitall!")
-    return
-  end
-
-  local popup = Popup({
-    enter = true,
-    focusable = true,
-    border = {
-      style = "rounded",
-      text = {
-        top = " [ Exit nvim.term? ] ",
-        top_align = "center",
-      },
-    },
-    position = "50%",
-    size = {
-      width = 46,
-      height = 5,
-    },
-    win_options = {
-      winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-    },
+  local confirm_modal = require("confirm_modal")
+  confirm_modal.show_confirm({
+    title = "Exit nvim.term?",
+    warning = "Active terminal session will close!",
+    prompt = "Quit terminal session?",
+    on_confirm = function()
+      vim.cmd("quitall!")
+    end,
+    on_cancel = function()
+      if M.term_win and vim.api.nvim_win_is_valid(M.term_win) then
+        vim.api.nvim_set_current_win(M.term_win)
+        vim.cmd("startinsert")
+      end
+    end,
   })
-
-  popup:mount()
-
-  -- Guarantee Normal mode when popup appears
-  vim.cmd("stopinsert")
-  if vim.fn.mode() ~= "n" then
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true), "n", false)
-  end
-
-  local lines = {
-    "",
-    "   Active terminal session will close!",
-    "",
-    "         [y]es  /  [n]o (<Esc>)",
-    "",
-  }
-  vim.api.nvim_buf_set_lines(popup.bufnr, 0, -1, false, lines)
-  vim.bo[popup.bufnr].modifiable = false
-
-  local ns = vim.api.nvim_create_namespace("quit_confirm")
-  vim.api.nvim_buf_add_highlight(popup.bufnr, ns, "WarningMsg", 1, 3, -1)
-  vim.api.nvim_buf_add_highlight(popup.bufnr, ns, "Special", 3, 9, 14)
-  vim.api.nvim_buf_add_highlight(popup.bufnr, ns, "Comment", 3, 19, 31)
-
-  local function close()
-    popup:unmount()
-    if M.term_win and vim.api.nvim_win_is_valid(M.term_win) then
-      vim.api.nvim_set_current_win(M.term_win)
-      vim.cmd("startinsert")
-    end
-  end
-
-  local function do_quit()
-    popup:unmount()
-    vim.cmd("quitall!")
-  end
-
-  local modes = { "n", "i" }
-  for _, m in ipairs(modes) do
-    popup:map(m, "y", do_quit, { noremap = true, silent = true })
-    popup:map(m, "Y", do_quit, { noremap = true, silent = true })
-    popup:map(m, "<CR>", do_quit, { noremap = true, silent = true })
-
-    popup:map(m, "n", close, { noremap = true, silent = true })
-    popup:map(m, "N", close, { noremap = true, silent = true })
-    popup:map(m, "<Esc>", close, { noremap = true, silent = true })
-    popup:map(m, "q", close, { noremap = true, silent = true })
-  end
-
-  popup:on("BufLeave", function()
-    pcall(function()
-      popup:unmount()
-    end)
-  end, { once = true })
 end
 
 function M.handle_ctrl_d()
@@ -708,6 +642,13 @@ function M.handle_ctrl_c()
   vim.cmd("startinsert")
 end
 
+function M.handle_enter()
+  if M.term_chan then
+    vim.api.nvim_chan_send(M.term_chan, "\r")
+  end
+  vim.cmd("startinsert")
+end
+
 function M.toggle_terminal_normal()
   local mode = vim.fn.mode()
   if mode == "t" then
@@ -725,11 +666,12 @@ local function extract_command_from_prompt_line(line)
   if not line or line == "" then
     return ""
   end
-  -- Match after ╰$ or ╰ $ or $ or % or # or ❯
+  -- Match after custom ╰$, standard bash user@host:path$, or general symbols ($, %, #, ❯, ➜, »)
   local cmd = line:match("╰%s*%$%s*(.*)$")
     or line:match(".*╰%s*%$%s*(.*)$")
-    or line:match(".*%s+[%$#%%❯]%s+(.*)$")
-    or line:match("^[%$#%%❯]%s+(.*)$")
+    or line:match(".*:[^%s]+[%$#%%]%s+(.*)$") -- bash user@host:dir$ cmd
+    or line:match(".*%s+[%$#%%❯➜»]%s+(.*)$")
+    or line:match("^[%$#%%❯➜»]%s+(.*)$")
   if cmd then
     return (cmd:gsub("%s+$", ""))
   end
@@ -764,7 +706,7 @@ function M.get_current_prompt_text()
   local prompt_row = nil
   for r = last_line_idx, 1, -1 do
     local l = vim.api.nvim_buf_get_lines(M.term_buf, r - 1, r, false)[1]
-    if l and (l:match("╰%s*%$") or l:match("^[%$#%%❯]%s") or l:match(".*%s+[%$#%%❯]%s")) then
+    if l and (l:match("╰%s*%$") or l:match(".*:[^%s]+[%$#%%]%s") or l:match("^[%$#%%❯➜»]%s") or l:match(".*%s+[%$#%%❯➜»]%s")) then
       prompt_row = r
       break
     end
@@ -815,7 +757,10 @@ function M.open_command_modal()
   vim.bo[M.modal_buf].buftype = "nofile"
   vim.bo[M.modal_buf].bufhidden = "wipe"
   vim.bo[M.modal_buf].swapfile = false
-  vim.bo[M.modal_buf].filetype = "zsh"
+
+  local ok_storage, storage = pcall(require, "saved_commands.storage")
+  local shell_ft = ok_storage and storage.get_shell_filetype() or "sh"
+  vim.bo[M.modal_buf].filetype = shell_ft
 
   local initial_lines = { "" }
   if initial_text and initial_text ~= "" then
@@ -926,24 +871,7 @@ function M.submit_command_modal()
   vim.cmd("startinsert")
 end
 
-function M.close_command_modal(force)
-  if not M.modal_buf or not vim.api.nvim_buf_is_valid(M.modal_buf) then
-    return
-  end
-
-  local raw_lines = vim.api.nvim_buf_get_lines(M.modal_buf, 0, -1, false)
-  local current_text = vim.trim(table.concat(raw_lines, "\n"))
-  local original = vim.trim(M.original_terminal_cmd or "")
-
-  local is_modified = (current_text ~= original and current_text ~= "")
-
-  if not force and is_modified then
-    local choice = vim.fn.confirm("Discard changes?", "&Yes\n&No", 2)
-    if choice ~= 1 then
-      return
-    end
-  end
-
+local function do_close_command_modal(original)
   pcall(function() require("saved_commands.template").clear() end)
 
   if M.modal_win and vim.api.nvim_win_is_valid(M.modal_win) then
@@ -968,6 +896,38 @@ function M.close_command_modal(force)
   vim.cmd("startinsert")
 end
 
+function M.close_command_modal(force)
+  if not M.modal_buf or not vim.api.nvim_buf_is_valid(M.modal_buf) then
+    return
+  end
+
+  local raw_lines = vim.api.nvim_buf_get_lines(M.modal_buf, 0, -1, false)
+  local current_text = vim.trim(table.concat(raw_lines, "\n"))
+  local original = vim.trim(M.original_terminal_cmd or "")
+
+  local is_modified = (current_text ~= original and current_text ~= "")
+
+  if not force and is_modified then
+    local confirm_modal = require("confirm_modal")
+    confirm_modal.show_confirm({
+      title = "Discard Changes?",
+      prompt = "Discard changes to command?",
+      on_confirm = function()
+        do_close_command_modal(original)
+      end,
+      on_cancel = function()
+        if M.modal_win and vim.api.nvim_win_is_valid(M.modal_win) then
+          vim.api.nvim_set_current_win(M.modal_win)
+          vim.cmd("startinsert")
+        end
+      end,
+    })
+    return
+  end
+
+  do_close_command_modal(original)
+end
+
 function M.setup()
   -- Register prompt highlight groups
   setup_highlights()
@@ -987,6 +947,26 @@ function M.setup()
   vim.wo[M.term_win].signcolumn = "no"
   vim.wo[M.term_win].statusline = " "
   vim.wo[M.term_win].winbar = ""
+
+  -- Dynamic line numbers: show relative line numbers in Normal/Visual mode, hide in Terminal mode
+  local term_num_group = vim.api.nvim_create_augroup("AgyTermLineNumbers", { clear = true })
+  vim.api.nvim_create_autocmd("ModeChanged", {
+    group = term_num_group,
+    buffer = M.term_buf,
+    callback = function()
+      if not M.term_win or not vim.api.nvim_win_is_valid(M.term_win) then
+        return
+      end
+      local mode = vim.fn.mode()
+      if mode == "t" then
+        vim.wo[M.term_win].number = false
+        vim.wo[M.term_win].relativenumber = false
+      else
+        vim.wo[M.term_win].number = true
+        vim.wo[M.term_win].relativenumber = true
+      end
+    end,
+  })
 
   -- Start in terminal mode directly
   vim.cmd("startinsert")

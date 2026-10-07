@@ -61,7 +61,7 @@ function M.open_create_form(initial_data)
     focusable = true,
     border = {
       style = "rounded",
-      text = { top = " Command Template (e.g. {param:default}) ", top_align = "left" },
+      text = { top = " Command Template (e.g. {{param:default}}) ", top_align = "left" },
     },
     win_options = { winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder" },
   })
@@ -119,7 +119,7 @@ function M.open_create_form(initial_data)
   local cmd_buf = cmd_popup.bufnr
   vim.bo[cmd_buf].buftype = "nofile"
   vim.bo[cmd_buf].bufhidden = "wipe"
-  vim.bo[cmd_buf].filetype = "zsh"
+  vim.bo[cmd_buf].filetype = storage.get_shell_filetype()
   vim.bo[cmd_buf].modifiable = true
   if form_data.command and form_data.command ~= "" then
     vim.api.nvim_buf_set_lines(cmd_buf, 0, -1, false, vim.split(form_data.command, "\n"))

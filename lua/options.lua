@@ -39,7 +39,7 @@ function options.general()
   vim.o.smartcase = true
 
   -- Shell & Window Title
-  vim.o.shell = vim.env.SHELL or "zsh"
+  vim.o.shell = vim.env.SHELL or (vim.fn.executable("bash") == 1 and "bash" or "sh")
   vim.opt.title = true
   vim.opt.completeopt = { "menu", "menuone", "noinsert" }
 

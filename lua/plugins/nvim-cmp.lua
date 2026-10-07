@@ -14,7 +14,6 @@ return {
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "saadparwaiz1/cmp_luasnip",
-    "tamago324/cmp-zsh",
   },
   config = function()
     local luasnip = require("luasnip")
@@ -47,22 +46,6 @@ return {
       Operator = "",
       TypeParameter = "",
     }
-
-    local ok_zsh, cmp_zsh = pcall(require, "cmp_zsh")
-    if ok_zsh then
-      local orig_complete = cmp_zsh.complete
-      cmp_zsh.complete = function(self, request, callback)
-        local ok_layout, layout = pcall(require, "layout")
-        if ok_layout and layout.sync_cwd then
-          layout.sync_cwd(true)
-        end
-        return orig_complete(self, request, callback)
-      end
-      cmp_zsh.setup({
-        zshrc = false,
-        filetypes = { "zsh" },
-      })
-    end
 
     local cmp = require("cmp")
     local types = require("cmp.types")
@@ -174,7 +157,6 @@ return {
         ["<PageDown>"] = cmp.mapping.scroll_docs(5),
       },
       sources = {
-        { name = "zsh" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "calc" },

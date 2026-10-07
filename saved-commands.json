@@ -1,98 +1,128 @@
 [
   {
+    "keyword": "dke",
+    "name": "Docker Exec",
     "tags": [
       "docker",
       "dev"
     ],
-    "keyword": "dke",
-    "name": "Docker Exec",
-    "command": "docker exec -it {container:web} {cmd:sh}",
+    "command": "docker exec -it {{container:web}} {{cmd:sh}}",
     "description": "Execute interactive command in running container"
   },
   {
+    "keyword": "gcm",
+    "name": "Git Commit",
     "tags": [
       "git"
     ],
-    "keyword": "gcm",
-    "name": "Git Commit",
-    "command": "git commit -m \"{message:chore: update}\"",
+    "command": "git commit -m \"{{message:chore: update}}\"",
     "description": "Commit with message"
   },
   {
+    "keyword": "gcb",
+    "name": "Git Checkout New Branch",
     "tags": [
       "git"
     ],
-    "keyword": "gcb",
-    "name": "Git Checkout New Branch",
-    "command": "git checkout -b {branch_name}",
+    "command": "git checkout -b {{branch_name}}",
     "description": "Create and switch to new git branch"
   },
   {
+    "keyword": "ct",
+    "name": "Cargo Test",
     "tags": [
       "rust"
     ],
-    "keyword": "ct",
-    "name": "Cargo Test",
-    "command": "cargo test {test_name} -- --nocapture",
+    "command": "cargo test {{test_name}} -- --nocapture",
     "description": "Run specific cargo test with output"
   },
   {
+    "keyword": "findf",
+    "name": "Find Files by Name",
     "tags": [
       "files",
       "find"
     ],
-    "keyword": "findf",
-    "name": "Find Files by Name",
-    "command": "find . -type f -name \"*{pattern:lua}*\"",
+    "command": "find . -type f -name \"*{{pattern:lua}}*\"",
     "description": "Find files matching pattern"
   },
   {
+    "keyword": "untargz",
+    "name": "Tar Extract",
     "tags": [
       "archive"
     ],
-    "keyword": "untargz",
-    "name": "Tar Extract",
-    "command": "tar -xzvf {archive:archive.tar.gz}",
+    "command": "tar -xzvf {{archive:archive.tar.gz}}",
     "description": "Extract tar.gz archive"
   },
   {
+    "keyword": "tbd",
+    "name": "Tinybird - Local Deploy",
     "tags": [
       "tinybird"
     ],
-    "keyword": "tbd",
-    "name": "Tinybird - Local Deploy",
     "command": "cd /Users/ckftm/Development/repositories/kepla/analytics && sh /Users/ckftm/Development/files/kepla-notebook/tinybird/local-safe-tinybird-deploy.sh",
     "description": "Local safe tinybird deploy"
   },
   {
+    "keyword": "mov2mp4",
+    "name": ".mov -> .mp4",
     "tags": [
       "ffmpeg",
       "video",
       "convert"
     ],
-    "keyword": "mov2mp4",
-    "name": ".mov -> .mp4",
-    "command": "ffmpeg -i \"{mov}\" -c copy \"{mp4}\"",
+    "command": "ffmpeg -i \"{{mov}}\" -c copy \"{{mp4}}\"",
     "description": ""
   },
   {
+    "keyword": "mp4c",
+    "name": ".mp4 compress",
     "tags": [
       "ffmpeg",
       "video"
     ],
-    "keyword": "mp4c",
-    "name": ".mp4 compress",
-    "command": "mv {videoFile} raw.{videoFile} && ffmpeg -i raw.{videoFile} -c:v libx264 -preset ultrafast -crf 28 -c:a aac -b:a 128k {videoFile} && rm raw.{videoFile}",
+    "command": "mv {{videoFile}} raw.{{videoFile}} && ffmpeg -i raw.{{videoFile}} -c:v libx264 -preset ultrafast -crf 28 -c:a aac -b:a 128k {{videoFile}} && rm raw.{{videoFile}}",
     "description": ""
   },
   {
-    "description": "",
+    "keyword": "dtc",
+    "name": "dotnet test - class",
     "tags": [
       "dotnet",
       "test"
     ],
-    "name": "dotnet test - class",
-    "command": "cd /Users/ckftm/Development/repositories/kepla/server/test/Kepla.Application.Tests && \\\ndotnet test Kepla.Application.Tests.csproj \\\n  --configuration Debug \\\n  -- \\\n  --filter-class {class}",
-    "keyword": "dtc"
+    "command": "cd /Users/ckftm/Development/repositories/kepla/server/test/Kepla.Application.Tests && \\\ndotnet test Kepla.Application.Tests.csproj \\\n  --configuration Debug \\\n  -- \\\n  --filter-class {{class}}",
+    "description": ""
+  },
+  {
+    "keyword": "tbc",
+    "name": "Tinybird - Run copy pipe",
+    "tags": [
+      "tinybird"
+    ],
+    "command": "cd '/Users/ckftm/Development/repositories/kepla/analytics' && tb --local copy run {{copy_pipe}} --wait --mode replace",
+    "description": ""
+  },
+  {
+    "keyword": "tbq",
+    "name": "Tinybird - Query Local Command",
+    "tags": [],
+    "command": "cd '/Users/ckftm/Development/repositories/kepla/analytics' && query=$(grep -v -E '^[[:space:]]*(--|$)' ~/Development/files/kepla-notebook/tinybird/tb.sql) && tb --local --output json sql -- \"$query\"",
+    "description": ""
+  },
+  {
+    "keyword": "tprsbm",
+    "name": "Temporal - Run SnapshotBookingMetricsWorkflow",
+    "tags": [],
+    "command": "temporal workflow start \\                         \n--workflow-id booking-metrics-{{booking_id}} \\\n--type SnapshotBookingMetricsWorkflow \\\n--task-queue kepla \\\n--input '{ \"BookingId\": \"{{booking_id}}\" }'",
+    "description": ""
+  },
+  {
+    "keyword": "tpwt",
+    "name": "Temporal - Workflow terminate",
+    "tags": [],
+    "command": "temporal workflow terminate --workflow-id {{workflow_id}}",
+    "description": ""
   }
 ]

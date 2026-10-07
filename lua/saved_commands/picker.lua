@@ -11,6 +11,8 @@ M.load_commands = storage.load_commands
 local function build_picker_items(commands)
   local items = {}
 
+  local shell_ft = storage.get_shell_filetype()
+
   -- Special top item to create a new command
   table.insert(items, {
     text = "+ Create New Command... (Add to saved commands)",
@@ -24,7 +26,7 @@ local function build_picker_items(commands)
     },
     preview = {
       text = "# Create a new saved command\n# Press <CR> to open creation form",
-      ft = "zsh",
+      ft = shell_ft,
     },
   })
 
@@ -44,7 +46,7 @@ local function build_picker_items(commands)
       cmd_data = cmd,
       preview = {
         text = cmd.command,
-        ft = "zsh",
+        ft = shell_ft,
       },
     })
   end
@@ -157,6 +159,21 @@ function M.open_picker()
         end)
       end,
     },
+    on_close = function()
+      vim.schedule(function()
+        if is_in_modal then
+          if layout.modal_win and vim.api.nvim_win_is_valid(layout.modal_win) then
+            vim.api.nvim_set_current_win(layout.modal_win)
+            vim.cmd("startinsert")
+          end
+        else
+          if layout.term_win and vim.api.nvim_win_is_valid(layout.term_win) then
+            vim.api.nvim_set_current_win(layout.term_win)
+            vim.cmd("startinsert")
+          end
+        end
+      end)
+    end,
     items = items,
     matcher = {
       on_match = function(matcher, item)
@@ -212,7 +229,7 @@ function M.open_picker()
         end
 
         ctx.preview:set_lines(lines)
-        ctx.preview:highlight({ ft = "zsh" })
+        ctx.preview:highlight({ ft = storage.get_shell_filetype() })
       end
     end,
     confirm = function(picker, item)

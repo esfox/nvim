@@ -1,19 +1,19 @@
 local M = {}
 
---- Checks whether a template string has placeholders {name} or {name:default}
+--- Checks whether a template string has placeholders {{name}} or {{name:default}}
 --- @param raw string
 --- @return boolean
 function M.has_placeholders(raw)
   if not raw then
     return false
   end
-  return raw:match("{[%w_]+[:}]") ~= nil or raw:match("{[%w_]+}") ~= nil
+  return raw:match("{{[%w_]+[:}]") ~= nil or raw:match("{{[%w_]+}}") ~= nil
 end
 
---- Parse template string and render with "{{param}}" strings
---- e.g. docker exec -it {container:web} {cmd:sh} -> docker exec -it "{{container:web}}" "{{cmd:sh}}"
---- Handles already-quoted placeholders without producing double-quotes:
---- 'git commit -m "{message:foo}"' -> 'git commit -m "{{message:foo}}"'
+--- Parse template string and render with double-brace placeholders ready for editing
+--- e.g. docker exec -it {{container:web}} {{cmd:sh}} -> docker exec -it "{{container:web}}" "{{cmd:sh}}"
+--- Handles already-quoted placeholders without producing duplicate quotes:
+--- 'git commit -m "{{message:foo}}"' -> 'git commit -m "{{message:foo}}"'
 --- @param raw string
 --- @return string rendered_text
 function M.parse_template(raw)
@@ -21,7 +21,7 @@ function M.parse_template(raw)
   local last_pos = 1
 
   while true do
-    local s, e, var_name, has_colon, default_val = raw:find("{([%w_]+)(:?)(.-)}", last_pos)
+    local s, e, var_name, has_colon, default_val = raw:find("{{([%w_]+)(:?)(.-)}}", last_pos)
     if not s then
       rendered = rendered .. raw:sub(last_pos)
       break
@@ -38,7 +38,7 @@ function M.parse_template(raw)
     local has_trailing_quote = raw:sub(e + 1, e + 1) == '"'
 
     if has_leading_quote and has_trailing_quote then
-      -- Already wrapped in quotes: replace without extra surrounding quotes
+      -- Already wrapped in quotes: keep token without extra surrounding quotes
       rendered = rendered .. prefix .. string.format("{{%s}}", token_inner) .. '"'
       last_pos = e + 2 -- skip trailing quote as well
     else
